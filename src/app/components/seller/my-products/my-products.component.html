@@ -1,0 +1,29 @@
+<div class="section p-0">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/dashboard">عمران مدرن</a></li>
+      <li class="breadcrumb-item active"><a>اطلاعات کسب و کار</a></li>
+      <li class="breadcrumb-item active" aria-current="page">کالاهای من</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="table-header">
+  <h4>عکس</h4>
+  <h4>عنوان</h4>
+  <h4>قیمت</h4>
+  <h4>موجودی</h4>
+  <h4>وضعیت</h4>
+  <h4>عملیات</h4>
+</div>
+
+<div class="table-body">
+  <div *ngFor="let product of products" class="table-td">
+    <img src={{product.image}} height="60px" width="40px">
+    <span>{{product.title}}</span>
+    <span>{{product.price |  persianNumber}}</span>
+    <span>{{product.stock |  persianNumber}}</span>
+    <span>{{product.status}}</span>
+    <mat-icon>edit</mat-icon>
+  </div>
+</div>

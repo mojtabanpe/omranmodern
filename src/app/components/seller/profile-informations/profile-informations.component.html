@@ -1,0 +1,122 @@
+<div class="section p-0">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/dashboard">عمران مدرن</a></li>
+      <li class="breadcrumb-item active"><a>اطلاعات کسب و کار</a></li>
+      <li class="breadcrumb-item active" aria-current="page">ویرایش اطلاعات</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="section">
+  <div class="form-group">
+    <label>عنوان کسب و کار</label>
+    <input class="form-control" placeholder="عنوان کسب و کار شماا در تمامی بخش های سایت با این نام نمایش داده می شود">
+  </div>
+  
+  <label>زمینه های فعالیت فروش کالا</label>
+  <mat-form-field class="w-100 input-for-chips">
+    <mat-chip-list #chipList>
+      <mat-chip *ngFor="let activity of activityFieldsForProduct" [selectable]="selectable"
+               [removable]="removable" (removed)="remove(activity)">
+        {{activity}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input placeholder=""
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+  </mat-form-field>
+  <span class="add-activity">
+    <mat-icon class="mr-auto">add</mat-icon>
+  افزودن زمینه فعالیت جدید
+  </span>
+  
+  <label>زمینه های فعالیت ارائه خدمات</label>
+  <mat-form-field class="w-100 input-for-chips">
+    <mat-chip-list #chipList1>
+      <mat-chip *ngFor="let activity of activityFieldsForProduct" [selectable]="selectable"
+               [removable]="removable" (removed)="remove(activity)">
+        {{activity}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input placeholder=""
+             [matChipInputFor]="chipList1"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+  </mat-form-field>
+  <span class="add-activity">
+    <mat-icon class="mr-auto">add</mat-icon>
+  افزودن زمینه فعالیت جدید
+  </span>
+  
+  <div class="form-group">
+    <label>درباره ما</label>
+    <textarea class="form-control" rows="5"></textarea>
+  </div>
+  
+  <div class="row">
+    <div class="col-3">
+      <label>استان</label>
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label *ngIf="province.value === undefined">...</mat-label>
+        <mat-select #province>
+          <mat-option *ngFor="let province of provinces" [value]="province.value">
+            {{province.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  
+    <div class="col-3">
+      <label>شهرستان</label>
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label *ngIf="city.value === undefined">...</mat-label>
+        <mat-select #city>
+          <mat-option *ngFor="let city of cities" [value]="city.value">
+            {{city.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  
+    <div class="col-5 mr-auto">
+      <label>منطقه محل فعالیت</label>
+      <ng-multiselect-dropdown
+        [placeholder]="'انتخاب منطقه'"
+        [settings]="dropdownSettings"
+        [data]="regions"
+        [(ngModel)]="selectedRegions"
+        (onSelect)="onItemSelect($event)"
+        (onSelectAll)="onSelectAll($event)">
+      </ng-multiselect-dropdown>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label>لوگوی شرکت</label>
+    <input class="form-control" placeholder="browse: ./jpeg">
+  </div>
+  
+  <div class="form-group">
+    <label>ضمیمه کردن رزومه</label>
+    <input class="form-control" placeholder="browse: ./pdf">
+  </div>
+  <div class="form-group">
+    <label>نمونه کار</label>
+    <div class="border p-3">
+      <div class="insert-pic text-info p-2">
+       افزودن نمونه کار <mat-icon>add</mat-icon>
+      </div>
+    </div>
+  </div>
+  <div class="w-25 mx-auto mt-5">
+    <button class="btn btn-info btn-block">ذخیره اطلاعات</button>
+  </div>
+  
+  
+</div>

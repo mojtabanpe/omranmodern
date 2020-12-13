@@ -1,0 +1,23 @@
+<div class="section">
+  <div class="d-flex">
+    <h3>ویژگی های گروه</h3>
+    <button class="mr-auto btn btn-outline-info btn-sm d-flex align-items-center" (click)="addAttribute()"><mat-icon>add</mat-icon>افزودن ویژگی جدید</button>
+  </div>
+  <div *ngFor="let attr of attributes" class="group-attributes">
+    <input class="form-control" value={{attr.name}}>
+    <mat-form-field class="w-100 input-for-chips mt-3 mx-5">
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let value of attr.possibleValues" [selectable]="selectable"
+        [removable]="removable" (removed)="remove(value, attr)">
+          {{value}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input [matChipInputFor]="chipList" 
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur"
+               (matChipInputTokenEnd)="add($event, attr)">
+      </mat-chip-list>
+    </mat-form-field>
+    <mat-slide-toggle [checked]="attr.showInFilter"><span class="mr-1">نمایش در فیلتر</span></mat-slide-toggle>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+<!-- <div class="section p-0">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/dashboard">عمران مدرن</a></li>
+      <li class="breadcrumb-item"><a>گروه ها</a></li>
+      <li class="breadcrumb-item" aria-current="page"><a>زیرگروه صفر</a></li>
+      <li *ngIf="mode=='edit'" class="breadcrumb-item active" aria-current="page">ویرایش</li>
+      <li *ngIf="mode=='create'" class="breadcrumb-item active" aria-current="page">ایجاد</li>
+    </ol>
+  </nav>
+</div> -->
+
+<!-- <div class="section">
+    <form [formGroup]="editOrCreateForm" (ngSubmit)="submit()">
+        <div class="form-group">
+            <label>عنوان گروه</label>
+            <input class="form-control" formControlName="name">
+        </div>        
+        <label>توضیحات</label>
+        <div id="editor">
+          <p></p>
+        </div>
+        <input #fileInput type="file" class="file-input" (change)="onFileChanged($event)">
+        <div (click)="fileInput.click()" class="mt-3 d-flex align-items-center cursor-pointer">
+          <mat-icon> attach_file</mat-icon>
+          <span>افزودن عکس گروه</span>
+        </div>
+        <div *ngFor="let section of sections; index as i" class="section row d-flex align-items-center">
+          <div class="col-1"><mat-icon (click)="removePicture(i)">cancel</mat-icon></div>
+          <div class="col-9 d-flex flex-column">
+            <span class="ml-auto mb-1">{{section.progressPercent}}%</span>
+            <mat-progress-bar class="" [value]="section.progressPercent"></mat-progress-bar>
+          </div> 
+          <div class="col-2" *ngIf="section.finished">
+            <img src={{section.src}} class="w-100">
+            
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button type="submit" class="btn btn-info w-25 mt-2">ذخیره</button>    
+        </div>    
+    </form>
+</div> -->
+
+
+<!-- <div class="section">
+  <h4>مربوط به</h4>
+  <mat-form-field appearance="fill">
+    <mat-select>
+      <mat-option value="product">کالا</mat-option>
+      <mat-option value="service">خدمات</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <h4>گروه های مرتبط</h4>
+  <ng-multiselect-dropdown
+    [placeholder]="'گروه های مرتبط'"
+    [settings]="dropdownSettings"
+    [data]="categories"
+    [(ngModel)]="selectedCategories"
+    (onSelect)="onItemSelect($event)"
+    (onSelectAll)="onSelectAll($event)">
+  </ng-multiselect-dropdown>
+</div> -->
+
+<!-- <div class="section">
+  <div class="d-flex">
+    <h3>ویژگی های گروه</h3>
+    <button class="mr-auto btn btn-outline-info btn-sm d-flex align-items-center" (click)="addAttribute()"><mat-icon>add</mat-icon>افزودن ویژگی جدید</button>
+  </div>
+  <div *ngFor="let attr of attributes" class="group-attributes">
+    <input class="form-control" value={{attr.name}}>
+    <mat-form-field class="w-100 input-for-chips mt-3 mx-5">
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let value of attr.possibleValues" [selectable]="selectable"
+        [removable]="removable" (removed)="remove(value, attr)">
+          {{value}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input [matChipInputFor]="chipList" 
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur"
+               (matChipInputTokenEnd)="add($event, attr)">
+      </mat-chip-list>
+    </mat-form-field>
+    <mat-slide-toggle [checked]="attr.showInFilter"><span class="mr-1">نمایش در فیلتر</span></mat-slide-toggle>
+  </div>
+</div> -->
+
+
+<!-- <div class="section">
+<table class="my-table">
+  <thead class="my-thead">
+    <tr>
+      <th>عنوان</th>
+      <th>موقعیت</th>
+      <th>تعداد کالا/ خدمات</th>
+      <th>تعداد فروشنده</th>
+      <th>وضعیت(فعال/ غیرفعال)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let group of subGroups" class="my-tr">
+      <td>{{group.title}}</td>
+      <td>{{group.situation |  persianNumber}}</td>
+      <td>{{group.productsCount}}</td>
+      <td>{{group.sellersCount |  persianNumber}}</td>   
+      <mat-slide-toggle [checked]="group.status"></mat-slide-toggle>
+    </tr>
+  </tbody>
+</table>
+</div> -->

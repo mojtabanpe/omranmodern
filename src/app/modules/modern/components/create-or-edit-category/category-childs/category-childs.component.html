@@ -1,0 +1,22 @@
+<div class="section">
+  <table class="my-table">
+    <thead class="my-thead">
+      <tr>
+        <th>عنوان</th>
+        <th>موقعیت</th>
+        <th>تعداد کالا/ خدمات</th>
+        <th>تعداد فروشنده</th>
+        <th>وضعیت(فعال/ غیرفعال)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let group of subGroups" class="my-tr">
+        <td>{{group.title}}</td>
+        <td>{{group.situation |  persianNumber}}</td>
+        <td>{{group.productsCount}}</td>
+        <td>{{group.sellersCount |  persianNumber}}</td>   
+        <mat-slide-toggle [checked]="group.status"></mat-slide-toggle>
+      </tr>
+    </tbody>
+  </table>
+  </div>

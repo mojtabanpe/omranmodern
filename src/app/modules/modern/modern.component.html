@@ -1,0 +1,100 @@
+<div class="topnav" [style.width]="navIsOpen? '100%': '50px'">
+  <a (click)="toggleNav()" class="nav-brand" *ngIf="navIsOpen">
+    <mat-icon>person</mat-icon>
+    <span class="mt-1 mr-2">ثمینا خزائلی</span>
+  </a>
+  <a (click)="toggleNav()" *ngIf="!navIsOpen"><mat-icon>menu</mat-icon></a>
+</div>
+<div class="toolbar">
+  <mat-icon>phone</mat-icon>
+  <mat-icon>notifications</mat-icon>
+  <mat-icon>search</mat-icon>
+</div>
+<div id="mySidenav" class="sidenav" [style.width]="navIsOpen? '250px': '50px'">
+  <!-- <a class="closebtn" (click)="closeNav()">&times;</a> -->
+  <a *ngIf="!navIsOpen" href="#"><mat-icon>dashboard</mat-icon></a>
+  <a routerLink="/modern/dashboard" class="expanded dashboard" *ngIf="navIsOpen"><mat-icon>dashboard</mat-icon><span class="mr-3">داشبورد</span></a>
+
+  <a *ngIf="!navIsOpen" href="#"><mat-icon>person</mat-icon></a>
+  <mat-accordion>
+    <mat-expansion-panel *ngIf="navIsOpen" id="groups">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>person</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          گروهها
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <a routerLink="./zero_level">سطح صفر</a>
+      <a routerLink="./first_level">سطح یک</a>
+      <a routerLink="./second_level">سطح دو</a>
+      <a routerLink="./third_level">سطح سه</a>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="navIsOpen" id="products">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>info</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          کالاها
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <a routerLink="/profileInformation">ویرایش اطلاعات فروشگاه</a>
+      <a routerLink="/contactInformation">اطلاعات تماس</a>
+      <a>پروژه های من</a>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="navIsOpen" id="services">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>info</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          خدمات
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <a routerLink="/profileInformation">ویرایش اطلاعات فروشگاه</a>
+      <a routerLink="/contactInformation">اطلاعات تماس</a>
+      <a>پروژه های من</a>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="navIsOpen" id="sellers">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>info</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          فروشنده ها
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <a routerLink="/profileInformation">ویرایش اطلاعات فروشگاه</a>
+      <a routerLink="/contactInformation">اطلاعات تماس</a>
+      <a>پروژه های من</a>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <a *ngIf="!navIsOpen" href="#"><mat-icon>info</mat-icon></a>
+  <a *ngIf="!navIsOpen" href="#"><mat-icon>flight</mat-icon></a>
+  <a *ngIf="!navIsOpen" href="#"> <mat-icon>fastfood</mat-icon></a>
+  <a class="expanded product" *ngIf="navIsOpen" routerLink="myProducts"><mat-icon>flight</mat-icon><span class="mr-3">کالاهای من</span></a>
+  <a class="expanded product" *ngIf="navIsOpen" href="#"> <mat-icon>fastfood</mat-icon><span class="mr-3">افزودن کالا</span></a>
+  
+  <a *ngIf="!navIsOpen" href="#"><mat-icon>flight</mat-icon></a>
+  <a *ngIf="!navIsOpen" href="#"> <mat-icon>fastfood</mat-icon></a>
+  <a class="expanded service" *ngIf="navIsOpen" href="#"><mat-icon>flight</mat-icon><span class="mr-3">خدمات من</span></a>
+  <a class="expanded service" *ngIf="navIsOpen" href="#"> <mat-icon>fastfood</mat-icon><span class="mr-3">افزودن خدمت</span></a>
+ 
+  <a *ngIf="!navIsOpen" href="#"><mat-icon>pie_chart</mat-icon></a>
+  <a *ngIf="!navIsOpen" href="#"><mat-icon>assignment</mat-icon></a>
+  <a *ngIf="!navIsOpen" href="#"><mat-icon>message</mat-icon></a>
+  <a *ngIf="!navIsOpen" href="#"><mat-icon>lock_open</mat-icon></a>
+  <a *ngIf="!navIsOpen" href="#"><mat-icon>exit_to_app</mat-icon></a>
+
+  <a class="expanded service" *ngIf="navIsOpen" href="#"><mat-icon>pie_chart</mat-icon><span class="mr-3">آمار</span></a>
+  <a class="expanded service" *ngIf="navIsOpen" href="#"><mat-icon>assignment</mat-icon><span class="mr-3">فاکتورها</span></a>
+  <a class="expanded service" *ngIf="navIsOpen" href="#"><mat-icon>message</mat-icon><span class="mr-3">پیام ها</span></a>
+  <a class="expanded service" *ngIf="navIsOpen" href="#"><mat-icon>lock_open</mat-icon><span class="mr-3">تغییر رمز عبور</span></a>
+  <a class="expanded service" *ngIf="navIsOpen" href="#"><mat-icon>exit_to_app</mat-icon><span class="mr-3">خروج</span></a>
+</div>
+<div id="main" [style.margin-right]="navIsOpen? '250px': '43px'">
+  <router-outlet></router-outlet>
+</div>

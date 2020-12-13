@@ -1,0 +1,19 @@
+<div class="section">
+  <h4>مربوط به</h4>
+  <mat-form-field appearance="fill">
+    <mat-select>
+      <mat-option value="product">کالا</mat-option>
+      <mat-option value="service">خدمات</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <h4>گروه های مرتبط</h4>
+  <ng-multiselect-dropdown
+    [placeholder]="'گروه های مرتبط'"
+    [settings]="dropdownSettings"
+    [data]="categories"
+    [(ngModel)]="selectedCategories"
+    (onSelect)="onItemSelect($event)"
+    (onSelectAll)="onSelectAll($event)">
+  </ng-multiselect-dropdown>
+</div>

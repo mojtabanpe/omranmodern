@@ -1,0 +1,15 @@
+<div class="section p-0">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/dashboard">عمران مدرن</a></li>
+      <li class="breadcrumb-item"><a>گروه ها</a></li>
+      <li class="breadcrumb-item" aria-current="page"><a>زیرگروه صفر</a></li>
+      <li *ngIf="mode=='edit'" class="breadcrumb-item active" aria-current="page">ویرایش</li>
+      <li *ngIf="mode=='create'" class="breadcrumb-item active" aria-current="page">ایجاد</li>
+    </ol>
+  </nav>
+</div>
+<app-main-detail></app-main-detail>
+<app-related></app-related>
+<app-category-attributes></app-category-attributes>
+<app-category-childs></app-category-childs>

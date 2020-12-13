@@ -1,0 +1,29 @@
+<div class="section p-0">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/dashboard">عمران مدرن</a></li>
+      <li class="breadcrumb-item active"><a>حساب کاربری</a></li>
+      <li class="breadcrumb-item active" aria-current="page">پروژه های من</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="table-header">
+  <h4>کد پیگیری</h4>
+  <h4>موضوع</h4>
+  <h4>طرف حساب</h4>
+  <h4>وضعیت</h4>
+  <h4>تاریخ</h4>
+  <h4>عملیات</h4>
+</div>
+
+<div class="table-body">
+  <div *ngFor="let project of projects" class="table-td">
+    <span>{{project.code}}</span>
+    <span>{{project.title}}</span>
+    <span>{{project.tarafhesab}}</span>
+    <span>{{project.vaziat}}</span>
+    <span>{{project.tarikh}}</span>
+    <mat-icon>edit</mat-icon>
+  </div>
+</div>

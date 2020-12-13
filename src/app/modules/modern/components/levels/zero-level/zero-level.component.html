@@ -1,0 +1,36 @@
+<div class="section p-0">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/dashboard">عمران مدرن</a></li>
+      <li class="breadcrumb-item active"><a>گروه ها</a></li>
+      <li class="breadcrumb-item active" aria-current="page">زیرگروه صفر</li>
+    </ol>
+  </nav>
+</div>
+<div class="d-flex">
+  <button class="btn btn-info btn-sm mr-auto">افزوردن گروه جدید</button>
+</div>
+
+<div class="section">
+  <table class="my-table">
+    <thead class="my-thead">
+      <tr>
+        <th>عنوان</th>
+        <th>تعداد کالا/ خدمات</th>
+        <th>تعداد فروشنده</th>
+        <th>وضعیت</th>
+        <th>عملیات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let group of zeroLevel" class="my-tr">
+        <td>{{group.title}}</td>
+        <td>{{group.productsCount}}</td>
+        <td>{{group.sellersCount |  persianNumber}}</td>
+        <td>{{group.situation |  persianNumber}}</td>
+        <mat-slide-toggle [checked]="group.status"></mat-slide-toggle>
+        <td><mat-icon routerLink="edit/1" class="text-info">edit</mat-icon></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

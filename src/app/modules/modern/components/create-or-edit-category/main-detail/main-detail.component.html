@@ -1,0 +1,33 @@
+<div class="section">
+  <form [formGroup]="editOrCreateForm" (ngSubmit)="submit()">
+      <div class="form-group">
+          <label>عنوان گروه</label>
+          <input class="form-control" formControlName="name">
+      </div>        
+      <label>توضیحات</label>
+      <div id="editor">
+        <p></p>
+      </div>
+      <!-- <ckeditor formControlName="explain" [editor]="Editor" data="<p>Hello, world!</p>"></ckeditor> -->
+      <input #fileInput type="file" class="file-input" (change)="onFileChanged($event)">
+      <div (click)="fileInput.click()" class="mt-3 d-flex align-items-center cursor-pointer">
+        <mat-icon> attach_file</mat-icon>
+        <span>افزودن عکس گروه</span>
+      </div>
+      <!-- <button class="btn btn-success btn-sm mt-2" [disabled]="inProgress" type="button" (click)="fileInput.click()">انتخاب عکس</button> -->
+      <div *ngFor="let section of sections; index as i" class="section row d-flex align-items-center">
+        <div class="col-1"><mat-icon (click)="removePicture(i)">cancel</mat-icon></div>
+        <div class="col-9 d-flex flex-column">
+          <span class="ml-auto mb-1">{{section.progressPercent}}%</span>
+          <mat-progress-bar class="" [value]="section.progressPercent"></mat-progress-bar>
+        </div> 
+        <div class="col-2" *ngIf="section.finished">
+          <img src={{section.src}} class="w-100">
+          
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-info w-25 mt-2">ذخیره</button>    
+      </div>    
+  </form>
+</div>

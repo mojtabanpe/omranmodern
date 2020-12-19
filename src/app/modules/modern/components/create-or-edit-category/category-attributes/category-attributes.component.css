@@ -7,3 +7,6 @@
 .group-attributes >input {
     max-width: 250px;
 }
+.attr-name {
+    width: 150px;
+}

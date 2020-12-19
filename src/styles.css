@@ -520,7 +520,7 @@ td.mat-cell {
   line-height: 3rem;
   border-bottom: 2px solid white;
 }
-.my-tr :first-child {
+.my-tr:first-child {
   padding-right: .5rem;
 }
 .breadcrumb-item a {
@@ -576,4 +576,7 @@ mat-icon {
 }
 .dropdown-down {
   margin-right: -10px !important;
+}
+.btn {
+  min-width: 150px;
 }

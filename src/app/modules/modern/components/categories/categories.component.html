@@ -1,3 +1,60 @@
-<p>
-  categories works!
-</p>
+<div class="section p-0">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/dashboard">عمران مدرن</a></li>
+      <li class="breadcrumb-item active"><a>گروه ها</a></li>
+      <li *ngIf="deep == 0" class="breadcrumb-item active" aria-current="page">زیرگروه صفر</li>
+      <li *ngIf="deep == 1" class="breadcrumb-item active" aria-current="page">زیرگروه یک</li>
+      <li *ngIf="deep == 2" class="breadcrumb-item active" aria-current="page">زیرگروه دو</li>
+      <li *ngIf="deep == 3" class="breadcrumb-item active" aria-current="page">زیرگروه سه</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="d-flex">
+  <button class="btn btn-info btn-sm mr-auto" [routerLink]="['/modern/create_edit_category']">افزوردن گروه جدید</button>
+</div>
+
+<div class="section">
+  <div *ngIf="deep != 0" class="section-gray mb-5">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <button class="btn btn-info input-group-text"><mat-icon>search</mat-icon></button>
+      </div>
+      <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+  </div>
+  <app-partial-categories type='deep'></app-partial-categories>
+  <!-- <table class="my-table">
+    <thead class="my-thead">
+      <tr>
+        <th class="first-th">عنوان</th>
+        <th *ngIf="deep == 0">موقعیت</th>
+        <th>تعداد کالا/ خدمات</th>
+        <th>تعداد فروشنده</th>
+        <th>وضعیت</th>
+        <th>عملیات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let group of groups" class="my-tr">
+        <td class="first-td">{{group.name}}</td>
+        <td *ngIf="deep == 0">
+          <div class="d-flex align-items-center">
+            <mat-icon (click)="savePosition(group.id)" *ngIf="group.edited" class="text-info">save</mat-icon>
+            <div class="position-box">
+              <mat-icon (click)="changePosition(group.id, 'up')">keyboard_arrow_up</mat-icon>
+              <div>{{group.position| persianNumber}}</div>
+              <mat-icon (click)="changePosition(group.id, 'down')">keyboard_arrow_down</mat-icon>  
+            </div>
+          </div>   
+        </td>
+        <td>4</td>
+        <td>5</td>
+        <td><mat-slide-toggle (change)="changeActivity(group.id)" [checked]="group.is_active"></mat-slide-toggle></td>
+        <td><mat-icon routerLink="/modern/create_edit_category/{{group.id}}" class="text-info">edit</mat-icon></td>
+      </tr>
+    </tbody>
+  </table> -->
+</div>
+

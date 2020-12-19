@@ -1,19 +1,25 @@
 <div class="section">
   <h4>مربوط به</h4>
   <mat-form-field appearance="fill">
-    <mat-select>
-      <mat-option value="product">کالا</mat-option>
-      <mat-option value="service">خدمات</mat-option>
+    <mat-select [(value)]="selectedType" (selectionChange)="changeType()">
+      <mat-option [value]="option.value" *ngFor="let option of types">{{ option.viewValue }}</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <h4>گروه های مرتبط</h4>
-  <ng-multiselect-dropdown
-    [placeholder]="'گروه های مرتبط'"
-    [settings]="dropdownSettings"
-    [data]="categories"
-    [(ngModel)]="selectedCategories"
-    (onSelect)="onItemSelect($event)"
-    (onSelectAll)="onSelectAll($event)">
-  </ng-multiselect-dropdown>
+  <div *ngIf="category.deep !== 0">
+    <h4>گروه های مرتبط</h4>
+    <ng-multiselect-dropdown
+      (onSelect)="onItemSelect($event)"
+      (onDeSelect)="onItemDeSelect($event)"
+      (onDropDownClose)="changeRelatedCategories()"
+      [placeholder]="'گروه های مرتبط'"
+      [settings]="dropdownSettings"
+      [data]="categories"
+      [(ngModel)]="selectedCategories">
+    </ng-multiselect-dropdown>
+  </div>
+
+  <div class="d-flex">
+    <button class="btn btn-info mt-5 w-25 mx-auto" (click)="submit()">ذخیره</button>
+  </div>
 </div>

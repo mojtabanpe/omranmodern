@@ -4,20 +4,24 @@
     <button class="mr-auto btn btn-outline-info btn-sm d-flex align-items-center" (click)="addAttribute()"><mat-icon>add</mat-icon>افزودن ویژگی جدید</button>
   </div>
   <div *ngFor="let attr of attributes" class="group-attributes">
-    <input class="form-control" value={{attr.name}}>
+    <input class="form-control attr-name" [(ngModel)]="attr.name">
     <mat-form-field class="w-100 input-for-chips mt-3 mx-5">
       <mat-chip-list #chipList>
-        <mat-chip *ngFor="let value of attr.possibleValues" [selectable]="selectable"
-        [removable]="removable" (removed)="remove(value, attr)">
+        <mat-chip *ngFor="let value of attr.possible_values" [selectable]="selectable"
+        [removable]="removable" (removed)="removeChip(value, attr)">
           {{value}}
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
-        <input [matChipInputFor]="chipList" 
+        <input [matChipInputFor]="chipList"
                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                [matChipInputAddOnBlur]="addOnBlur"
-               (matChipInputTokenEnd)="add($event, attr)">
+               (matChipInputTokenEnd)="addChip($event, attr)">
       </mat-chip-list>
     </mat-form-field>
-    <mat-slide-toggle [checked]="attr.showInFilter"><span class="mr-1">نمایش در فیلتر</span></mat-slide-toggle>
+    <mat-slide-toggle [checked]="attr.show_in_filter" (change)="attr.show_in_filter = !attr.show_in_filter"><span class="mr-1">نمایش در فیلتر</span></mat-slide-toggle>
+    <div class="d-flex mr-5"> 
+      <mat-icon class="text-danger" (click)="deleteAttribute(attr.id)">delete</mat-icon>
+      <mat-icon class="text-success" (click)="saveAttribute(attr)">save</mat-icon>
+    </div>
   </div>
 </div>

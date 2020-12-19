@@ -11,6 +11,18 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgxUiLoaderModule, NgxUiLoaderConfig, POSITION, SPINNER, PB_DIRECTION, NgxUiLoaderHttpModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
+
+
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+  bgsColor: 'red',
+  bgsPosition: POSITION.centerCenter,
+  bgsSize: 40,
+  bgsType: SPINNER.threeStrings, // background spinner type
+  fgsType: SPINNER.threeStrings, // foreground spinner type
+  pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
+  pbThickness: 5 // progress bar thickness
+};
 
 @NgModule({
   declarations: [
@@ -25,6 +37,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     ModernModule,
     SellerModule,
     UserModule,
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    NgxUiLoaderHttpModule.forRoot({showForeground: true}),
+    NgxUiLoaderRouterModule
   ],
   providers: [GeneralService, AuthService,
     {

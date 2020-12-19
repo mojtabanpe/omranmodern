@@ -42,7 +42,47 @@ export class RepositoryService {
     return this.http.post(this.baseUrl + 'dokkoon/categories', category);
   }
 
+  updateCategory(category: any, groupId): any {
+    return this.http.put(this.baseUrl + 'dokkoon/category_one/' + groupId , category);
+  }
+
   getCategory(id: number): any {
     return this.http.get(this.baseUrl + 'dokkoon/category_one/' + id);
+  }
+  getTopDeepCategories(deep: number): any {
+    return this.http.get(this.baseUrl + 'dokkoon/top_deep_categories/' + deep);
+  }
+  GetCagtegoriesByDeep(deep: number): any {
+    return this.http.get(this.baseUrl + 'dokkoon/partial_categories/' + deep);
+  }
+  GetChildCagtegories(categoryId: number): any {
+    return this.http.get(this.baseUrl + 'dokkoon/child_categories/' + categoryId);
+  }
+
+  UpdateParentsWithThisChild(parents: any, categoryId: number): any {
+    return this.http.post(this.baseUrl + 'dokkoon/update_parents_childs/' + categoryId, parents);
+  }
+
+  changeCategoryActivity(id: number): any {
+    return this.http.get(this.baseUrl + 'dokkoon/change_categoriy_activity/' + id);
+  }
+  changeCategoryPosition(id: number, position: number): any {
+    return this.http.get(this.baseUrl + 'dokkoon/change_categoriy_position/' + id + '/' + position);
+  }
+  createCategoryAttribute(attribute: any): any {
+    return this.http.post(this.baseUrl + 'dokkoon/category_attributes', attribute);
+  }
+  getCategoryAttributes(categoryId: number): any {
+    return this.http.get(this.baseUrl + 'dokkoon/attributes/' + categoryId);
+  }
+
+  updateAttribute(attribute): any {
+    return this.http.put(this.baseUrl + 'dokkoon/category-attribute_one/' + attribute.id, attribute);
+  }
+  deleteAttribute(attributeId: number): any {
+    return this.http.delete(this.baseUrl + 'dokkoon/category-attribute_one/' + attributeId);
+  }
+  getCategoryParentsByIDs(categoryId): any{
+    return this.http.get(this.baseUrl + 'dokkoon/parent_categories/' + categoryId);
   }
 }

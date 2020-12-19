@@ -26,10 +26,10 @@
           گروهها
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <a routerLink="./zero_level">سطح صفر</a>
-      <a routerLink="./first_level">سطح یک</a>
-      <a routerLink="./second_level">سطح دو</a>
-      <a routerLink="./third_level">سطح سه</a>
+      <a (click)="showCategories(0)">سطح صفر</a>
+      <a (click)="showCategories(1)">سطح یک</a>
+      <a (click)="showCategories(2)">سطح دو</a>
+      <a (click)="showCategories(3)">سطح سه</a>
     </mat-expansion-panel>
     <mat-expansion-panel *ngIf="navIsOpen" id="products">
       <mat-expansion-panel-header>

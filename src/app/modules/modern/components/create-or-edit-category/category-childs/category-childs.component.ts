@@ -6,55 +6,55 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./category-childs.component.css']
 })
 export class CategoryChildsComponent implements OnInit {
-  subGroups = [
+  groups = [
     {
-    title: 'مشارکت و ساخت/ اخذ مجوز',
+    name: 'مشارکت و ساخت/ اخذ مجوز',
     productsCount: 3,
     sellersCount: 5,
-    situation: 0,
-    status: true
+    position: 0,
+    is_active: true
   }, {
-    title: 'خدمات آزمایشگاهی ساختمان',
+    name: 'خدمات آزمایشگاهی ساختمان',
     productsCount: 3,
     sellersCount: 5,
-    situation: 0,
-    status: true
+    position: 0,
+    is_active: true
   }, {
-    title: 'مهندس طراح/ شرکت مشاور',
+    name: 'مهندس طراح/ شرکت مشاور',
     productsCount: 3,
     sellersCount: 5,
-    situation: 0,
-    status: true
+    position: 0,
+    is_active: true
   }, {
-    title: 'مهندس و شرکت های مجری',
+    name: 'مهندس و شرکت های مجری',
     productsCount: 3,
     sellersCount: 5,
-    situation: 0,
-    status: false
+    position: 0,
+    is_active: false
   }, {
-    title: 'مصالح سفت کاری و نازک کاری',
+    name: 'مصالح سفت کاری و نازک کاری',
     productsCount: 3,
     sellersCount: 5,
-    situation: 0,
-    status: true
+    position: 0,
+    is_active: true
   }, {
-    title: 'پیمانکاری جز',
+    name: 'پیمانکاری جز',
     productsCount: 3,
     sellersCount: 5,
-    situation: 0,
-    status: true
+    position: 0,
+    is_active: true
   }, {
-    title: 'تاسیسات برقی و مکانیکی',
+    name: 'تاسیسات برقی و مکانیکی',
     productsCount: 3,
     sellersCount: 5,
-    situation: 0,
-    status: false
+    position: 0,
+    is_active: false
   }, {
-    title: 'تجهیزات/ ماشین آلات',
+    name: 'تجهیزات/ ماشین آلات',
     productsCount: 3,
     sellersCount: 5,
-    situation: 0,
-    status: true
+    position: 0,
+    is_active: true
   }
 ];
   constructor() { }

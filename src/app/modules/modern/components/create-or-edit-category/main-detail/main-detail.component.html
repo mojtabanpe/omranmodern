@@ -3,14 +3,32 @@
       <div class="form-group">
           <label>عنوان گروه</label>
           <input class="form-control" formControlName="name">
-      </div>        
-      <label>توضیحات</label>
-      <div id="editor">
-        <p></p>
       </div>
-      <!-- <ckeditor formControlName="explain" [editor]="Editor" data="<p>Hello, world!</p>"></ckeditor> -->
+      <div *ngIf="mode == 'create' && deep != 0" class="mb-3">
+        <label>گروه های والد</label>
+        <ng-multiselect-dropdown formControlName="parents_id"
+          (onSelect)="onItemSelect($event)"
+          (onDeSelect)="onItemDeSelect($event)"
+          [placeholder]="'گروه های والد'"
+          [settings]="dropdownSettings"
+          [data]="categories">
+        </ng-multiselect-dropdown>  
+      </div>   
+      <div *ngIf="mode == 'create' && deep != 0" class="mb-3 form-group">
+        <label>مربوط به</label>
+        <select formControlName="type" class="form-control">
+          <option value=true>کالا</option>
+          <option value=false>خدمت</option>
+        </select>
+      </div>
+      <label>توضیحات</label>
+      <!-- <div id="editor" formControlName="explain">
+        <p></p>
+      </div> -->
+      <ckeditor formControlName="explain" [editor]="Editor"></ckeditor>
       <input #fileInput type="file" class="file-input" (change)="onFileChanged($event)">
-      <div (click)="fileInput.click()" class="mt-3 d-flex align-items-center cursor-pointer">
+      <button *ngIf="!deletedImage && mode == 'edit'" class="btn btn-outline-danger mt-4" (click)="deleteImage()">حذف عکس قبلی</button>
+      <div *ngIf="deletedImage || mode == 'create'" (click)="fileInput.click()" class="mt-3 d-flex align-items-center cursor-pointer">
         <mat-icon> attach_file</mat-icon>
         <span>افزودن عکس گروه</span>
       </div>

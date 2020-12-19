@@ -6,15 +6,15 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class GeneralService {
-
-  mode = "edit";
+  mode = 'edit';
   defaultCategory: Category = {
     id: 0,
     name: '',
     slug: '',
     explain: '',
     type: true,
-    images: [],
+    image: '',
+    parents_id: [],
     childs_id: [],
     deep: 0,
     position: 0,
@@ -26,8 +26,13 @@ export class GeneralService {
         materials: []
     }
   };
+  deep = new BehaviorSubject<number>(0);
+  currentDeep = this.deep.asObservable();
   category = new BehaviorSubject<Category>(this.defaultCategory);
   currentCategory = this.category.asObservable();
+  changeDeep(digit: number): void{
+    this.deep.next(digit);
+  }
   changeCategory(category: Category): void{
     this.category.next(category);
    }

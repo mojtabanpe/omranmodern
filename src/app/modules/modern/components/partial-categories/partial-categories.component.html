@@ -3,7 +3,7 @@
     <thead class="my-thead">
       <tr>
         <th class="first-th">عنوان</th>
-        <th >موقعیت</th>
+        <th *ngIf="deep == 0">موقعیت</th>
         <th>تعداد کالا/ خدمات</th>
         <th>تعداد فروشنده</th>
         <th>وضعیت</th>
@@ -13,7 +13,7 @@
     <tbody>
       <tr *ngFor="let group of groups" class="my-tr">
         <td class="first-td">{{group.name}}</td>
-        <td>
+        <td *ngIf="deep == 0">
           <div class="d-flex align-items-center">
             <mat-icon (click)="savePosition(group.id)" *ngIf="group.edited" class="text-info">save</mat-icon>
             <div class="position-box">

@@ -62,6 +62,14 @@ body {
   border-radius: .23rem;
   box-shadow: 0 1px 5px gray;
 }
+.section-warning {
+  margin-top: .6rem;
+  margin-bottom: .6rem;
+  padding: 1rem 1rem;
+  background-color: #FFB300;
+  border-radius: .23rem;
+  box-shadow: 0 1px 5px gray;
+}
 
 ::placeholder {
   font-size: .7rem;
@@ -579,4 +587,19 @@ mat-icon {
 }
 .btn {
   min-width: 150px;
+}
+
+.my-tr td:not(.first-td){
+  text-align: center;
+}
+
+th:not(.first-th) {
+  text-align: center;
+}
+.select-items {
+  background-color: black !important;
+}
+.select-selected {
+  background-color: rgb(202, 30, 30) !important;
+
 }

@@ -38,7 +38,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     SellerModule,
     UserModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-    NgxUiLoaderHttpModule.forRoot({showForeground: true}),
+    NgxUiLoaderHttpModule.forRoot({showForeground: false}),
     NgxUiLoaderRouterModule
   ],
   providers: [GeneralService, AuthService,

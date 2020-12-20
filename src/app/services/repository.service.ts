@@ -85,4 +85,16 @@ export class RepositoryService {
   getCategoryParentsByIDs(categoryId): any{
     return this.http.get(this.baseUrl + 'dokkoon/parent_categories/' + categoryId);
   }
+  createBrand(brand): any {
+    return this.http.post(this.baseUrl + 'dokkoon/brands', brand);
+  }
+  getAllBrands(): any {
+    return this.http.get(this.baseUrl + 'dokkoon/brands');
+  }
+  getAllUnits(): any {
+    return this.http.get(this.baseUrl + 'dokkoon/units');
+  }
+  createUnit(brand): any {
+    return this.http.post(this.baseUrl + 'dokkoon/units', brand);
+  }
 }

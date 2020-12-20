@@ -1,0 +1,95 @@
+<div class="section p-0">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/modern/dashboard">عمران مدرن</a></li>
+      <li class="breadcrumb-item"><a routerLink="/modern/manage_materials">کالاها</a></li>
+      <li class="breadcrumb-item active" aria-current="page">معرفی کالای جدید</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="section-warning mb-5">
+  <h4>وضعیت کالا را مشخص کنید</h4>
+    <select [(ngModel)]="selectedType" (change)="changeType()" class="form-control">
+      <option value={{option.value}} *ngFor="let option of types">{{ option.viewValue }}</option>
+    </select>
+</div>
+
+<div class="section">
+  <div *ngIf="initializedCategoryDropdown">
+    <h4>تعریف گروه والد کالا</h4>
+    <ng-multiselect-dropdown
+      [placeholder]="'عنوان گروه در سطح سه را انتخاب کنید'"
+      [settings]="categoryDropdownSettings"
+      [data]="categories"
+      [(ngModel)]="selectedCategory">
+    </ng-multiselect-dropdown>
+  </div>
+
+  <div class="row five-box">
+    <div class="col-6 pr-0">
+      <h4>عنوان کالا</h4>
+      <input class="form-control">
+    </div>
+    <div class="col-6 pl-0">
+      <h4>کالای مادر</h4>
+      <select class="form-control">
+        <option>میلگرد</option>
+      </select>
+    </div>
+    <div class="col-6 pr-0">
+      <div *ngIf="initializedBrandDropdown">
+        <h4>برند کالا</h4>
+        <ng-multiselect-dropdown #brandSelect
+          [placeholder]="'برند مورد نظر را جستجو کنید'"
+          [settings]="brandDropdownSettings"
+          [data]="brands"
+          [(ngModel)]="selectedBrand">
+        </ng-multiselect-dropdown>
+        <button class="btn btn-light d-flex align-items-center btn-sm mr-auto mt-2 text-secondary">
+          <mat-icon>add</mat-icon>
+          <a class="text-secondary" (click)="addBrand()">افزودن برند جدید</a>
+        </button>
+      </div>
+    </div>
+    <div class="col-6 pl-0">
+      <h4>کیفیت کالا</h4>
+      <select [(ngModel)]="quality" class="form-control">
+        <option *ngFor="let q of qualities" value={{q}}>{{q}}</option>
+      </select>
+    </div>
+    <div class="col-6 pr-0">
+      <div *ngIf="initializedUnitDropdown">
+        <h4>واحدهای اندازه گیری</h4>
+        <ng-multiselect-dropdown #unitSelect
+          [placeholder]="'واحد مورد نظر را جستجو کنید'"
+          [settings]="unitDropdownSettings"
+          [data]="units"
+          [(ngModel)]="selectedUnit">
+        </ng-multiselect-dropdown>
+        <button class="btn btn-light d-flex align-items-center btn-sm mr-auto mt-2 text-secondary">
+          <mat-icon>add</mat-icon>
+          <a class="text-secondary" (click)="addUnit()">افزودن واحد جدید</a>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <input [disabled]="inProgress" #fileInput type="file" class="file-input" (change)="onFileChanged($event)">
+    <div (click)="fileInput.click()" class="mt-3 mb-2 d-flex align-items-center cursor-pointer">
+      <mat-icon> attach_file</mat-icon>
+      <span>افزودن عکس کالا(حداقل دو عکس)</span>
+    </div>
+    <div *ngFor="let section of sections; index as i" class="section row d-flex align-items-center">
+      <div class="col-1"><mat-icon (click)="removePicture(i)">cancel</mat-icon></div>
+      <div class="col-9 d-flex flex-column">
+        <span class="ml-auto mb-1">{{section.progressPercent}}%</span>
+        <mat-progress-bar class="" [value]="section.progressPercent"></mat-progress-bar>
+      </div> 
+      <div class="col-2" *ngIf="section.finished">
+        <img src={{section.src}} class="w-100">         
+      </div>
+    </div>
+  </div>
+  
+</div>

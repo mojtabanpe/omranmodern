@@ -1,0 +1,14 @@
+.position-box {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #17a2b8;
+    height: 40px;
+    width: 80px;
+    align-items: center;
+    margin-right: auto;
+    margin-left: auto;
+}
+.position-box .mat-icon {
+    background-color: #C4C5CA;
+    color: white;
+}

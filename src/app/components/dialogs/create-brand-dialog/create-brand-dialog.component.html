@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>افزودن برند</h2>
+<mat-dialog-content>
+  <label>نام</label>
+  <input [(ngModel)]="result.name" class="form-control">
+  <label class="mt-2">توضیحات</label>
+  <textarea [(ngModel)]="result.explain" class="form-control"></textarea>
+  <mat-slide-toggle class="mt-4" [(ngModel)]="result.is_active"><span class="mr-1">فعال</span></mat-slide-toggle>
+</mat-dialog-content>
+<mat-dialog-actions align="center" class="mt-5">
+  <button class="btn btn-success ml-1" [mat-dialog-close]="result" cdkFocusInitial>ایجاد</button>
+  <button class="btn btn-danger mr-1" mat-dialog-close="cancel" >انصراف</button>
+</mat-dialog-actions>

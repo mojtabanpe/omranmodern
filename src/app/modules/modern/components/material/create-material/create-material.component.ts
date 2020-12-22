@@ -7,10 +7,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { MatDialog } from '@angular/material/dialog';
 import { UploadSection } from 'src/app/interfaces/upload-section';
+import { ArrayType } from '@angular/compiler';
 
 export interface CategoryForSelect {
-  parent_name: string;
-  parent_id: number;
+  category_name: string;
+  category_id: number;
+}
+export interface MaterialForSelect {
+  material_name: string;
+  material_id: number;
 }
 export interface BrandForSelect {
   brand_name: string;
@@ -60,13 +65,20 @@ export class CreateMaterialComponent implements OnInit {
   qualities = ['اقتصادی و ارزان', 'گیفیت و قمیت مناسب', 'کیفیت عالی', 'لوکس و حرفه ای', 'مصالح نوین', 'پیشنهاد عمران مدرن', 'نامشخص'];
 
   units = [];
-  selectedUnits;
+  selectedUnit;
   unitDropdownSettings: IDropdownSettings;
   @ViewChild('unitSelect', {static: false}) unitSelect;
 
+  materials = [];
+  selectedMaterial;
+  materialDropdownSettings: IDropdownSettings;
+  @ViewChild('materialSelect', {static: false}) materialSelect;
+
   initializedCategoryDropdown = false;
+  // initializedMaterialDropdown = false;
   initializedBrandDropdown = false;
   initializedUnitDropdown = false;
+
 
   reader = new FileReader();
   sections: Array<UploadSection> = [];
@@ -75,14 +87,17 @@ export class CreateMaterialComponent implements OnInit {
   selectedImage: any;
   imageName = '1';
 
+  attributes = [];
+
   constructor(private repository: RepositoryService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.categoryDropdownSettings = {
       singleSelection: true,
-      idField: 'parent_id',
-      textField: 'parent_name',
+      idField: 'category_id',
+      textField: 'category_name',
       allowSearchFilter: true,
+      closeDropDownOnSelection: true,
       noDataAvailablePlaceholderText: 'داده ای برای نمایش وجود ندارد'
     };
 
@@ -105,11 +120,20 @@ export class CreateMaterialComponent implements OnInit {
       noDataAvailablePlaceholderText: 'داده ای برای نمایش وجود ندارد'
     };
 
-    this.repository.getTopDeepCategories(4).subscribe((res) => {
+    this.materialDropdownSettings = {
+      singleSelection: true,
+      idField: 'material_id',
+      textField: 'material_name',
+      allowSearchFilter: true,
+      closeDropDownOnSelection: true,
+      noDataAvailablePlaceholderText: 'داده ای برای نمایش وجود ندارد'
+    };
+
+    this.repository.getClusters().subscribe((res) => {
       for (const category of res) {
         this.categories.push({
-          parent_id: category.parent_id,
-          parent_name: category.parent_name
+          category_id: category.id,
+          category_name: category.name
         });
       }
       this.initializedCategoryDropdown = true;
@@ -132,10 +156,27 @@ export class CreateMaterialComponent implements OnInit {
       }
       this.initializedUnitDropdown = true;
     });
+
+  }
+
+  onItemSelect($event): void {
+    if (this.selectedCategory !== undefined) {
+      const clusterId = this.selectedCategory[0].category_id;
+      const forMaterials: Array<MaterialForSelect> = [];
+      this.repository.getMotherMaterials(clusterId).subscribe(res => {
+        for (const item of res) {
+          forMaterials.push({
+            material_id: item.id,
+            material_name: item.name
+          });
+        }
+        this.materialSelect.data = forMaterials;
+      });
+      this.repository.getAttributesForMaterial(clusterId).subscribe(); // inja boodim
+    }
   }
 
   changeType(): void {
-    console.log(this.selectedType);
     this.material.type = this.selectedType;
   }
 

@@ -18,9 +18,10 @@
 <div class="section">
   <div *ngIf="initializedCategoryDropdown">
     <h4>تعریف گروه والد کالا</h4>
-    <ng-multiselect-dropdown
-      [placeholder]="'عنوان گروه در سطح سه را انتخاب کنید'"
+    <ng-multiselect-dropdown #categorySelect
+      [placeholder]="'عنوان خوشه را انتخاب کنید'"
       [settings]="categoryDropdownSettings"
+      (onSelect)="onItemSelect($event)"
       [data]="categories"
       [(ngModel)]="selectedCategory">
     </ng-multiselect-dropdown>
@@ -32,10 +33,15 @@
       <input class="form-control">
     </div>
     <div class="col-6 pl-0">
-      <h4>کالای مادر</h4>
-      <select class="form-control">
-        <option>میلگرد</option>
-      </select>
+      <div>
+        <h4>کالای مادر</h4>
+        <ng-multiselect-dropdown #materialSelect
+          [placeholder]="'در صورت نیاز انتخاب کنید'"
+          [settings]="materialDropdownSettings"
+          [data]="materials"
+          [(ngModel)]="selectedMaterial">
+        </ng-multiselect-dropdown>
+      </div>
     </div>
     <div class="col-6 pr-0">
       <div *ngIf="initializedBrandDropdown">
@@ -74,6 +80,7 @@
       </div>
     </div>
   </div>
+
   <div>
     <input [disabled]="inProgress" #fileInput type="file" class="file-input" (change)="onFileChanged($event)">
     <div (click)="fileInput.click()" class="mt-3 mb-2 d-flex align-items-center cursor-pointer">
@@ -90,6 +97,10 @@
         <img src={{section.src}} class="w-100">         
       </div>
     </div>
+  </div>
+  
+  <div>
+    
   </div>
   
 </div>

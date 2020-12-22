@@ -85,6 +85,15 @@ export class RepositoryService {
   getCategoryParentsByIDs(categoryId): any{
     return this.http.get(this.baseUrl + 'dokkoon/parent_categories/' + categoryId);
   }
+  getClusters(): any {
+    return this.http.get(this.baseUrl + 'dokkoon/cluster_categories/');
+  }
+  getMotherMaterials(clusterId): any {
+    return this.http.get(this.baseUrl + 'dokkoon/mother_materials/' + clusterId);
+  }
+  getAttributesForMaterial(clusterId): any {
+    return this.http.get(this.baseUrl + 'dokkoon/material_attributes/' + clusterId);
+  }
   createBrand(brand): any {
     return this.http.post(this.baseUrl + 'dokkoon/brands', brand);
   }

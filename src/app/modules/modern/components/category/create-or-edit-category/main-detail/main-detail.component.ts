@@ -61,27 +61,27 @@ export class MainDetailComponent implements OnInit, OnDestroy {
       }
       this.editOrCreateForm = this.fb.group({
         name: ['', [Validators.required]],
-        explain: ['', [Validators.required]],
-        type: [true, [Validators.required]],
-        parents_id: [ [], [Validators.required]]
+        explain: ['', [Validators.required]]
       });
-      // this.categories = []; // az database por bshe
-      this.dropdownSettings = {
-        singleSelection: false,
-        idField: 'parent_id',
-        textField: 'parent_name',
-        selectAllText: 'انتخاب همه',
-        unSelectAllText: 'حذف همه',
-        itemsShowLimit: 3,
-        allowSearchFilter: true
-      };
-    }
-    else {
-      this.editOrCreateForm = this.fb.group({
-        name: [this.category.name, [Validators.required]],
-        explain: [this.category.explain, [Validators.required]],
-      });
-    }
+    } else {
+        this.repository.getCategoryParentsByIDs(this.category.id).subscribe((result) => {
+          this.categories = result.categories;
+          this.selectedCategories = result.selectedCategories;
+        });
+        this.editOrCreateForm = this.fb.group({
+          name: [this.category.name, [Validators.required]],
+          explain: [this.category.explain, [Validators.required]]
+        });
+      }
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'parent_id',
+      textField: 'parent_name',
+      selectAllText: 'انتخاب همه',
+      unSelectAllText: 'حذف همه',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
   }
   onFileChanged(event): void {
   this.inProgress = true;
@@ -126,17 +126,14 @@ export class MainDetailComponent implements OnInit, OnDestroy {
     this.images = [];
   }
   submit(): void {
-    if (this.mode === 'create') {
     const ids = [];
-    const parentsId = this.editOrCreateForm.get('parents_id').value;
-    console.log(parentsId);
-    parentsId.forEach((value, element) => {
+    this.selectedCategories.forEach((value, element) => {
       ids.push(value.parent_id);
     });
+    if (this.mode === 'create') {
     this.passToServer = {
       name : this.editOrCreateForm.get('name').value,
       explain: this.editOrCreateForm.get('explain').value,
-      type: this.editOrCreateForm.get('type').value,
       parents_id: ids ,
       image: this.images[0],
       deep: this.deep
@@ -156,6 +153,7 @@ export class MainDetailComponent implements OnInit, OnDestroy {
     this.passToServer = {
       name : this.editOrCreateForm.get('name').value,
       explain: this.editOrCreateForm.get('explain').value,
+      parents_id: ids,
       image: this.images[0],
     };
     this.repository.updateCategory(this.passToServer, this.category.id).subscribe(res => {

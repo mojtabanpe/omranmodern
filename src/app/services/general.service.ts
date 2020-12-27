@@ -16,6 +16,7 @@ export class GeneralService {
     image: '',
     parents_id: [],
     childs_id: [],
+    units_id: [],
     deep: 0,
     position: 0,
     is_active: false,

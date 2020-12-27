@@ -1,7 +1,10 @@
+import { Service, MotherService } from './../interfaces/service';
+import { Material, MotherMaterial } from './../interfaces/material';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { map, tap, last, catchError} from 'rxjs/operators';
+import { stat } from 'fs';
 
 
 @Injectable({
@@ -38,6 +41,38 @@ export class RepositoryService {
     };
   }
 }
+
+  createMaterial(material: Material): any {
+    return this.http.post(this.baseUrl + 'dokkoon/materials', material);
+  }
+  getMaterials(): any {
+    return this.http.get(this.baseUrl + 'dokkoon/materials');
+  }
+  getMaterialsByStatus(status: string): any {
+    return this.http.get(this.baseUrl + 'dokkoon/materials_by_status/' + status);
+  }
+  getMotherMaterialsByStatus(status: string): any {
+    return this.http.get(this.baseUrl + 'dokkoon/mother_materials_by_status/' + status);
+  }
+  createMotherMaterial(motherMaterial: MotherMaterial): any {
+    return this.http.post(this.baseUrl + 'dokkoon/mother_materials', motherMaterial);
+  }
+
+  createService(service: Service): any {
+    return this.http.post(this.baseUrl + 'dokkoon/services', service);
+  }
+  getServices(): any {
+    return this.http.get(this.baseUrl + 'dokkoon/services');
+  }
+  getServicesByStatus(status: string): any {
+    return this.http.get(this.baseUrl + 'dokkoon/services_by_status/' + status);
+  }
+  getMotherServicesByStatus(status: string): any {
+    return this.http.get(this.baseUrl + 'dokkoon/mother_services_by_status/' + status);
+  }
+  createMotherService(motherService: MotherService): any {
+    return this.http.post(this.baseUrl + 'dokkoon/mother_services', motherService);
+  }
   createCategory(category: any): any {
     return this.http.post(this.baseUrl + 'dokkoon/categories', category);
   }
@@ -89,10 +124,17 @@ export class RepositoryService {
     return this.http.get(this.baseUrl + 'dokkoon/cluster_categories/');
   }
   getMotherMaterials(clusterId): any {
-    return this.http.get(this.baseUrl + 'dokkoon/mother_materials/' + clusterId);
+    return this.http.get(this.baseUrl + 'dokkoon/mother_materials_by_cluster/' + clusterId);
   }
   getAttributesForMaterial(clusterId): any {
     return this.http.get(this.baseUrl + 'dokkoon/material_attributes/' + clusterId);
+  }
+
+  getMotherServices(clusterId): any {
+    return this.http.get(this.baseUrl + 'dokkoon/mother_services_by_cluster/' + clusterId);
+  }
+  getAttributesForService(clusterId): any {
+    return this.http.get(this.baseUrl + 'dokkoon/service_attributes/' + clusterId);
   }
   createBrand(brand): any {
     return this.http.post(this.baseUrl + 'dokkoon/brands', brand);

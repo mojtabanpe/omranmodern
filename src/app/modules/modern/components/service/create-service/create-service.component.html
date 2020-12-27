@@ -2,14 +2,14 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/modern/dashboard">عمران مدرن</a></li>
-      <li class="breadcrumb-item"><a routerLink="/modern/manage_materials">کالاها</a></li>
-      <li class="breadcrumb-item active" aria-current="page">معرفی کالای جدید</li>
+      <li class="breadcrumb-item"><a routerLink="/modern/manage_services">خدمت ها</a></li>
+      <li class="breadcrumb-item active" aria-current="page">معرفی خدمت جدید</li>
     </ol>
   </nav>
 </div>
 
 <div class="section-warning mb-5">
-  <h4>وضعیت کالا را مشخص کنید</h4>
+  <h4>وضعیت خدمت را مشخص کنید</h4>
     <select [(ngModel)]="selectedStatus" class="form-control">
       <option value={{option.value}} *ngFor="let option of statuses">{{ option.viewValue }}</option>
     </select>
@@ -17,7 +17,7 @@
 
 <div class="section">
   <div *ngIf="initializedCategoryDropdown">
-    <h4>تعریف گروه والد کالا</h4>
+    <h4>تعریف گروه والد خدمت</h4>
     <ng-multiselect-dropdown #categorySelect
       [placeholder]="'عنوان خوشه را انتخاب کنید'"
       [settings]="categoryDropdownSettings"
@@ -29,25 +29,25 @@
 
   <div class="row five-box">
     <div class="col-6 pr-0">
-      <h4>عنوان کالا</h4>
-      <input class="form-control" [(ngModel)]="materialName">
+      <h4>عنوان خدمت</h4>
+      <input class="form-control" [(ngModel)]="serviceName">
     </div>
 
     <div class="col-6 pl-0">
       <div>
-        <h4>کالای مادر</h4>
-        <ng-multiselect-dropdown #materialSelect
+        <h4>خدمت مادر</h4>
+        <ng-multiselect-dropdown #serviceSelect
           [placeholder]="'در صورت نیاز انتخاب کنید'"
-          [settings]="materialDropdownSettings"
-          [data]="materials"
-          [(ngModel)]="selectedMaterial">
+          [settings]="serviceDropdownSettings"
+          [data]="services"
+          [(ngModel)]="selectedService">
         </ng-multiselect-dropdown>
       </div>
     </div>
 
-    <div class="col-6 pr-0" *ngIf="selectedMaterial && selectedMaterial.length != 0">
+    <div class="col-6 pr-0" *ngIf="selectedService && selectedService.length != 0">
       <div *ngIf="initializedBrandDropdown">
-        <h4>برند کالا</h4>
+        <h4>برند خدمت</h4>
         <ng-multiselect-dropdown #brandSelect
           [placeholder]="'برند مورد نظر را جستجو کنید'"
           [settings]="brandDropdownSettings"
@@ -61,8 +61,8 @@
       </div>
     </div>
 
-    <div class="col-6 pl-0" *ngIf="selectedMaterial && selectedMaterial.length != 0">
-      <h4>کیفیت کالا</h4>
+    <div class="col-6 pl-0" *ngIf="selectedService && selectedService.length != 0">
+      <h4>کیفیت خدمت</h4>
       <select [(ngModel)]="quality" class="form-control">
         <option *ngFor="let q of qualities" value={{q}}>{{q}}</option>
       </select>
@@ -74,7 +74,7 @@
     <input [disabled]="inProgress" #fileInput type="file" class="file-input" (change)="onFileChanged($event)">
     <div (click)="fileInput.click()" class="mt-3 mb-2 d-flex align-items-center cursor-pointer">
       <mat-icon> attach_file</mat-icon>
-      <span>افزودن عکس کالا(حداقل یک عکس)</span>
+      <span>افزودن عکس خدمت(حداقل یک عکس)</span>
     </div>
     <div *ngFor="let section of sections; index as i" class="section row d-flex align-items-center">
       <div class="col-1"><mat-icon (click)="removePicture(i)">cancel</mat-icon></div>
@@ -90,9 +90,9 @@
   <hr>
 
   <div *ngIf="selectedCategory" class="section mt-5">
-    <div  *ngIf="!selectedMaterial || selectedMaterial.length == 0">
+    <div  *ngIf="!selectedService || selectedService.length == 0">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4>نمایش در فیلتر کالای مادر</h4>
+        <h4>نمایش در فیلتر خدمت مادر</h4>
         <button class="btn btn-outline-info btn-sm mr-auto">افزودن ویژگی به فروشنده</button>
       </div>
       <div class="d-flex align-items-center flex-wrap">
@@ -101,7 +101,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="selectedMaterial && selectedMaterial.length != 0">
+    <div *ngIf="selectedService && selectedService.length != 0">
       <h4 class="mb-5">انتخاب ویژگی</h4>
       <div class="d-flex align-items-center my-3" *ngFor="let attr of attributes">
         <label class="ml-3">{{attr.name}}</label>
@@ -114,8 +114,8 @@
   </div>
 
   <div class="my-5">
-    <h3>معرفی کالا</h3>
-    <ckeditor [(ngModel)]="materialExplain" [editor]="Editor"></ckeditor>
+    <h3>معرفی خدمت</h3>
+    <ckeditor [(ngModel)]="serviceExplain" [editor]="Editor"></ckeditor>
   </div>
 
   <div class="d-flex pt-5">

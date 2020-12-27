@@ -16,6 +16,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatRadioModule} from '@angular/material/radio';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -37,7 +38,8 @@ import { ToastrModule } from 'ngx-toastr';
     MatExpansionModule,
     MatProgressBarModule,
     MatSlideToggleModule,
-    MatDialogModule
+    MatDialogModule,
+    MatRadioModule
   ],
   declarations: [
     SharedComponent,
@@ -61,7 +63,8 @@ import { ToastrModule } from 'ngx-toastr';
     MatExpansionModule,
     MatProgressBarModule,
     MatSlideToggleModule,
-    MatDialogModule
+    MatDialogModule,
+    MatRadioModule
     // BrowserAnimationsModule
   ]
 })

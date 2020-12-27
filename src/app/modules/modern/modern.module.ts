@@ -1,3 +1,5 @@
+import { ManageServicesComponent } from './components/service/manage-services/manage-services.component';
+import { CreateServiceComponent } from './components/service/create-service/create-service.component';
 import { CreateBrandDialogComponent } from './../../components/dialogs/create-brand-dialog/create-brand-dialog.component';
 import { CreateMaterialComponent } from './components/material/create-material/create-material.component';
 import { ManageMaterialsComponent } from './components/material/manage-materials/manage-materials.component';
@@ -42,7 +44,9 @@ import { SharedModule } from '../shared/shared.module';
     PartialCategoriesComponent,
     ManageMaterialsComponent,
     CreateMaterialComponent,
-    CreateBrandDialogComponent
+    CreateBrandDialogComponent,
+    CreateServiceComponent,
+    ManageServicesComponent
   ]
 })
 export class ModernModule { }

@@ -7,6 +7,7 @@ export interface Category {
     image: string;
     parents_id: Array<number>;
     childs_id: Array<number>;
+    units_id: Array<number>;
     deep: number;
     position: number;
     is_active: boolean;

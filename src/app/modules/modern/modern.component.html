@@ -42,9 +42,9 @@
       </mat-expansion-panel-header>
       <a routerLink="/modern/manage_materials">مدیریت کالاها</a>
       <a routerLink="/modern/create_material">تعریف کالای جدید</a>
-      <a routerLink="/profileInformation">کالاهای فعال</a>
-      <a routerLink="/profileInformation">کالاهای غیر فعال</a>
-      <a routerLink="/profileInformation">کالاهای پیشنهادی</a>
+      <!-- <a routerLink="/modern/active_materials">کالاهای فعال</a>
+      <a routerLink="/modern/inactive_materials">کالاهای غیر فعال</a>
+      <a routerLink="/modern/suggested_materials">کالاهای پیشنهادی</a> -->
     </mat-expansion-panel>
     <mat-expansion-panel *ngIf="navIsOpen" id="services">
       <mat-expansion-panel-header>
@@ -55,9 +55,8 @@
           خدمات
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <a routerLink="/profileInformation">ویرایش اطلاعات فروشگاه</a>
-      <a routerLink="/contactInformation">اطلاعات تماس</a>
-      <a>پروژه های من</a>
+      <a routerLink="/modern/manage_services">مدیریت خدمات</a>
+      <a routerLink="/modern/create_service">تعریف خدمت جدید</a>
     </mat-expansion-panel>
     <mat-expansion-panel *ngIf="navIsOpen" id="sellers">
       <mat-expansion-panel-header>

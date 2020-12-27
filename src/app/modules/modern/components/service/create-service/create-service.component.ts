@@ -1,10 +1,9 @@
+import { Service, MotherService } from './../../../../../interfaces/service';
 import { CategoryAttribute } from 'src/app/interfaces/category-attribute';
 import { Attribute } from './../../../../../interfaces/attribute';
 import { CreateAttributeDialogComponent } from './../../../../../components/dialogs/create-attribute-dialog/create-attribute-dialog.component';
 import { CreateBrandDialogComponent } from './../../../../../components/dialogs/create-brand-dialog/create-brand-dialog.component';
-import { Category } from 'src/app/interfaces/category';
 import { RepositoryService } from 'src/app/services/repository.service';
-import { MotherMaterial, Material } from './../../../../../interfaces/material';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,13 +11,14 @@ import { UploadSection } from 'src/app/interfaces/upload-section';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ToastrService } from 'ngx-toastr';
 
+
 export interface CategoryForSelect {
   category_name: string;
   category_id: number;
 }
-export interface MaterialForSelect {
-  material_name: string;
-  material_id: number;
+export interface ServiceForSelect {
+  service_name: string;
+  service_id: number;
 }
 export interface BrandForSelect {
   brand_name: string;
@@ -26,12 +26,12 @@ export interface BrandForSelect {
 }
 
 @Component({
-  selector: 'app-create-material',
-  templateUrl: './create-material.component.html',
-  styleUrls: ['./create-material.component.css']
+  selector: 'app-create-service',
+  templateUrl: './create-service.component.html',
+  styleUrls: ['./create-service.component.css']
 })
-export class CreateMaterialComponent implements OnInit {
-  material: Material = {
+export class CreateServiceComponent implements OnInit {
+  service: Service = {
     id: 0,
     name: '',
     explain: '',
@@ -50,7 +50,7 @@ export class CreateMaterialComponent implements OnInit {
     attributes: [],
     seller_attributes: []
   };
-  motherMaterial: MotherMaterial = {
+  motherService: MotherService = {
     id: 0,
     name: '',
     explain: '',
@@ -77,8 +77,9 @@ export class CreateMaterialComponent implements OnInit {
   selectedCategory: CategoryForSelect;
   categoryDropdownSettings: IDropdownSettings;
 
-  materialName = '';
-  materialExplain = '';
+  serviceName = '';
+  serviceExplain = '';
+
   brands = [];
   selectedBrand = [];
   brandDropdownSettings: IDropdownSettings;
@@ -92,13 +93,12 @@ export class CreateMaterialComponent implements OnInit {
   unitDropdownSettings: IDropdownSettings;
   @ViewChild('unitSelect', {static: false}) unitSelect;
 
-  materials = [];
-  selectedMaterial = [];
-  materialDropdownSettings: IDropdownSettings;
-  @ViewChild('materialSelect', {static: false}) materialSelect;
+  services = [];
+  selectedService = [];
+  serviceDropdownSettings: IDropdownSettings;
+  @ViewChild('serviceSelect', {static: false}) serviceSelect;
 
   initializedCategoryDropdown = false;
-  // initializedMaterialDropdown = false;
   initializedBrandDropdown = false;
   initializedUnitDropdown = false;
 
@@ -146,10 +146,10 @@ export class CreateMaterialComponent implements OnInit {
       noDataAvailablePlaceholderText: 'داده ای برای نمایش وجود ندارد'
     };
 
-    this.materialDropdownSettings = {
+    this.serviceDropdownSettings = {
       singleSelection: false,
-      idField: 'material_id',
-      textField: 'material_name',
+      idField: 'service_id',
+      textField: 'service_name',
       allowSearchFilter: true,
       selectAllText: 'انتخاب همه',
       unSelectAllText: 'حذف همه',
@@ -190,18 +190,20 @@ export class CreateMaterialComponent implements OnInit {
   onItemSelect($event): void {
     if (this.selectedCategory !== undefined) {
       const clusterId = this.selectedCategory[0].category_id;
-      const forMaterials: Array<MaterialForSelect> = [];
-      this.repository.getMotherMaterials(clusterId).subscribe(res => {
+      const forServices: Array<ServiceForSelect> = [];
+      this.repository.getMotherServices(clusterId).subscribe(res => {
+        console.log(res);
+        
         for (const item of res) {
-          forMaterials.push({
-            material_id: item.id,
-            material_name: item.name
+          forServices.push({
+            service_id: item.id,
+            service_name: item.name
           });
         }
-        this.materialSelect.data = forMaterials;
+        this.serviceSelect.data = forServices;
       });
       this.attributes = [];
-      this.repository.getAttributesForMaterial(clusterId).subscribe((res: Array<CategoryAttribute>) => {
+      this.repository.getAttributesForService(clusterId).subscribe((res: Array<CategoryAttribute>) => {
         for (const item of res) {
           this.attributes.push({
             name: item.name,
@@ -303,80 +305,80 @@ export class CreateMaterialComponent implements OnInit {
 
   submit(): void {
     let isChild = true;
-    if (this.selectedMaterial !== undefined && this.selectedMaterial.length !== 0) { // kalaye madar entekhab shode
-    this.material.status = this.selectedStatus;
+    if (this.selectedService !== undefined && this.selectedService.length !== 0) { // kalaye madar entekhab shode
+    this.service.status = this.selectedStatus;
     if (this.selectedCategory !== undefined) {
-      this.material.category.item_id = this.selectedCategory[0].category_id;
-      this.material.category.item_name = this.selectedCategory[0].category_name;
+      this.service.category.item_id = this.selectedCategory[0].category_id;
+      this.service.category.item_name = this.selectedCategory[0].category_name;
     } else {
       this.errors.push('لطفا خوشه را اتنخاب کنید');
     }
-    if (this.materialName === '') {
-      this.errors.push('لطفا عنوان کالا را وارد کنید');
+    if (this.serviceName === '') {
+      this.errors.push('لطفا عنوان خدمت را وارد کنید');
     } else {
-      this.material.name = this.materialName;
+      this.service.name = this.serviceName;
     }
 
 
-    for (const temp of this.selectedMaterial) {
-        this.material.mothers.push({
-          item_id: temp.material_id,
-          item_name: temp.material_name
+    for (const temp of this.selectedService) {
+        this.service.mothers.push({
+          item_id: temp.service_id,
+          item_name: temp.service_name
         });
       }
 
 
     if (this.selectedBrand.length !== 0) {
-        this.material.brand_id = this.selectedBrand[0].brand_id;
+        this.service.brand_id = this.selectedBrand[0].brand_id;
       }
 
-    this.material.quality = this.quality;
+    this.service.quality = this.quality;
 
     if (this.images.length === 0) {
         this.errors.push('لطفا حداقل یک عکس بارگذاری کنید');
       } else {
-        this.material.images = this.images;
+        this.service.images = this.images;
       }
 
-    this.material.attributes = this.attributes;
+    this.service.attributes = this.attributes;
 
-    this.material.explain = this.materialExplain;
+    this.service.explain = this.serviceExplain;
 
     } else {
       isChild = false;
-      this.motherMaterial.status = this.selectedStatus;
+      this.motherService.status = this.selectedStatus;
       if (this.selectedCategory !== undefined) {
-        this.motherMaterial.category.item_id = this.selectedCategory[0].category_id;
-        this.motherMaterial.category.item_name = this.selectedCategory[0].category_name;
+        this.motherService.category.item_id = this.selectedCategory[0].category_id;
+        this.motherService.category.item_name = this.selectedCategory[0].category_name;
     } else {
         this.errors.push('لطفا خوشه را اتنخاب کنید');
     }
 
-      if (this.materialName === '') {
-        this.errors.push('لطفا عنوان کالا را وارد کنید');
+      if (this.serviceName === '') {
+        this.errors.push('لطفا عنوان خدمت را وارد کنید');
     } else {
-        this.motherMaterial.name = this.materialName;
+        this.motherService.name = this.serviceName;
     }
-      this.motherMaterial.childs = [];
-      this.motherMaterial.images = this.images;
-      this.motherMaterial.attributes = this.attributes;
-      this.motherMaterial.explain = this.materialExplain;
+      this.motherService.childs = [];
+      this.motherService.images = this.images;
+      this.motherService.attributes = this.attributes;
+      this.motherService.explain = this.serviceExplain;
     }
 
     if (this.errors.length === 0) {
       if (isChild === true) {
-      delete this.material.id;
-      this.repository.createMaterial(this.material).subscribe((res: Material) => {
-        this.alert.success('کالا با موفقیت ایجاد شد!');
+      delete this.service.id;
+      this.repository.createService(this.service).subscribe((res: Service) => {
+        this.alert.success('خدمت با موفقیت ایجاد شد!');
       }, error => {
-        this.alert.error('مشکلی در ایجاد کالا بوجود آمد!');
+        this.alert.error('مشکلی در ایجاد خدمت بوجود آمد!');
       });
     } else {
-      delete this.motherMaterial.id;
-      this.repository.createMotherMaterial(this.motherMaterial).subscribe((res: MotherMaterial) => {
-        this.alert.success('کالا با موفقیت ایجاد شد!');
+      delete this.motherService.id;
+      this.repository.createMotherService(this.motherService).subscribe((res: MotherService) => {
+        this.alert.success('خدمت با موفقیت ایجاد شد!');
       }, error => {
-        this.alert.error('مشکلی در ایجاد کالا بوجود آمد!');
+        this.alert.error('مشکلی در ایجاد خدمت بوجود آمد!');
       });
     }
     }

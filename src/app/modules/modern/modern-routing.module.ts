@@ -1,3 +1,5 @@
+import { ManageServicesComponent } from './components/service/manage-services/manage-services.component';
+import { CreateServiceComponent } from './components/service/create-service/create-service.component';
 import { CreateMaterialComponent } from './components/material/create-material/create-material.component';
 import { ManageMaterialsComponent } from './components/material/manage-materials/manage-materials.component';
 import { CategoriesComponent } from './components/category/categories/categories.component';
@@ -19,7 +21,8 @@ const routes: Routes = [
     { path : 'create_edit_category/:id', component: CreateOrEditCategoryComponent},
     { path : 'manage_materials', component: ManageMaterialsComponent},
     { path : 'create_material', component: CreateMaterialComponent},
-
+    { path : 'create_service', component: CreateServiceComponent},
+    { path : 'manage_services', component: ManageServicesComponent},
   ]}
 ];
 

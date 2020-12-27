@@ -1,5 +1,5 @@
 import { Attribute } from './attribute';
-export interface Material {
+export interface Service {
     id: number;
     name: string;
     explain: string;
@@ -16,7 +16,7 @@ export interface Material {
     seller_attributes: Array<number>;
 }
 
-export interface MotherMaterial {
+export interface MotherService {
     id: number;
     name: string;
     explain: string;

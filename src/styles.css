@@ -603,3 +603,17 @@ th:not(.first-th) {
   background-color: rgb(202, 30, 30) !important;
 
 }
+
+.ltr {
+  text-align: left !important;
+  direction: ltr !important;
+}
+.mat-tab-label {
+  padding: 0 10px !important;
+}
+.mat-tab-label .mat-tab-label-content {
+  font-size: .7rem !important;
+}
+.tab-content {
+  padding: 2rem;
+}

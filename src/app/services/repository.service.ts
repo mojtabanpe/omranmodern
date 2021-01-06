@@ -1,3 +1,4 @@
+import { Seller } from './../interfaces/seller';
 import { Service, MotherService } from './../interfaces/service';
 import { Material, MotherMaterial } from './../interfaces/material';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
@@ -61,6 +62,9 @@ export class RepositoryService {
   createService(service: Service): any {
     return this.http.post(this.baseUrl + 'dokkoon/services', service);
   }
+  getService(serviceId): any {
+    return this.http.get(this.baseUrl + 'dokkoon/service_one/' + serviceId);
+  }
   getServices(): any {
     return this.http.get(this.baseUrl + 'dokkoon/services');
   }
@@ -123,6 +127,12 @@ export class RepositoryService {
   getClusters(): any {
     return this.http.get(this.baseUrl + 'dokkoon/cluster_categories/');
   }
+  getUnitsOfCategory(categoryId): any {
+    return this.http.get(this.baseUrl + 'dokkoon/category_units/' + categoryId);
+  }
+
+
+
   getMotherMaterials(clusterId): any {
     return this.http.get(this.baseUrl + 'dokkoon/mother_materials_by_cluster/' + clusterId);
   }
@@ -132,6 +142,9 @@ export class RepositoryService {
 
   getMotherServices(clusterId): any {
     return this.http.get(this.baseUrl + 'dokkoon/mother_services_by_cluster/' + clusterId);
+  }
+  getServicesByMother(motherId: number): any {
+    return this.http.get(this.baseUrl + 'dokkoon/services_by_mother/' + motherId);
   }
   getAttributesForService(clusterId): any {
     return this.http.get(this.baseUrl + 'dokkoon/service_attributes/' + clusterId);
@@ -147,5 +160,29 @@ export class RepositoryService {
   }
   createUnit(brand): any {
     return this.http.post(this.baseUrl + 'dokkoon/units', brand);
+  }
+  getAllCoverages(): any {
+    return this.http.get(this.baseUrl + 'dokkoon/get_coverages');
+  }
+  createSeller(seller: Seller): any {
+    return this.http.post(this.baseUrl + 'dokkoon/sellers', seller);
+  }
+  updateSeller(seller: Seller, id): any {
+    return this.http.put(this.baseUrl + 'dokkoon/seller_one/' + id, seller);
+  }
+  getNewestSellers(): any {
+    return this.http.get(this.baseUrl + 'dokkoon/newest_sellers');
+  }
+  updateSellerMaterialPriceAndStatus(seller, sellerId): any {
+    return this.http.put(this.baseUrl + 'dokkoon/update-seller-material-price-and-status/' + sellerId , seller);
+  }
+  updateSellerServicePriceAndStatus(seller, sellerId): any {
+    return this.http.put(this.baseUrl + 'dokkoon/update-seller-service-price-and-status/' + sellerId , seller);
+  }
+  getSellerServiceAttributes(motherServiceId): any {
+    return this.http.get(this.baseUrl + 'dokkoon/seller_service_attributes/' + motherServiceId);
+  }
+  addServicesToSeller(services, sellerId): any {
+    return this.http.post(this.baseUrl + 'dokkoon/add_services_to_seller/' + sellerId, services);
   }
 }

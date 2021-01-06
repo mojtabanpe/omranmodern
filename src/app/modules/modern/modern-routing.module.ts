@@ -1,3 +1,7 @@
+import { AddServiceToSellerComponent } from './components/seller/add-service-to-seller/add-service-to-seller.component';
+import { SellerDetailsComponent } from './components/seller/seller-details/seller-details.component';
+import { ManageSellersComponent } from './components/seller/manage-sellers/manage-sellers.component';
+import { CreateSellerComponent } from './components/seller/create-seller/create-seller.component';
 import { ManageServicesComponent } from './components/service/manage-services/manage-services.component';
 import { CreateServiceComponent } from './components/service/create-service/create-service.component';
 import { CreateMaterialComponent } from './components/material/create-material/create-material.component';
@@ -23,8 +27,13 @@ const routes: Routes = [
     { path : 'create_material', component: CreateMaterialComponent},
     { path : 'create_service', component: CreateServiceComponent},
     { path : 'manage_services', component: ManageServicesComponent},
+    { path : 'create_seller', component: CreateSellerComponent},
+    { path : 'manage_sellers', component: ManageSellersComponent},
+    { path : 'seller-details', component: SellerDetailsComponent},
+    { path : 'add-service-to-seller', component: AddServiceToSellerComponent},
   ]}
 ];
+
 
 @NgModule({
    imports: [RouterModule.forChild(routes)],

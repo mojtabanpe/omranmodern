@@ -1,0 +1,26 @@
+.first-td {
+    width: 250px;
+    height: 150px;
+}
+.first-td img {
+    width: 120px;
+    height: 80px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border-radius: .25rem;
+}
+.first-td a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+td p {
+    margin-bottom: 0;
+}
+table a {
+    color: #0477a5;
+    font-weight: 450;
+}
+td p {
+    text-align: center;
+}

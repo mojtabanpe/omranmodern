@@ -1,0 +1,31 @@
+.frame {
+    border: 1px solid gray;
+    border-radius: .45rem;
+    color: gray;
+    padding: 8px;
+    margin-bottom: 1rem;
+}
+.frame .col-4{
+    border-left: 1px dashed gainsboro;
+}
+.frame div {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.frame span {
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+}
+
+.frame .col-7 span {
+    text-align: left !important;
+}
+
+a.col-2 {
+    color: red;
+    font-size: 14px;
+    align-self: flex-end;
+    padding-bottom: 20px;
+}

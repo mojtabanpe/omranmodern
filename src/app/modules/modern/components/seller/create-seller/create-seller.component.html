@@ -1,0 +1,196 @@
+<div class="section p-0">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/modern/dashboard">عمران مدرن</a></li>
+      <li class="breadcrumb-item"><a routerLink="/modern/manage_sellers">فروشنده ها</a></li>
+      <li class="breadcrumb-item active" aria-current="page">معرفی فروشنده جدید</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="section pl-5 pr-3">
+  <div class="section-warning py-4">
+    <div class="row">
+      <div class="col-6">
+        <h4>وضعیت فروشنده</h4>
+        <select [(ngModel)]="seller.status" class="form-control">
+          <option value="active">فعال</option>
+          <option value="inactive">غیرفعال</option>
+        </select>
+      </div>
+      <div class="col-6">
+        <h4>ستاره ارائه دهنده کسب و کار</h4>
+        <select [(ngModel)]="rate" class="form-control">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="my-4">
+    <h4>هویت شغلی</h4>
+    <select [(ngModel)]="seller.type" class="form-control">
+      <option value="group">شرکت/ فروشگاه/ تولیدکننده</option>
+      <option value="solo">شخص حقیقی</option>
+    </select>
+  </div>
+
+  <div class="my-4">
+    <h4>نام فروشگاه یا شرکت </h4>
+    <input [(ngModel)]="seller.name" class="form-control">
+  </div>
+  
+  <div class="my-4">
+    <h4 class="mt-5">آدرس ها</h4>
+    <div class="section position-relative" *ngFor="let address of addresses; index as i">
+      <mat-icon class="delete-address" (click)="deleteAddress(i)">delete</mat-icon>
+      <div class="row">
+        <div class="col-9">
+          <h4>عنوان آدرس</h4>
+          <select [(ngModel)]="address.type" class="form-control">
+            <option value="daftar">دفتر</option>
+            <option value="karkhoone">کارخانه</option>
+          </select>
+        </div>
+        <div class="d-flex align-items-end justify-content-end col-3">
+          <button class="btn btn-info btn-sm" disabled>ثبت آدرس روی نقشه</button>
+        </div>
+
+        <div class="row col-12 my-5">
+          <div class="col-4 pr-0">
+            <h4>استان</h4>
+            <select [(ngModel)]="address.extraAdded.selectedProvince" (change)="changeProvince($event.target.value, i)" class="form-control">
+              <option selected disabled value="0">لطفا انتخاب کنید</option>
+              <option *ngFor="let coverage of coverages" [value]="coverage.code">{{coverage.province}}</option>
+            </select>
+          </div>
+          <div class="col-4">
+            <h4>شهر</h4>
+            <select [(ngModel)]="address.extraAdded.selectedCity" (change)="changeCity($event.target.value, i)" class="form-control">
+              <option selected disabled value="0">لطفا انتخاب کنید</option>
+              <option *ngFor="let city of address.extraAdded.cities" [value]="city.code">{{city.city}}</option>
+            </select>
+          </div>
+          <div class="col-4 pl-0">
+            <h4>منطقه</h4>
+            <select [(ngModel)]="address.extraAdded.selectedZone" class="form-control">
+              <option selected disabled value="0">چیزی برای نمایش وجود ندارد</option>
+              <option *ngFor="let zone of address.extraAdded.zones" [value]="zone">{{zone}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12">
+          <h4>آدرس</h4>
+          <textarea [(ngModel)]="address.detail" class="form-control"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info btn-sm" (click)="addAddress()">افزودن آدرس</button>
+    </div>  
+  </div>
+  
+  <div class="my-5">
+    <h4>آدرس سایت</h4>
+    <input [(ngModel)]="seller.site" placeholder="WWW." class="form-control ltr">
+  </div>
+
+  <div class="my-5">
+    <h4>شماره تماس</h4>
+    <div class="d-flex justify-content-between row mb-2" *ngFor="let phone of phones">
+      <input [(ngModel)]="phone.title" placeholder="عنوان" class="col-4 form-control">
+      <input [(ngModel)]="phone.number" placeholder="شماره تماس" class="col-7 form-control">
+    </div>
+    <div class="d-flex justify-content-end mt-2">
+      <button (click)="addPhone()" class="btn btn-info btn-sm">افزودن شماره </button>
+    </div>  
+
+  </div>
+
+  <div class="my-5 d-flex">
+    <div>
+      <h4>ساعت کاری(جهت پاسخگویی به تماس ها)</h4>
+      <div class="work-time">
+        <div class="group-section">
+          <div class="right-section w-25">
+            <input [(ngModel)]="workingTime.start">
+          </div>
+          <div class="left-section w-75">
+            صبح
+          </div>
+        </div>
+
+        <div class="group-section mr-2">
+          <div class="right-section w-25">
+            <input [(ngModel)]="workingTime.end">
+          </div>
+          <div class="left-section w-75">
+            بعداز ظهر
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mr-5">
+      <h4>سابقه فعالیت</h4>
+      <div class="d-flex align-items-center">
+        <span>از سال</span>
+        <div class="group-section mx-1">
+          <div class="right-section w-75">
+            <input [(ngModel)]="workingTime.foretime" placeholder="تایپ کنید">
+          </div>
+          <div class="left-section w-25">13</div>
+        </div>
+        <span>تا به الان</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="my-5">
+    <h3>توضیحات</h3>
+    <ckeditor [(ngModel)]="seller.explain" [editor]="Editor"></ckeditor>
+  </div>
+
+  <div>
+    <input #fileInput type="file" class="file-input" (change)="onFileChanged($event)">
+    <div (click)="fileInput.click()" class="mt-3 mb-2 d-flex align-items-center cursor-pointer">
+      <mat-icon> attach_file</mat-icon>
+      <span>عکس یا لوگوی کسب و کار</span>
+    </div>
+    <div class="section row d-flex align-items-center" *ngIf="initializedImage">
+      <div class="col-1"><mat-icon (click)="removePicture(i)">cancel</mat-icon></div>
+      <div class="col-9 d-flex flex-column">
+        <span class="ml-auto mb-1">{{section.progressPercent}}%</span>
+        <mat-progress-bar class="" [value]="section.progressPercent"></mat-progress-bar>
+      </div> 
+      <div class="col-2" *ngIf="section.finished">
+        <img src={{section.src}} class="w-100">         
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group my-5">
+    <h4>ضمیمه کردن رزومه</h4>
+    <input class="form-control" placeholder="browse: ./pdf">
+  </div>
+
+  <div class="form-group">
+    <h4>نمونه کار</h4>
+    <div class="border p-3 d-flex flex-wrap">
+      <div *ngFor="let sampleWork of sampleWorks" class="sample-work">
+       <img [src]="sampleWork.image" alt="">
+       <div class="d-flex justify-content-center align-items-center">{{sampleWork.title}}</div>
+      </div>
+      <div class="insert-pic text-info p-2" (click)="addSampleWork()">
+       افزودن نمونه کار <mat-icon>add</mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center mt-5">
+    <button class="btn btn-info mt-5" (click)="submit()">ذخیره و ثبت فروشنده</button>
+  </div>
+</div>

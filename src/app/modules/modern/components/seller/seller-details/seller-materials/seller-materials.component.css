@@ -1,0 +1,40 @@
+.first-td {
+    width: 150px;
+    height: 150px;
+}
+.first-td img {
+    width: 120px;
+    height: 80px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border-radius: .25rem;
+}
+.first-td a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+td p {
+    margin-bottom: 0;
+}
+table a {
+    color: #0477a5;
+    font-weight: 450;
+}
+td p {
+    text-align: center;
+}
+.prices {
+    width: 250px;
+}
+.prices-main-div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 250px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.prices-main-div * {
+    text-align: center !important;
+}

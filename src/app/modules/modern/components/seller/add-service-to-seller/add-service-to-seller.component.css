@@ -1,0 +1,14 @@
+mat-checkbox {
+    width: 200px;
+}
+.prices {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.prices .flex-column {
+    min-width: 15rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}

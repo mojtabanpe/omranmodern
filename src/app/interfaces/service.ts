@@ -28,3 +28,18 @@ export interface MotherService {
     attributes: Array<Attribute>;
     seller_attributes: Array<number>;
 }
+
+export interface SellerService {
+    service: any;
+    min_orderable: number;
+    max_orderable: number;
+    wholesale_threshold: number;
+    prices: Array<any>;
+    supply_time: number;
+    sell_types: Array<string>;
+    qualities: Array<string>;
+    condition: boolean;
+    is_suggested: boolean;
+    disscounts: Array<any>;
+    attributes: Array<any>;
+}

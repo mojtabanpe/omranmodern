@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-between">
+  <h3>لیست سرویس های فروشنده</h3>
+  <button routerLink="/modern/add-service-to-seller" class="btn btn-info d-flex align-items-center justify-content-around btn-sm">
+    <mat-icon>add</mat-icon>
+    <p class="text-white mb-0">افزودن خدمت</p>
+  </button>
+</div>
+
+<div class="section mb-5">
+  <h3 class="text-secondary">جستجو بر اساس عنوان</h3>
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <button class="btn btn-info input-group-text"><mat-icon>search</mat-icon></button>
+    </div>
+    <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1">
+  </div>
+</div>
+
+<table class="my-table">
+  <thead class="my-thead">
+    <tr>
+      <th>سرویس های من</th>
+      <th>عنوان</th>
+      <th>قیمت(تومان)/واحد</th>
+      <th>وضعیت</th>
+      <th>عملیات</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let service of services" class="my-tr">
+      <td class="first-td">
+        <img src={{service.service.image}} alt="">
+      </td>
+      <td><a routerLink="">{{service.service.name}}</a></td>
+      <td class="prices">
+        <div class="prices-main-div">
+          <div class="d-flex justify-content-center">
+            <div class="d-flex flex-column" *ngFor="let price of service.prices">
+              <span>واحد: {{price.unit}}</span>
+              <input [(ngModel)]="price.amount" class="form-control">
+            </div>
+          </div>
+          <!-- <button class="btn btn-info btn-block btn-sm">بروزرسانی سریع</button> -->
+        </div>
+      </td>
+      <td>
+        <mat-slide-toggle [checked]="service.service.status" (change)="service.service.status = !service.service.status"></mat-slide-toggle>
+      </td>
+      <td>
+        <mat-icon class="text-success" (click)="saveservice(service)">check</mat-icon>
+        <mat-icon class="text-warning">edit</mat-icon>
+        <mat-icon class="text-danger">delete</mat-icon>
+      </td>
+    </tr>
+  </tbody>
+</table>

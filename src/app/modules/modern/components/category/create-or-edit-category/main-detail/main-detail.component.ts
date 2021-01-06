@@ -31,7 +31,7 @@ export class MainDetailComponent implements OnInit, OnDestroy {
   // mode = 'edit';
   // category;
   editOrCreateForm: FormGroup;
-  imageName = '1'; // must be unique
+  imageDirectory = 'categories'; // must be unique
 
   categories = [];
   selectedCategories = [];
@@ -96,7 +96,7 @@ export class MainDetailComponent implements OnInit, OnDestroy {
   this.selectedImage = event.target.files[0];
   this.reader.readAsDataURL(this.selectedImage);
   const data = new FormData();
-  data.append('myFile', this.selectedImage, this.imageName);
+  data.append('myFile', this.selectedImage, this.imageDirectory);
   this.repository.uploadImage(data).subscribe(res => {
     if (res !== undefined) {
       if (res.mode === 'progress') {

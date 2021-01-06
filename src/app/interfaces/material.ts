@@ -28,3 +28,19 @@ export interface MotherMaterial {
     attributes: Array<Attribute>;
     seller_attributes: Array<number>;
 }
+
+export interface SellerMaterial {
+    material: {
+        id: number;
+        name: string;
+        image: string;
+        status: boolean
+    };
+    min_orderable: number;
+    max_orderable: number;
+    stack: boolean;
+    prices: Array<any>;
+    supply_time: number;
+    disscounts: Array<any>;
+    attributes: Array<string>;
+}

@@ -1,0 +1,89 @@
+<div>
+  <mat-tab-group animationDuration="1000ms" class="d-none d-md-flex">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="far fa-file-alt fa-2x ml-2"></i>
+        اطلاعات کاربری
+      </ng-template>
+      <div class="tab-content">
+        <app-information></app-information>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="far fa-comments fa-2x ml-2"></i>
+        اطلاعات فروشگاه
+      </ng-template>
+      <div class="tab-content">
+        <app-edit-seller></app-edit-seller>
+      </div>
+    </mat-tab>
+  
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="far fa-comments fa-2x ml-2"></i>
+        کالاهای ارائه شده
+      </ng-template>
+      <div class="tab-content">
+        <app-seller-materials></app-seller-materials>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="far fa-comments fa-2x ml-2"></i>
+        خدمات ارائه شده
+      </ng-template>
+      <div class="tab-content">
+        <app-seller-services></app-seller-services>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="far fa-comments fa-2x ml-2"></i>
+        مناطق تحت پوشش
+      </ng-template>
+      <div class="tab-content">
+        <app-coverages></app-coverages>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <i class="far fa-comments fa-2x ml-2"></i>
+        نمونه کار و رزومه
+      </ng-template>
+      <div class="tab-content">
+        <app-sample-works></app-sample-works>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<!-- <div class="d-md-none d-block page-container">
+  <div class="section pt-2">
+    <div class="d-flex align-items-center">
+      <h3 class="mb-0">معرفی کالا</h3>
+      <a class="d-flex align-items-center mr-auto text-primary" (click)="openIntroductionProduct()">بیشتر<mat-icon>chevron_left</mat-icon></a>
+    </div>
+    <p class="text-secondary mt-2">
+      به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه
+       در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق
+       تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با
+       استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند
+       تا مرحله طراحی و صفحه‌بندی را به پایان برند.
+    </p>
+  </div>
+  <div class="section pt-2">
+    <div class="d-flex align-items-center justify-content-lg-between">
+      <h3 class="mb-0">نظرات کاربران</h3>
+      <button class="d-flex align-items-center mr-auto btn btn-info btn-sm" (click)="openIntroductionProduct()">افزودن نظر<mat-icon>add</mat-icon></button>
+    </div>
+    <div class="section p-2">
+      <h3 class="mb-1">{{comments[0].name}}</h3>
+      <span class="small mr-2 d-block">{{comments[0].date.day}} {{comments[0].date.month}} {{comments[0].date.year}}</span>
+      <p class="mt-3">
+        {{comments[0].text}}
+      </p>
+    </div>
+    <a class="d-flex align-items-center justify-content-end text-primary" (click)="showMoreComments()">مشاهده همه {{comments.length}} نظر<mat-icon>chevron_left</mat-icon></a>
+  </div>
+</div> -->

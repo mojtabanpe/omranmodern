@@ -108,7 +108,7 @@ export class CreateServiceComponent implements OnInit {
   inProgress = false;
   images = [];
   selectedImage: any;
-  imageName = '1';
+  imageDirectory = 'services';
 
   attributes: Array<Attribute> = [];
 
@@ -269,7 +269,7 @@ export class CreateServiceComponent implements OnInit {
       this.selectedImage = event.target.files[0];
       this.reader.readAsDataURL(this.selectedImage);
       const data = new FormData();
-      data.append('myFile', this.selectedImage, this.imageName);
+      data.append('myFile', this.selectedImage, this.imageDirectory);
       this.repository.uploadImage(data).subscribe(res => {
         if (res !== undefined) {
           if (res.mode === 'progress') {

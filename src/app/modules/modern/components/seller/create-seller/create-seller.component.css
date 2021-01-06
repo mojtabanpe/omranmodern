@@ -1,0 +1,67 @@
+.group-section {
+    width: 150px;
+    display: flex;
+
+}
+
+
+.group-section .right-section input {
+    border-top-right-radius: .45rem;
+    border-bottom-right-radius: .45rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border: 1px solid gray;
+    line-height: 2.5;
+    width: 100%;
+    text-align: center;
+}
+.group-section .left-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid black;
+    border: 1px solid gray;
+    border-top-left-radius: .45rem;
+    border-bottom-left-radius: .45rem;
+}
+
+.work-time {
+    width: 400px;
+    display: flex;
+}
+
+.insert-pic {
+    width: 120px;
+    height: 120px;
+    border: 2px dashed teal;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .sample-work {
+    width: 120px;
+    height: 120px;
+    border: 1px solid lightgray;
+    border-radius: .3rem;
+    margin-left: .5rem;
+  }
+
+  .sample-work img {
+      height: 80px;
+      width: 100%;
+      border-top-left-radius: .2rem;
+      border-top-right-radius: .2rem;
+  }
+
+  .sample-work div {
+    height: 40px;
+    font-size: .8rem;
+}
+.delete-address {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    color: red;
+}

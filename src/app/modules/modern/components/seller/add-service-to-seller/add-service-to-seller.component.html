@@ -1,0 +1,124 @@
+<div class="section p-0">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/modern/dashboard">عمران مدرن</a></li>
+      <li class="breadcrumb-item"><a routerLink="/modern/manage_sellers">فروشنده های فعال</a></li>
+      <li class="breadcrumb-item"><a routerLink="/modern/seller-details">{{seller.name}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">افزودن خدمت به فروشگاه</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="section" *ngIf="initializedCategoryDropdown">
+  <div >
+    <h4>انتخاب خوشه </h4>
+    <ng-multiselect-dropdown #categorySelect
+      [placeholder]="'عنوان خوشه را انتخاب کنید'"
+      [settings]="categoryDropdownSettings"
+      (onSelect)="onCategorySelect($event)"
+      [data]="categories"
+      [(ngModel)]="selectedCategory">
+    </ng-multiselect-dropdown>
+  </div>
+  <div class="my-5">
+    <h4>انتخاب خدمت مادر</h4>
+    <ng-multiselect-dropdown #motherServiceSelect
+      [placeholder]="'عنوان خدمت مادر را انتخاب کنید'"
+      [settings]="motherServiceDropdownSettings"
+      (onSelect)="onMotherServiceSelect($event)"
+      [data]="motherServices"
+      [(ngModel)]="selectedMotherService">
+    </ng-multiselect-dropdown>
+  </div>
+  <div>
+    <h4>انتخاب خدمت</h4>
+    <ng-multiselect-dropdown #serviceSelect
+      [placeholder]="'عنوان خدمت را انتخاب کنید'"
+      [settings]="serviceDropdownSettings"
+      [data]="services"
+      (onSelect)="onServiceSelect()"
+      [(ngModel)]="selectedService">
+    </ng-multiselect-dropdown>
+  </div>
+</div>
+
+<div class="section">
+  <div class="d-flex align-items-center">
+    <h3>تعیین قیمت</h3>
+    <button class="btn btn-info btn-sm mr-auto" (click)="addUnit()">افزودن واحد</button>
+  </div>
+  <div class="d-flex mt-5 justify-content-around">
+    <div class="form-group">
+      <label>تعیین حداقل میزان سفارش</label>
+      <input class="form-control" [(ngModel)]="service.min_orderable">
+    </div>
+    <div class="form-group">
+      <label>تعیین حداکثر میزان سفارش</label>
+      <input class="form-control" [(ngModel)]="service.max_orderable">
+    </div>
+    <div class="form-group">
+      <label>تعیین مقدار آستانه برای خرید عمده</label>
+      <input class="form-control" [(ngModel)]="service.wholesale_threshold">
+    </div>
+  </div>
+  <hr>
+  <div *ngFor="let viewPrice of viewPrices; index as i" class="mb-4">
+    <div class="d-flex align-items-center row">
+      <h4 class="mb-0 col-2">واحد {{i+1 | persianNumber}}</h4>
+      <select [(ngModel)]="viewPrice.unit" class="form-control col-3">
+        <option *ngFor="let unit of units">{{unit}}</option>
+      </select>
+    </div>
+    <div class="prices">
+      <div class="d-flex flex-column">
+        <label>قیمت خرده</label>
+        <select class="form-control" [(ngModel)]="viewPrice.amountFixed">
+          <option value='fixed'>مقطوع</option>
+          <option value='adaptive'>توافقی</option>
+        </select>
+        <input *ngIf="viewPrice.amountFixed == 'fixed'" class="form-control mt-1" placeholder="تومان" [(ngModel)]="viewPrice.amount">
+      </div>
+      <div class="d-flex flex-column">
+        <label>قیمت عمده</label>
+        <select class="form-control" [(ngModel)]="viewPrice.wholesaleAmountFixed">
+          <option value="fixed">مقطوع</option>
+          <option value="adaptive">توافقی</option>
+        </select>
+        <input *ngIf="viewPrice.wholesaleAmountFixed == 'fixed'" class="form-control mt-1" placeholder="تومان" [(ngModel)]="viewPrice.wholesaleAmount">
+      </div>
+    </div>
+    <hr>
+  </div>
+</div>
+
+<div class="section" *ngIf="serviceSelected">
+  <h3 class="mb-2">شرایط پرداخت</h3>
+  <div class="d-flex">
+    <mat-checkbox [(ngModel)]="sellType.choosed" *ngFor="let sellType of sellTypes">{{sellType.type}}</mat-checkbox>
+  </div>
+  <h3 class="my-2">کیفیت ارائه خدمت</h3>
+  <div class="d-flex">
+    <mat-checkbox [(ngModel)]="quality.choosed" *ngFor="let quality of qualities">{{quality.type}}</mat-checkbox>
+  </div>
+  <mat-checkbox [(ngModel)]="service.condition" class="d-block mt-4">ارائه خدمت به شرط فروش کالا</mat-checkbox>
+  <mat-checkbox [(ngModel)]="service.is_suggested">پیشنهاد عمران مدرن</mat-checkbox>
+</div>
+
+<div class="section" *ngIf="serviceSelected && attributes.length !== 0">
+  <h3>ویژگی های خدمات</h3>
+  <div *ngFor="let attribute of attributes" class="row mb-2">
+      <label class="col-2">{{attribute.name}}</label>
+      <input *ngIf="attribute.type === 'string'" class="form-control col-4" value="0" [(ngModel)]="attribute.value" placeholder="بنویسید">
+      <select *ngIf="attribute.type === 'select'" class="form-control col-4" [(ngModel)]="attribute.value">
+        <option disabled selected value="">انتخاب کنید</option>
+        <option *ngFor="let item of attribute.possible_values" [value]="item">{{item}}</option>
+      </select>
+      <mat-checkbox *ngIf="attribute.type === 'boolean'" class="col-4" [(ngModel)]="attribute.value"></mat-checkbox>
+  </div>
+</div>
+
+<div class="d-flex pb-5 pt-2">
+  <button class="btn btn-info mx-auto mb-5" (click)="submit()">ذخیره اطلاعات</button>
+</div>
+
+

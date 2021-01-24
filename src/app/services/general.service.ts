@@ -1,3 +1,4 @@
+import { SellerMaterial, Material, MotherMaterial } from './../interfaces/material';
 import { Service, SellerService } from './../interfaces/service';
 import { Seller } from './../interfaces/seller';
 import { Category } from './../interfaces/category';
@@ -29,6 +30,54 @@ export class GeneralService {
         materials: []
     }
   };
+  defaultMaterial: Material = {
+    id: 0,
+    name: '',
+    explain: '',
+    category: {
+      item_id: 0,
+      item_name: ''
+    },
+    mothers: [],
+    sellers: [],
+    stars: {
+      stars: [{
+        user_id: 0,
+        value: 5
+      }, {
+        user_id: 0,
+        value: 5
+      }, {
+        user_id: 0,
+        value: 5
+      }
+      ],
+      average: 5
+    },
+    images: [],
+    brand_id: 0,
+    quality: '',
+    status: '',
+    is_suggested: false,
+    user_id: 0,
+    attributes: [],
+    seller_attributes: []
+  };
+  defaultMotherMaterial: MotherMaterial = {
+    id: 0,
+    name: '',
+    explain: '',
+    category: {
+      item_id: 0,
+      item_name: ''
+    },
+    childs: [],
+    images: [],
+    status: '',
+    user_id: 0,
+    attributes: [],
+    seller_attributes: []
+  };
   defaultSeller: Seller = {
     id: 0,
     name: '',
@@ -52,6 +101,20 @@ export class GeneralService {
     max_orderable: 10000000,
     wholesale_threshold: 1000,
     prices: [],
+    stars: {
+      stars: [{
+        user_id: 0,
+        value: 5
+      }, {
+        user_id: 0,
+        value: 5
+      }, {
+        user_id: 0,
+        value: 5
+      }
+      ],
+      average: 5
+    },
     supply_time: 0,
     sell_types: [],
     qualities: [],
@@ -60,7 +123,25 @@ export class GeneralService {
     disscounts: [],
     attributes: []
   };
-
+  defaultSellerMaterial: SellerMaterial = {
+    material: {
+      id: 0 ,
+      name: '',
+      image: '',
+      status: true
+    },
+    min_orderable: 0,
+    max_orderable: 10000000,
+    wholesale_threshold: 1000,
+    stack: true,
+    prices: [],
+    supply_time: 0,
+    sell_types: [],
+    condition: false,
+    is_suggested: false,
+    disscounts: [],
+    attributes: []
+  };
   deep = new BehaviorSubject<number>(0);
   currentDeep = this.deep.asObservable();
 

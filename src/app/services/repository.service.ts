@@ -44,7 +44,10 @@ export class RepositoryService {
 }
 
   createMaterial(material: Material): any {
-    return this.http.post(this.baseUrl + 'dokkoon/materials', material);
+    return this.http.post(this.baseUrl + 'dokkoon/create_material/', material);
+  }
+  getMaterial(materialId): any {
+    return this.http.get(this.baseUrl + 'dokkoon/material_one/' + materialId);
   }
   getMaterials(): any {
     return this.http.get(this.baseUrl + 'dokkoon/materials');
@@ -52,15 +55,18 @@ export class RepositoryService {
   getMaterialsByStatus(status: string): any {
     return this.http.get(this.baseUrl + 'dokkoon/materials_by_status/' + status);
   }
+  getMaterialsByMother(motherId: number): any {
+    return this.http.get(this.baseUrl + 'dokkoon/materials_by_mother/' + motherId);
+  }
   getMotherMaterialsByStatus(status: string): any {
     return this.http.get(this.baseUrl + 'dokkoon/mother_materials_by_status/' + status);
   }
   createMotherMaterial(motherMaterial: MotherMaterial): any {
-    return this.http.post(this.baseUrl + 'dokkoon/mother_materials', motherMaterial);
+    return this.http.post(this.baseUrl + 'dokkoon/create_mother_material/', motherMaterial);
   }
 
   createService(service: Service): any {
-    return this.http.post(this.baseUrl + 'dokkoon/services', service);
+    return this.http.post(this.baseUrl + 'dokkoon/create_service/', service);
   }
   getService(serviceId): any {
     return this.http.get(this.baseUrl + 'dokkoon/service_one/' + serviceId);
@@ -75,7 +81,7 @@ export class RepositoryService {
     return this.http.get(this.baseUrl + 'dokkoon/mother_services_by_status/' + status);
   }
   createMotherService(motherService: MotherService): any {
-    return this.http.post(this.baseUrl + 'dokkoon/mother_services', motherService);
+    return this.http.post(this.baseUrl + 'dokkoon/create_mother_service/', motherService);
   }
   createCategory(category: any): any {
     return this.http.post(this.baseUrl + 'dokkoon/categories', category);
@@ -183,6 +189,14 @@ export class RepositoryService {
     return this.http.get(this.baseUrl + 'dokkoon/seller_service_attributes/' + motherServiceId);
   }
   addServicesToSeller(services, sellerId): any {
+    console.log(JSON.stringify(services));
+    
     return this.http.post(this.baseUrl + 'dokkoon/add_services_to_seller/' + sellerId, services);
+  }
+  getSellerMaterialAttributes(motherMaterialId): any {
+    return this.http.get(this.baseUrl + 'dokkoon/seller_material_attributes/' + motherMaterialId);
+  }
+  addMaterialsToSeller(materials, sellerId): any {
+    return this.http.post(this.baseUrl + 'dokkoon/add_materials_to_seller/' + sellerId, materials);
   }
 }

@@ -36,6 +36,7 @@ export interface SellerService {
     wholesale_threshold: number;
     prices: Array<any>;
     supply_time: number;
+    stars: any;
     sell_types: Array<string>;
     qualities: Array<string>;
     condition: boolean;

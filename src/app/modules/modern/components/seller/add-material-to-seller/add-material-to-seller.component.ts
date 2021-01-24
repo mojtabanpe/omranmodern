@@ -1,11 +1,11 @@
-import { SellerService } from './../../../../../interfaces/service';
-import { element } from 'protractor';
-import { RepositoryService } from './../../../../../services/repository.service';
-import { GeneralService } from './../../../../../services/general.service';
+import { SellerMaterial } from './../../../../../interfaces/material';
+import { Seller } from './../../../../../interfaces/seller';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { Seller } from 'src/app/interfaces/seller';
+import { GeneralService } from 'src/app/services/general.service';
+import { RepositoryService } from 'src/app/services/repository.service';
 import { ToastrService } from 'ngx-toastr';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+
 
 export interface ItemForSelect {
   name: string;
@@ -13,13 +13,13 @@ export interface ItemForSelect {
 }
 
 @Component({
-  selector: 'app-add-service-to-seller',
-  templateUrl: './add-service-to-seller.component.html',
-  styleUrls: ['./add-service-to-seller.component.css']
+  selector: 'app-add-material-to-seller',
+  templateUrl: './add-material-to-seller.component.html',
+  styleUrls: ['./add-material-to-seller.component.css']
 })
-export class AddServiceToSellerComponent implements OnInit {
+export class AddMaterialToSellerComponent implements OnInit {
   seller: Seller;
-  service: SellerService = this.general.defaultSellerService;
+  material: SellerMaterial = this.general.defaultSellerMaterial;
   units = [];
   viewPrices = [
     {
@@ -33,8 +33,7 @@ export class AddServiceToSellerComponent implements OnInit {
   price = {
       unit: '',
       amount: '',
-      wholesale_amount : '',
-      last_update: ''
+      wholesale_amount : ''
     };
   sellTypes = [
     {
@@ -54,41 +53,28 @@ export class AddServiceToSellerComponent implements OnInit {
       choosed: false
     }
   ];
-  qualities = [
-    {
-      type: 'اقتصادی',
-      choosed: false
-    },
-    {
-      type: 'لوکس',
-      choosed: false
-    },
-    {
-      type: 'مناسب',
-      choosed: false
-    }
-  ];
+
   attributes = [];
 
   categories = [];
   selectedCategory = [];
   categoryDropdownSettings: IDropdownSettings;
 
-  motherServices = [];
-  selectedMotherService = [];
-  motherServiceDropdownSettings: IDropdownSettings;
-  @ViewChild('motherServiceSelect', {static: false}) motherServiceSelect;
+  motherMaterials = [];
+  selectedMotherMaterial = [];
+  motherMaterialDropdownSettings: IDropdownSettings;
+  @ViewChild('motherMaterialSelect', {static: false}) motherMaterialSelect;
 
 
-  services = [];
-  selectedService = [];
-  serviceDropdownSettings: IDropdownSettings;
-  @ViewChild('serviceSelect', {static: false}) serviceSelect;
+  Materials = [];
+  selectedMaterial = [];
+  materialDropdownSettings: IDropdownSettings;
+  @ViewChild('materialSelect', {static: false}) materialSelect;
 
 
   initializedCategoryDropdown = false;
-  initializedMotherServiceDropdown = false;
-  serviceSelected = false;
+  initializedMotherMaterialDropdown = false;
+  materialSelected = false;
 
   constructor(private general: GeneralService, private repository: RepositoryService, private alert: ToastrService) { }
 
@@ -106,7 +92,7 @@ export class AddServiceToSellerComponent implements OnInit {
       noDataAvailablePlaceholderText: 'داده ای برای نمایش وجود ندارد'
     };
 
-    this.motherServiceDropdownSettings = {
+    this.motherMaterialDropdownSettings = {
       singleSelection: true,
       idField: 'id',
       textField: 'name',
@@ -115,7 +101,7 @@ export class AddServiceToSellerComponent implements OnInit {
       noDataAvailablePlaceholderText: 'داده ای برای نمایش وجود ندارد'
     };
 
-    this.serviceDropdownSettings = {
+    this.materialDropdownSettings = {
       singleSelection: false,
       idField: 'id',
       textField: 'name',
@@ -139,18 +125,18 @@ export class AddServiceToSellerComponent implements OnInit {
 
   onCategorySelect($event): void {
     if (this.selectedCategory !== undefined) {
-      this.selectedService = [];
-      this.selectedMotherService = [];
+      this.selectedMaterial = [];
+      this.selectedMotherMaterial = [];
       const clusterId = this.selectedCategory[0].id;
-      const forMotherServices: Array<ItemForSelect> = [];
-      this.repository.getMotherServices(clusterId).subscribe(res => {
+      const forMotherMaterials: Array<ItemForSelect> = [];
+      this.repository.getMotherMaterials(clusterId).subscribe(res => {
         for (const item of res) {
-          forMotherServices.push({
+          forMotherMaterials.push({
             id: item.id,
             name: item.name
           });
         }
-        this.motherServiceSelect.data = forMotherServices;
+        this.motherMaterialSelect.data = forMotherMaterials;
       });
       this.repository.getUnitsOfCategory(clusterId).subscribe(res => {
         this.units = res;
@@ -159,28 +145,28 @@ export class AddServiceToSellerComponent implements OnInit {
     }
   }
 
-  onMotherServiceSelect($event): void {
-    this.selectedService = [];
-    if (this.selectedMotherService !== undefined) {
-      const motherId = +this.selectedMotherService[0].id;
-      const forServices: Array<ItemForSelect> = [];
-      this.repository.getServicesByMother(motherId).subscribe(res => {
+  onMotherMaterialSelect($event): void {
+    this.selectedMaterial = [];
+    if (this.selectedMotherMaterial !== undefined) {
+      const motherId = +this.selectedMotherMaterial[0].id;
+      const forMaterials: Array<ItemForSelect> = [];
+      this.repository.getMaterialsByMother(motherId).subscribe(res => {
         for (const item of res) {
-          forServices.push({
+          forMaterials.push({
             id: item.item_id,
             name: item.item_name
           });
         }
-        this.serviceSelect.data = forServices;
+        this.materialSelect.data = forMaterials;
       });
-      this.repository.getSellerServiceAttributes(this.selectedMotherService[0].id).subscribe(res => {
+      this.repository.getSellerMaterialAttributes(this.selectedMotherMaterial[0].id).subscribe(res => {
         this.attributes = res;
       });
     }
   }
 
-  onServiceSelect(): void {
-    this.serviceSelected = true;
+  onMaterialSelect(): void {
+    this.materialSelected = true;
   }
   addUnit(): void {
     this.viewPrices.push({
@@ -194,13 +180,12 @@ export class AddServiceToSellerComponent implements OnInit {
   }
 
   submit(): void {
-    const passToServerServices: Array<SellerService> = [];
+    const passToServerMaterials: Array<SellerMaterial> = [];
     for (const viewPrice of this.viewPrices) {
       const price = {
         unit: '',
         amount: '',
         wholesale_amount : ''
-        // last_update: ''
       };
       price.unit = viewPrice.unit;
       if (viewPrice.amountFixed === 'fixed') {
@@ -214,45 +199,45 @@ export class AddServiceToSellerComponent implements OnInit {
       } else {
         price.wholesale_amount = 'توافقی';
       }
-      this.service.prices.push(price);
+      this.material.prices.push(price);
     }
 
     for (const sellType of this.sellTypes) {
       if (sellType.choosed) {
-        this.service.sell_types.push(sellType.type);
+        this.material.sell_types.push(sellType.type);
       }
     }
 
-    for (const quality of this.qualities) {
-      if (quality.choosed) {
-        this.service.qualities.push(quality.type);
-      }
-    }
+    // for (const quality of this.qualities) {
+    //   if (quality.choosed) {
+    //     this.material.qualities.push(quality.type);
+    //   }
+    // }
 
     for (const attr of this.attributes) {
-      this.service.attributes.push({
+      this.material.attributes.push({
         key: attr.name,
         value: attr.value
       });
     }
-    delete this.service.service;
+    delete this.material.material;
     let responseLength = 0;
-    for (const selectedService of this.selectedService) {
-      this.repository.getService(selectedService.id).subscribe(res => {
-        passToServerServices.push({...this.service, service: {
+
+    for (const selectedMaterial of this.selectedMaterial) {
+      this.repository.getMaterial(selectedMaterial.id).subscribe(res => {
+        passToServerMaterials.push({...this.material, material: {
             id: res.id,
             name: res.name,
             image: res.images,
             status: res.status === 'active' ? true : false
            }});
         responseLength++;
-        if (responseLength === this.selectedService.length) {
-          this.repository.addServicesToSeller(passToServerServices, this.seller.id).subscribe(response => {
-            this.service.prices = [];
-            this.service.sell_types = [];
-            this.service.qualities = [];
-            this.service.attributes = [];
-            this.alert.success('خدمت های فروشنده به روز شد!');
+        if (responseLength === this.selectedMaterial.length) {
+          this.repository.addMaterialsToSeller(passToServerMaterials, this.seller.id).subscribe(response => {
+            this.material.prices = [];
+            this.material.sell_types = [];
+            this.material.attributes = [];
+            this.alert.success('کالاهای فروشنده به روز شد!');
           }, err => {
             this.alert.error('مشکلی در بروزرسانی فروشنده بوجود آمده است!');
           }
@@ -261,5 +246,4 @@ export class AddServiceToSellerComponent implements OnInit {
       });
     }
   }
-
 }

@@ -192,8 +192,6 @@ export class CreateServiceComponent implements OnInit {
       const clusterId = this.selectedCategory[0].category_id;
       const forServices: Array<ServiceForSelect> = [];
       this.repository.getMotherServices(clusterId).subscribe(res => {
-        console.log(res);
-        
         for (const item of res) {
           forServices.push({
             service_id: item.id,

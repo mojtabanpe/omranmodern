@@ -1,3 +1,4 @@
+import { AddMaterialToSellerComponent } from './components/seller/add-material-to-seller/add-material-to-seller.component';
 import { AddServiceToSellerComponent } from './components/seller/add-service-to-seller/add-service-to-seller.component';
 import { SampleWorksComponent } from './components/seller/seller-details/sample-works/sample-works.component';
 import { CoveragesComponent } from './components/seller/seller-details/coverages/coverages.component';
@@ -66,7 +67,8 @@ import { SharedModule } from '../shared/shared.module';
     SellerServicesComponent,
     CoveragesComponent,
     SampleWorksComponent,
-    AddServiceToSellerComponent
+    AddServiceToSellerComponent,
+    AddMaterialToSellerComponent
   ]
 })
 export class ModernModule { }

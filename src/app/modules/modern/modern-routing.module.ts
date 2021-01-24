@@ -1,3 +1,4 @@
+import { AddMaterialToSellerComponent } from './components/seller/add-material-to-seller/add-material-to-seller.component';
 import { AddServiceToSellerComponent } from './components/seller/add-service-to-seller/add-service-to-seller.component';
 import { SellerDetailsComponent } from './components/seller/seller-details/seller-details.component';
 import { ManageSellersComponent } from './components/seller/manage-sellers/manage-sellers.component';
@@ -31,6 +32,7 @@ const routes: Routes = [
     { path : 'manage_sellers', component: ManageSellersComponent},
     { path : 'seller-details', component: SellerDetailsComponent},
     { path : 'add-service-to-seller', component: AddServiceToSellerComponent},
+    { path : 'add-material-to-seller', component: AddMaterialToSellerComponent},
   ]}
 ];
 

@@ -7,11 +7,12 @@ export interface Material {
     mothers: Array<any>;
     sellers: Array<any>;
     images: Array<string>;
+    stars: any;
     brand_id: number;
     quality: string;
     status: string;
+    is_suggested: false;
     user_id: number;
-    variables: Array<string>;
     attributes: Array<Attribute>;
     seller_attributes: Array<number>;
 }
@@ -38,9 +39,14 @@ export interface SellerMaterial {
     };
     min_orderable: number;
     max_orderable: number;
+    wholesale_threshold: number;
     stack: boolean;
     prices: Array<any>;
     supply_time: number;
+    sell_types: Array<string>;
+    condition: boolean;
+    is_suggested: boolean;
     disscounts: Array<any>;
-    attributes: Array<string>;
+    attributes: Array<any>;
 }
+

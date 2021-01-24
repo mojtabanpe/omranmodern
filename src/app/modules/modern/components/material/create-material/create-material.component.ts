@@ -1,3 +1,4 @@
+import { GeneralService } from 'src/app/services/general.service';
 import { CategoryAttribute } from 'src/app/interfaces/category-attribute';
 import { Attribute } from './../../../../../interfaces/attribute';
 import { CreateAttributeDialogComponent } from './../../../../../components/dialogs/create-attribute-dialog/create-attribute-dialog.component';
@@ -31,40 +32,8 @@ export interface BrandForSelect {
   styleUrls: ['./create-material.component.css']
 })
 export class CreateMaterialComponent implements OnInit {
-  material: Material = {
-    id: 0,
-    name: '',
-    explain: '',
-    category: {
-      item_id: 0,
-      item_name: ''
-    },
-    mothers: [],
-    sellers: [],
-    images: [],
-    brand_id: 0,
-    quality: '',
-    status: '',
-    user_id: 0,
-    variables: [],
-    attributes: [],
-    seller_attributes: []
-  };
-  motherMaterial: MotherMaterial = {
-    id: 0,
-    name: '',
-    explain: '',
-    category: {
-      item_id: 0,
-      item_name: ''
-    },
-    childs: [],
-    images: [],
-    status: '',
-    user_id: 0,
-    attributes: [],
-    seller_attributes: []
-  };
+  material = this.general.defaultMaterial;
+  motherMaterial = this.general.defaultMotherMaterial;
   statuses = [
     {value: 'active', viewValue: 'فعال'},
     {value: 'inactive', viewValue: 'غیرفعال'},
@@ -115,7 +84,8 @@ export class CreateMaterialComponent implements OnInit {
   public Editor = ClassicEditor;
 
   errors = [];
-  constructor(private repository: RepositoryService, public dialog: MatDialog, private alert: ToastrService) { }
+  constructor(private repository: RepositoryService, public dialog: MatDialog, private alert: ToastrService, 
+              private general: GeneralService) { }
 
   ngOnInit(): void {
     this.categoryDropdownSettings = {

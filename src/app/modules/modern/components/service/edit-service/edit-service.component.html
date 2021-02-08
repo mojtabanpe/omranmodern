@@ -1,0 +1,85 @@
+<div class="section p-0">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/modern/dashboard">عمران مدرن</a></li>
+      <li class="breadcrumb-item"><a routerLink="/modern/manage_services">خدمت ها</a></li>
+      <li class="breadcrumb-item active" aria-current="page">ویرایش خدمت</li>
+    </ol>
+  </nav>
+</div>
+
+<div *ngIf="initialized">
+  <div class="section-warning mb-5">
+    <h4>وضعیت خدمت را مشخص کنید</h4>
+      <select [(ngModel)]="selectedStatus" class="form-control">
+        <option value={{option.value}} *ngFor="let option of statuses">{{ option.viewValue }}</option>
+      </select>
+  </div>
+  
+    <div class="row five-box">
+      <div class="col-6 pr-0">
+        <h4>عنوان خدمت</h4>
+        <input class="form-control" [(ngModel)]="serviceName" (change)="nameChange()">
+      </div>
+  
+      <div class="col-6 pr-0">
+        <div>
+          <h4>برند خدمت</h4>
+          <ng-multiselect-dropdown #brandSelect
+            [placeholder]="'برند مورد نظر را جستجو کنید'"
+            [settings]="brandDropdownSettings"
+            [data]="brands"
+            [(ngModel)]="selectedBrand">
+          </ng-multiselect-dropdown>
+          <button class="btn btn-light d-flex align-items-center btn-sm mr-auto mt-2 text-secondary">
+            <mat-icon>add</mat-icon>
+            <a class="text-secondary" (click)="addBrand()">افزودن برند جدید</a>
+          </button>
+        </div>
+      </div>
+  
+    </div>
+    <hr>
+    <button *ngIf="!deletedImage" class="btn btn-outline-danger mt-4" (click)="deleteImage()">حذف عکس قبلی</button>
+
+    <div *ngIf="deletedImage">
+      <input [disabled]="inProgress" #fileInput type="file" class="file-input" (change)="onFileChanged($event)">
+      <div (click)="fileInput.click()" class="mt-3 mb-2 d-flex align-items-center cursor-pointer">
+        <mat-icon> attach_file</mat-icon>
+        <span>افزودن عکس خدمت(حداقل یک عکس)</span>
+      </div>
+      <div *ngFor="let section of sections; index as i" class="section row d-flex align-items-center">
+        <div class="col-1"><mat-icon (click)="removePicture(i)">cancel</mat-icon></div>
+        <div class="col-9 d-flex flex-column">
+          <span class="ml-auto mb-1">{{section.progressPercent}}%</span>
+          <mat-progress-bar class="" [value]="section.progressPercent"></mat-progress-bar>
+        </div> 
+        <div class="col-2" *ngIf="section.finished">
+          <img src={{section.src}} class="w-100">         
+        </div>
+      </div>
+    </div>
+    <hr>
+  
+    <div class="section mt-5">
+      <div>
+        <h4 class="mb-5">انتخاب ویژگی</h4>
+        <div class="d-flex align-items-center my-3" *ngFor="let attr of attributes">
+          <label class="ml-3">{{attr.name}}</label>
+          <select class="form-control" [(ngModel)]="attr.value" (change)=changeAttributeValue(attr,$event.target.value)>
+            <option *ngFor="let item of attr.possible_values" [value]="item">{{item}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  
+    <div class="my-5">
+      <h3>معرفی خدمت</h3>
+      <ckeditor [(ngModel)]="serviceExplain" [editor]="Editor"></ckeditor>
+    </div>
+
+    <div class="d-flex pt-5">
+      <button class="btn btn-info w-50 mx-auto" (click)="submit()">ذخیره اطلاعات</button>
+    </div>
+  
+</div>

@@ -15,12 +15,11 @@
   <a *ngIf="!navIsOpen" href="#"><mat-icon>dashboard</mat-icon></a>
   <a routerLink="/modern/dashboard" class="expanded dashboard" *ngIf="navIsOpen"><mat-icon>dashboard</mat-icon><span class="mr-3">داشبورد</span></a>
 
-  <a *ngIf="!navIsOpen" href="#"><mat-icon>person</mat-icon></a>
   <mat-accordion>
     <mat-expansion-panel *ngIf="navIsOpen" id="groups">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <mat-icon>person</mat-icon>
+          <mat-icon>category</mat-icon>
         </mat-panel-title>
         <mat-panel-description>
           گروهها
@@ -34,7 +33,7 @@
     <mat-expansion-panel *ngIf="navIsOpen" id="products">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <mat-icon>info</mat-icon>
+          <mat-icon>inventory</mat-icon>
         </mat-panel-title>
         <mat-panel-description>
           کالاها
@@ -49,7 +48,7 @@
     <mat-expansion-panel *ngIf="navIsOpen" id="services">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <mat-icon>info</mat-icon>
+          <mat-icon>home_repair_service</mat-icon>
         </mat-panel-title>
         <mat-panel-description>
           خدمات
@@ -61,7 +60,7 @@
     <mat-expansion-panel *ngIf="navIsOpen" id="sellers">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <mat-icon>info</mat-icon>
+          <mat-icon>shopping_basket</mat-icon>
         </mat-panel-title>
         <mat-panel-description>
           فروشنده ها
@@ -69,11 +68,15 @@
       </mat-expansion-panel-header>
       <a routerLink="/modern/manage_sellers">مدیریت فروشنده ها</a>
       <a routerLink="/modern/create_seller">ایجاد فروشنده جدید</a>
-      <a>پروژه های من</a>
     </mat-expansion-panel>
   </mat-accordion>
+  
+  <a *ngIf="!navIsOpen" href="#"><mat-icon>category</mat-icon></a>
+  <a *ngIf="!navIsOpen" href="#"><mat-icon>inventory</mat-icon></a>
+  <a *ngIf="!navIsOpen" href="#"><mat-icon>home_repair_service</mat-icon></a>
+  <a *ngIf="!navIsOpen" href="#"><mat-icon>shopping_basket</mat-icon></a>
 
-  <a *ngIf="!navIsOpen" href="#"><mat-icon>info</mat-icon></a>
+  <!-- <a *ngIf="!navIsOpen" href="#"><mat-icon>info</mat-icon></a>
   <a *ngIf="!navIsOpen" href="#"><mat-icon>flight</mat-icon></a>
   <a *ngIf="!navIsOpen" href="#"> <mat-icon>fastfood</mat-icon></a>
   <a class="expanded product" *ngIf="navIsOpen" routerLink="myProducts"><mat-icon>flight</mat-icon><span class="mr-3">کالاهای من</span></a>
@@ -82,19 +85,20 @@
   <a *ngIf="!navIsOpen" href="#"><mat-icon>flight</mat-icon></a>
   <a *ngIf="!navIsOpen" href="#"> <mat-icon>fastfood</mat-icon></a>
   <a class="expanded service" *ngIf="navIsOpen" href="#"><mat-icon>flight</mat-icon><span class="mr-3">خدمات من</span></a>
-  <a class="expanded service" *ngIf="navIsOpen" href="#"> <mat-icon>fastfood</mat-icon><span class="mr-3">افزودن خدمت</span></a>
- 
+  <a class="expanded service" *ngIf="navIsOpen" href="#"> <mat-icon>fastfood</mat-icon><span class="mr-3">افزودن خدمت</span></a> -->
+  <a *ngIf="!navIsOpen" href="#"><mat-icon>group</mat-icon></a>
   <a *ngIf="!navIsOpen" href="#"><mat-icon>pie_chart</mat-icon></a>
   <a *ngIf="!navIsOpen" href="#"><mat-icon>assignment</mat-icon></a>
-  <a *ngIf="!navIsOpen" href="#"><mat-icon>message</mat-icon></a>
+  <a *ngIf="!navIsOpen" routerLink="/modern/messages"><mat-icon>message</mat-icon></a>
   <a *ngIf="!navIsOpen" href="#"><mat-icon>lock_open</mat-icon></a>
   <a *ngIf="!navIsOpen" href="#"><mat-icon>exit_to_app</mat-icon></a>
 
-  <a class="expanded service" *ngIf="navIsOpen" href="#"><mat-icon>pie_chart</mat-icon><span class="mr-3">آمار</span></a>
-  <a class="expanded service" *ngIf="navIsOpen" href="#"><mat-icon>assignment</mat-icon><span class="mr-3">فاکتورها</span></a>
-  <a class="expanded service" *ngIf="navIsOpen" href="#"><mat-icon>message</mat-icon><span class="mr-3">پیام ها</span></a>
-  <a class="expanded service" *ngIf="navIsOpen" href="#"><mat-icon>lock_open</mat-icon><span class="mr-3">تغییر رمز عبور</span></a>
-  <a class="expanded service" *ngIf="navIsOpen" href="#"><mat-icon>exit_to_app</mat-icon><span class="mr-3">خروج</span></a>
+  <a class="expanded users" *ngIf="navIsOpen" href="#"><mat-icon>group</mat-icon><span class="mr-3">کاربران</span></a>
+  <a class="expanded statistics" *ngIf="navIsOpen" href="#"><mat-icon>pie_chart</mat-icon><span class="mr-3">آمار</span></a>
+  <a class="expanded invoices" *ngIf="navIsOpen" href="#"><mat-icon>assignment</mat-icon><span class="mr-3">فاکتورها</span></a>
+  <a class="expanded messages" *ngIf="navIsOpen" routerLink="/modern/messages"><mat-icon>message</mat-icon><span class="mr-3">پیام ها</span></a>
+  <a class="expanded change-password" *ngIf="navIsOpen" href="#"><mat-icon>lock_open</mat-icon><span class="mr-3">تغییر رمز عبور</span></a>
+  <a class="expanded logout" *ngIf="navIsOpen" href="#"><mat-icon>exit_to_app</mat-icon><span class="mr-3">خروج</span></a>
 </div>
 <div id="main" [style.margin-right]="navIsOpen? '250px': '43px'">
   <router-outlet></router-outlet>

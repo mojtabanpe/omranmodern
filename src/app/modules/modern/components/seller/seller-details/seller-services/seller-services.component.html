@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between">
   <h3>لیست سرویس های فروشنده</h3>
-  <button routerLink="/modern/add-service-to-seller" class="btn btn-info d-flex align-items-center justify-content-around btn-sm">
+  <button routerLink="/modern/add-service-to-seller/{{sellerId}}" class="btn btn-info d-flex align-items-center justify-content-around btn-sm">
     <mat-icon>add</mat-icon>
     <p class="text-white mb-0">افزودن خدمت</p>
   </button>
@@ -27,15 +27,15 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let service of services" class="my-tr">
+    <tr *ngFor="let sellerService of sellerServices" class="my-tr">
       <td class="first-td">
-        <img src={{service.service.image}} alt="">
+        <img src={{sellerService.service?.images}} alt="">
       </td>
-      <td><a routerLink="">{{service.service.name}}</a></td>
+      <td><a routerLink="/modern/edit_seller_service/{{sellerService.id}}">{{sellerService.service.name}}</a></td>
       <td class="prices">
         <div class="prices-main-div">
           <div class="d-flex justify-content-center">
-            <div class="d-flex flex-column" *ngFor="let price of service.prices">
+            <div class="d-flex flex-column" *ngFor="let price of sellerService.prices">
               <span>واحد: {{price.unit}}</span>
               <input [(ngModel)]="price.amount" class="form-control">
             </div>
@@ -44,10 +44,10 @@
         </div>
       </td>
       <td>
-        <mat-slide-toggle [checked]="service.service.status" (change)="service.service.status = !service.service.status"></mat-slide-toggle>
+        <mat-slide-toggle [checked]="sellerService.status" (change)="sellerService.status = !sellerService.status"></mat-slide-toggle>
       </td>
       <td>
-        <mat-icon class="text-success" (click)="saveservice(service)">check</mat-icon>
+        <mat-icon class="text-success" (click)="saveService(sellerService)">check</mat-icon>
         <mat-icon class="text-warning">edit</mat-icon>
         <mat-icon class="text-danger">delete</mat-icon>
       </td>

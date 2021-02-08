@@ -1,0 +1,61 @@
+<div class="section p-0">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/modern/dashboard">عمران مدرن</a></li>
+      <li class="breadcrumb-item"><a routerLink="/modern/manage_materials">کالاها</a></li>
+      <li class="breadcrumb-item active" aria-current="page">ویرایش کالای مادر</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="section-warning mb-5">
+  <h4>وضعیت کالا را مشخص کنید</h4>
+    <select [(ngModel)]="selectedStatus" class="form-control">
+      <option value={{option.value}} *ngFor="let option of statuses">{{ option.viewValue }}</option>
+    </select>
+</div>
+
+<div class="col-6 pr-0">
+  <h4>عنوان کالا</h4>
+  <input class="form-control" [(ngModel)]="materialName" (change)="nameChanged = true">
+</div>
+
+<button *ngIf="!deletedImage" class="btn btn-outline-danger mt-4" (click)="deleteImage()">حذف عکس قبلی</button>
+
+<div *ngIf="deletedImage">
+  <input [disabled]="inProgress" #fileInput type="file" class="file-input" (change)="onFileChanged($event)">
+  <div (click)="fileInput.click()" class="mt-3 mb-2 d-flex align-items-center cursor-pointer">
+    <mat-icon> attach_file</mat-icon>
+    <span>افزودن عکس کالا(حداقل یک عکس)</span>
+  </div>
+  <div *ngFor="let section of sections; index as i" class="section row d-flex align-items-center">
+    <div class="col-1"><mat-icon (click)="removePicture(i)">cancel</mat-icon></div>
+    <div class="col-9 d-flex flex-column">
+      <span class="ml-auto mb-1">{{section.progressPercent}}%</span>
+      <mat-progress-bar class="" [value]="section.progressPercent"></mat-progress-bar>
+    </div> 
+    <div class="col-2" *ngIf="section.finished">
+      <img src={{section.src}} class="w-100">         
+    </div>
+  </div>
+</div>
+<hr>
+<div class="section mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4>نمایش در فیلتر کالای مادر</h4>
+    <button class="btn btn-outline-info btn-sm mr-auto">افزودن ویژگی به فروشنده</button>
+  </div>
+  <div class="d-flex align-items-center flex-wrap">
+    <div *ngFor="let attr of attributes" class="section-gray mx-2">
+      <mat-slide-toggle [checked]="attr.show_in_filter" (change)="attr.show_in_filter = !attr.show_in_filter"><span class="mr-1">{{attr.name}}</span></mat-slide-toggle>
+    </div>
+  </div>
+</div>
+
+<div class="my-5">
+  <h3>معرفی کالا</h3>
+  <ckeditor [(ngModel)]="materialExplain" [editor]="Editor"></ckeditor>
+</div>
+<div class="d-flex pt-5">
+  <button class="btn btn-info w-50 mx-auto" (click)="submit()">ذخیره اطلاعات</button>
+</div>

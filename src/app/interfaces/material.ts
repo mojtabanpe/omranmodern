@@ -10,7 +10,7 @@ export interface Material {
     stars: any;
     brand_id: number;
     quality: string;
-    status: string;
+    status: boolean;
     is_suggested: false;
     user_id: number;
     attributes: Array<Attribute>;
@@ -22,25 +22,22 @@ export interface MotherMaterial {
     name: string;
     explain: string;
     category: any;
-    childs: Array<any>;
     images: Array<string>;
-    status: string;
+    status: boolean;
     user_id: number;
     attributes: Array<Attribute>;
     seller_attributes: Array<number>;
+    materials_list: Array<any>;
 }
 
 export interface SellerMaterial {
-    material: {
-        id: number;
-        name: string;
-        image: string;
-        status: boolean
-    };
+    material_id: number;
+    seller_id: number;
     min_orderable: number;
     max_orderable: number;
     wholesale_threshold: number;
     stack: boolean;
+    status: boolean;
     prices: Array<any>;
     supply_time: number;
     sell_types: Array<string>;
@@ -48,5 +45,6 @@ export interface SellerMaterial {
     is_suggested: boolean;
     disscounts: Array<any>;
     attributes: Array<any>;
+    read_only: boolean;
 }
 

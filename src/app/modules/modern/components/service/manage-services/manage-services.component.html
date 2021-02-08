@@ -10,9 +10,9 @@
 
 <div class="d-flex justify-content-between">
   <h3>لیست خدمت ها</h3>
-  <button class="btn btn-info d-flex align-items-center btn-sm">
+  <button routerLink="/modern/create_service" class="btn btn-info d-flex align-items-center btn-sm">
     <mat-icon>add</mat-icon>
-    <a routerLink="create_service" class="text-white">افزودن خدمت جدید</a>
+    <a class="text-white">افزودن خدمت جدید</a>
   </button>
 </div>
 
@@ -63,20 +63,20 @@
         <td class="first-td">
           <img src={{service.images}} alt="">
         </td>
-        <td><a routerLink="">{{service.name}}</a></td>
-        <td><a routerLink="">{{service.category.item_name}}</a></td>
+        <td><a routerLink="/modern/edit_service/{{service.id}}">{{service.name}}</a></td>
+        <td><a routerLink="/modern/create_edit_category/{{service.category?.id}}">{{service.category?.name}}</a></td>
         <td>
           <div class="d-flex flex-column align-items-center">
-            <p class="mb-0" *ngFor="let mother of service.mothers"><a routerLink="">{{mother.item_name}}</a></p>
+            <p class="mb-0" *ngFor="let mother of service.mothers"><a routerLink="/modern/edit_mother_service/{{mother.id}}">{{mother.name}}</a></p>
           </div>
         </td>
         <td *ngIf="selectedStatus == 'active'">
-          <p *ngIf="service.sellers.length == 0">فروشنده ای ندارد</p>
-          <p *ngIf="service.sellers.length != 0"><a srouterLink="">مشاهده {{service.sellers.length}} فروشنده</a></p>
+          <p *ngIf="service.sellers_list.length == 0">فروشنده ای ندارد</p>
+          <p *ngIf="service.sellers_list.length != 0"><a srouterLink="">مشاهده {{service.sellers_list.length}} فروشنده</a></p>
         </td>
         <td>
-          <mat-icon class="text-warning">edit</mat-icon>
-          <mat-icon class="text-danger">delete</mat-icon>
+          <mat-icon routerLink="/modern/edit_service/{{service.id}}" class="text-warning">edit</mat-icon>
+          <mat-icon (click)="openAggrementDeleteMaterialDialog(service, 'child')" class="text-danger">delete</mat-icon>
         </td>
       </tr>
     </tbody>
@@ -97,15 +97,15 @@
         <td class="first-td">
           <img src={{service.images}} alt="">
         </td>
-        <td><a routerLink="">{{service.name}}</a></td>
-        <td><a routerLink="">{{service.category.item_name}}</a></td>
+        <td><a routerLink="/modern/edit_mother_service/{{service.id}}">{{service.name}}</a></td>
+        <td><a routerLink="/modern/create_edit_category/{{service.category.id}}">{{service.category.name}}</a></td>
         <td>
-          <p *ngIf="service.childs.length == 0">فرزندی ندارد</p>
-          <p *ngIf="service.childs.length != 0"><a srouterLink="">مشاهده {{service.childs.length}} فرزند</a></p>
+          <p *ngIf="service.services_list.length == 0">فرزندی ندارد</p>
+          <p *ngIf="service.services_list.length != 0"><a routerLink="">مشاهده {{service.services_list.length}} فرزند</a></p>
         </td>
         <td>
-          <mat-icon class="text-warning">edit</mat-icon>
-          <mat-icon class="text-danger">delete</mat-icon>
+          <mat-icon routerLink="/modern/edit_mother_service/{{service.id}}" class="text-warning">edit</mat-icon>
+          <mat-icon (click)="openAggrementDeleteMaterialDialog(service,'mother')" class="text-danger">delete</mat-icon>
         </td>
       </tr>
     </tbody>

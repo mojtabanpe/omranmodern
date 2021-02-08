@@ -26,6 +26,7 @@ export class CreateOrEditCategoryComponent implements OnInit, OnDestroy {
       this.general.mode = 'edit';
       this.categorySubs = this.repository.getCategory(groupId).subscribe((res: any) => {
         this.general.changeCategory(res);
+        this.general.changeDeep(res.deep);
         this.initialized = true;
       });
     } else {

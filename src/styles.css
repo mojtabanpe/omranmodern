@@ -617,3 +617,6 @@ th:not(.first-th) {
 .tab-content {
   padding: 2rem;
 }
+.chooseAddress select {
+  font-size: 13px;
+}

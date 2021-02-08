@@ -1,3 +1,4 @@
+import { YesOrNoDialogComponent } from './../../components/dialogs/yes-or-no-dialog/yes-or-no-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -39,12 +40,13 @@ import { ToastrModule } from 'ngx-toastr';
     MatProgressBarModule,
     MatSlideToggleModule,
     MatDialogModule,
-    MatRadioModule
+    MatRadioModule,
   ],
   declarations: [
     SharedComponent,
     TrueFalsePipe,
-    PersianNumberPipe
+    PersianNumberPipe,
+    YesOrNoDialogComponent
   ],
   exports: [
     CommonModule,
@@ -64,7 +66,8 @@ import { ToastrModule } from 'ngx-toastr';
     MatProgressBarModule,
     MatSlideToggleModule,
     MatDialogModule,
-    MatRadioModule
+    MatRadioModule,
+    YesOrNoDialogComponent
     // BrowserAnimationsModule
   ]
 })

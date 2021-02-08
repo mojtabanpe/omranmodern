@@ -2,6 +2,7 @@ import { RepositoryService } from 'src/app/services/repository.service';
 import { GeneralService } from './../../../../../../services/general.service';
 import { SellerService } from './../../../../../../interfaces/service';
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-seller-services',
@@ -9,23 +10,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./seller-services.component.css']
 })
 export class SellerServicesComponent implements OnInit {
-  services: Array<SellerService>;
+  sellerServices: Array<SellerService>;
   sellerId = 0;
-  constructor(private general: GeneralService, private repository: RepositoryService) { }
+  constructor(private general: GeneralService, private repository: RepositoryService, private alert: ToastrService) { }
 
   ngOnInit(): void {
     this.general.currentSeller.subscribe(res => {
-      this.services = res.services;
+      this.sellerServices = res.services_list;
       this.sellerId = res.id;
     });
   }
 
-  saveService(service): void {
+  saveService(sellerService): void {
     const passToServer = {
-      id: service.service.id,
-      status: service.service.status,
-      prices: service.prices
+      status: sellerService.status,
+      prices: sellerService.prices
     };
-    this.repository.updateSellerServicePriceAndStatus(passToServer, this.sellerId).subscribe();
+    this.repository.updateSellerService(passToServer, sellerService.id).subscribe(res => {
+      this.alert.success('ویرایش با موفقیت انجام شد!');
+    });
   }
 }

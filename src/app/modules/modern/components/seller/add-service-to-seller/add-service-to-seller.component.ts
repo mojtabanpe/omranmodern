@@ -6,6 +6,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Seller } from 'src/app/interfaces/seller';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
 
 export interface ItemForSelect {
   name: string;
@@ -90,13 +91,15 @@ export class AddServiceToSellerComponent implements OnInit {
   initializedMotherServiceDropdown = false;
   serviceSelected = false;
 
-  constructor(private general: GeneralService, private repository: RepositoryService, private alert: ToastrService) { }
+  constructor(private general: GeneralService, private repository: RepositoryService, private alert: ToastrService,
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.general.currentSeller.subscribe(res => {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.repository.getSeller(id).subscribe(res => {
       this.seller = res;
+      this.service.seller_id = this.seller.id;
     });
-
     this.categoryDropdownSettings = {
       singleSelection: true,
       idField: 'id',
@@ -126,7 +129,7 @@ export class AddServiceToSellerComponent implements OnInit {
       noDataAvailablePlaceholderText: 'داده ای برای نمایش وجود ندارد'
     };
 
-    this.repository.getClusters().subscribe((res) => {
+    this.repository.getClusters(false).subscribe((res) => {
       for (const category of res) {
         this.categories.push({
           id: category.id,
@@ -144,6 +147,7 @@ export class AddServiceToSellerComponent implements OnInit {
       const clusterId = this.selectedCategory[0].id;
       const forMotherServices: Array<ItemForSelect> = [];
       this.repository.getMotherServices(clusterId).subscribe(res => {
+        this.motherServices = res;
         for (const item of res) {
           forMotherServices.push({
             id: item.id,
@@ -163,16 +167,15 @@ export class AddServiceToSellerComponent implements OnInit {
     this.selectedService = [];
     if (this.selectedMotherService !== undefined) {
       const motherId = +this.selectedMotherService[0].id;
+      const mother = this.motherServices.filter(m => m.id === motherId)[0];
       const forServices: Array<ItemForSelect> = [];
-      this.repository.getServicesByMother(motherId).subscribe(res => {
-        for (const item of res) {
+      for (const item of mother.services_list) {
           forServices.push({
-            id: item.item_id,
-            name: item.item_name
+            id: item.id,
+            name: item.name
           });
         }
-        this.serviceSelect.data = forServices;
-      });
+      this.serviceSelect.data = forServices;
       this.repository.getSellerServiceAttributes(this.selectedMotherService[0].id).subscribe(res => {
         this.attributes = res;
       });
@@ -235,19 +238,14 @@ export class AddServiceToSellerComponent implements OnInit {
         value: attr.value
       });
     }
-    delete this.service.service;
+    delete this.service.service_id;
     let responseLength = 0;
     for (const selectedService of this.selectedService) {
-      this.repository.getService(selectedService.id).subscribe(res => {
-        passToServerServices.push({...this.service, service: {
-            id: res.id,
-            name: res.name,
-            image: res.images,
-            status: res.status === 'active' ? true : false
-           }});
+        passToServerServices.push({...this.service, service_id: selectedService.item_id});
         responseLength++;
-        if (responseLength === this.selectedService.length) {
-          this.repository.addServicesToSeller(passToServerServices, this.seller.id).subscribe(response => {
+    }
+    if (responseLength === this.selectedService.length) {
+          this.repository.addServicesToSeller(passToServerServices).subscribe(response => {
             this.service.prices = [];
             this.service.sell_types = [];
             this.service.qualities = [];
@@ -258,8 +256,6 @@ export class AddServiceToSellerComponent implements OnInit {
           }
           );
         }
-      });
-    }
   }
 
 }

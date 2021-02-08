@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { SellerMaterial } from 'src/app/interfaces/material';
 import { GeneralService } from 'src/app/services/general.service';
 import { RepositoryService } from 'src/app/services/repository.service';
@@ -9,23 +10,24 @@ import { RepositoryService } from 'src/app/services/repository.service';
   styleUrls: ['./seller-materials.component.css']
 })
 export class SellerMaterialsComponent implements OnInit {
-  materials: Array<SellerMaterial>;
+  sellerMaterials: Array<SellerMaterial>;
   sellerId = 0;
-  constructor(private general: GeneralService, private repository: RepositoryService) { }
+  constructor(private general: GeneralService, private repository: RepositoryService, private alert: ToastrService) { }
 
   ngOnInit(): void {
     this.general.currentSeller.subscribe(res => {
-      this.materials = res.materials;
+      this.sellerMaterials = res.materials_list;
       this.sellerId = res.id;
     });
   }
 
-  saveMaterial(material): void {
+  saveMaterial(sellerMaterial): void {
     const passToServer = {
-      id: material.material.id,
-      status: material.material.status,
-      prices: material.prices
+      status: sellerMaterial.status,
+      prices: sellerMaterial.prices
     };
-    this.repository.updateSellerMaterialPriceAndStatus(passToServer, this.sellerId).subscribe();
+    this.repository.updateSellerMaterial(passToServer, sellerMaterial.id).subscribe(res => {
+      this.alert.success('ویرایش با موفقیت انجام شد!');
+    });
   }
 }

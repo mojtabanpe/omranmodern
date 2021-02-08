@@ -2,6 +2,7 @@ export interface Category {
     id: number;
     name: string;
     slug: string;
+    is_cluster: boolean;
     explain: string;
     type: boolean;
     image: string;

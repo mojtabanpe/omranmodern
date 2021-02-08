@@ -1,3 +1,12 @@
+import { EditSellerServiceComponent } from './components/seller/seller-details/seller-services/edit-seller-service/edit-seller-service.component';
+import { EditSellerMaterialComponent } from './components/seller/seller-details/seller-materials/edit-seller-material/edit-seller-material.component';
+import { SellersOfMotherMaterialComponent } from './components/material/sellers-of-mother-material/sellers-of-mother-material.component';
+import { SellersOfMaterialComponent } from './components/material/sellers-of-material/sellers-of-material.component';
+import { EditMotherServiceComponent } from './components/service/edit-mother-service/edit-mother-service.component';
+import { EditServiceComponent } from './components/service/edit-service/edit-service.component';
+import { EditMotherMaterialComponent } from './components/material/edit-mother-material/edit-mother-material.component';
+import { EditMaterialComponent } from './components/material/edit-material/edit-material.component';
+import { MessagesComponent } from './components/messages/messages.component';
 import { AddMaterialToSellerComponent } from './components/seller/add-material-to-seller/add-material-to-seller.component';
 import { AddServiceToSellerComponent } from './components/seller/add-service-to-seller/add-service-to-seller.component';
 import { SellerDetailsComponent } from './components/seller/seller-details/seller-details.component';
@@ -26,13 +35,22 @@ const routes: Routes = [
     { path : 'create_edit_category/:id', component: CreateOrEditCategoryComponent},
     { path : 'manage_materials', component: ManageMaterialsComponent},
     { path : 'create_material', component: CreateMaterialComponent},
+    { path : 'edit_material/:id', component: EditMaterialComponent},
+    { path : 'sellers-of-material/:id', component: SellersOfMaterialComponent},
+    { path : 'edit_mother_material/:id', component: EditMotherMaterialComponent},
+    { path : 'sellers-of-mother-material/:id', component: SellersOfMotherMaterialComponent},
     { path : 'create_service', component: CreateServiceComponent},
+    { path : 'edit_service/:id', component: EditServiceComponent},
+    { path : 'edit_mother_service/:id', component: EditMotherServiceComponent},
     { path : 'manage_services', component: ManageServicesComponent},
     { path : 'create_seller', component: CreateSellerComponent},
     { path : 'manage_sellers', component: ManageSellersComponent},
-    { path : 'seller-details', component: SellerDetailsComponent},
-    { path : 'add-service-to-seller', component: AddServiceToSellerComponent},
-    { path : 'add-material-to-seller', component: AddMaterialToSellerComponent},
+    { path : 'seller-details/:id', component: SellerDetailsComponent},
+    { path : 'add-service-to-seller/:id', component: AddServiceToSellerComponent},
+    { path : 'add-material-to-seller/:id', component: AddMaterialToSellerComponent},
+    { path : 'edit_seller_material/:id', component: EditSellerMaterialComponent},
+    { path : 'edit_seller_service/:id', component: EditSellerServiceComponent},
+    { path : 'messages', component: MessagesComponent}
   ]}
 ];
 

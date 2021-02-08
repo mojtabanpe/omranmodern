@@ -1,3 +1,5 @@
+import { MatDialog } from '@angular/material/dialog';
+import { element } from 'protractor';
 import { GeneralService } from './../../../../../../services/general.service';
 import { Seller } from './../../../../../../interfaces/seller';
 import { Component, OnInit } from '@angular/core';
@@ -6,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { RepositoryService } from 'src/app/services/repository.service';
 import { UploadSection } from 'src/app/interfaces/upload-section';
+import { AddSampleWorkDialogComponent } from '../../create-seller/add-sample-work-dialog/add-sample-work-dialog.component';
 
 @Component({
   selector: 'app-edit-seller',
@@ -15,6 +18,7 @@ import { UploadSection } from 'src/app/interfaces/upload-section';
 export class EditSellerComponent implements OnInit {
   initializedSeller = false;
   seller: Seller;
+  status = 'active';
   rate = 5;
   addresses: Array<ExtraAddress> = [{
     type: 'daftar',
@@ -29,17 +33,7 @@ export class EditSellerComponent implements OnInit {
     detail: '',
   }];
   coverages = [];
-  phones = [
-  {
-    title: '',
-    number: ''
-  }
-  ];
-  workingTime = {
-    start: 8,
-    end: 17,
-    foretime: ''
-  };
+  workSamples = [];
 
   public Editor = ClassicEditor;
 
@@ -47,23 +41,23 @@ export class EditSellerComponent implements OnInit {
   section: UploadSection;
   image = '';
   selectedImage: any;
-  imageDirectory = 'seller';
+  imageDirectory = 'sellers';
   initializedImage = false;
   deletedPicture = false;
 
-  sampleWorks = [
-    {
-      title: ' نقاشی ساختمان',
-      image: 'http://www.rajanews.com/sites/default/files/content/images/story/99-04/17/%D9%86%D9%82%D8%A7%D8%B4%DB%8C.jpg'
-    }
-  ];
   errors = [];
 
-  constructor(private repository: RepositoryService, private alert: ToastrService, private general: GeneralService) { }
+  constructor(private repository: RepositoryService, private alert: ToastrService, private general: GeneralService,
+              public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.general.currentSeller.subscribe(res => {
       this.seller = res;
+      this.status = this.seller.status === true ? 'active' : 'inactive';
+      this.workSamples = this.seller.work_samples;
+      this.workSamples.forEach(sample => {
+        sample.images = sample.images.toString().split(',');
+      });
     });
     this.repository.getAllCoverages().subscribe(res => {
       this.coverages = res;
@@ -113,7 +107,7 @@ export class EditSellerComponent implements OnInit {
   }
 
   addPhone(): void {
-    this.phones.push({
+    this.seller.phones.push({
       title: '',
       number: ''
     });
@@ -169,11 +163,20 @@ export class EditSellerComponent implements OnInit {
     this.deletedPicture = true;
     }
 
-    addSampleWork(): void {
+  addSampleWork(): void {
+    const dialogRef = this.dialog.open(AddSampleWorkDialogComponent, {
+      width: '500px'
+     });
+    dialogRef.afterClosed().subscribe(res => {
 
-    }
+       if (res && res.title && res.images) {
+         this.workSamples.push(res);
+       }
+     });
+   }
 
-    submit(): void {
+submit(): void {
+      this.seller.status = this.status === 'active' ? true : false;
       this.seller.stars = { // add our rate 3 times to his star for weight 3x
         stars: [ {
           user_id: 0,
@@ -206,31 +209,35 @@ export class EditSellerComponent implements OnInit {
       // } catch (error) {
       //   this.errors.push('مشکلی در ثبت آدرس بوجودآمده است!');
       // }
+      this.seller.work_samples = this.workSamples;
       if (this.seller.name === '') {
         this.errors.push('لطفا نام کسب و کار را وارد کنید!');
       }
       for (const phone of this.seller.phones) {
-        if (phone.title === '' || phone.number === '') {
-          this.errors.push('مشکلی در ثبت شماره تلفن بوجود آمده است!');
-        }
-      }
+              if (phone.title === '' || phone.number === '') {
+                this.errors.push('مشکلی در ثبت شماره تلفن بوجود آمده است!');
+              }
+            }
       if (this.seller.explain === '') {
-        this.errors.push(' لطفا فیلد مربوط به توضیحات را پر کنید! ');
-      }
+              this.errors.push(' لطفا فیلد مربوط به توضیحات را پر کنید! ');
+            }
       if (this.seller.image === '') {
-        this.errors.push('لطفا عکس مربوط به کسب و کار را آپلود کنید!');
-      }
+              this.errors.push('لطفا عکس مربوط به کسب و کار را آپلود کنید!');
+            }
       if (this.errors.length !== 0) {
-        for (const error of this.errors) {
-          this.alert.error(error);
-        }
-      } else {
-        this.repository.updateSeller(this.seller, this.seller.id).subscribe(res => {
-          this.general.changeSeller(res);
-          this.alert.success('فروشنده با موفقیت ویرایش شد!');
-        });
-      }
+              for (const error of this.errors) {
+                this.alert.error(error);
+              }
+            } else {
+              delete this.seller.materials_list;
+              delete this.seller.services_list;
+
+              this.repository.updateSeller(this.seller, this.seller.id).subscribe(res => {
+                this.general.changeSeller(res);
+                this.alert.success('فروشنده با موفقیت ویرایش شد!');
+              });
+            }
       this.errors = [];
-    }
+  }
 
 }

@@ -1,0 +1,8 @@
+<div class="d-flex flex-column align-items-center">
+  <mat-icon class="alert-icon">error_outline</mat-icon>
+  <p>{{data.title}}</p>
+  <div class="d-flex">
+    <button class="btn btn-sm btn-primary ml-1" mat-dialog-close="yes">بله</button>
+    <button class="btn btn-sm btn-secondary" (click)="onNoClick()" cdkFocusInitial>انصراف</button>
+  </div>
+</div>

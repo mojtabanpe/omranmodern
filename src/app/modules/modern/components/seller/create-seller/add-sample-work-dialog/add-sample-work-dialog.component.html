@@ -1,0 +1,33 @@
+<h3>افزودن نمونه کار</h3>
+<hr>
+<div class="form-group">
+  <label>عنوان آلبوم</label>
+  <input class="form-control" [(ngModel)]="sampleWork.title">
+</div>
+<div class="form-group">
+  <label>توضیحات</label>
+  <textarea class="form-control" rows="7" cols="16" [(ngModel)]="sampleWork.description"></textarea>
+</div>
+<div>
+  <input #fileInput type="file" class="file-input" (change)="onFileChanged($event)">
+  <div (click)="fileInput.click()" class="mt-3 mb-2 d-flex align-items-center cursor-pointer">
+    <mat-icon> attach_file</mat-icon>
+    <span>عکس یا لوگوی کسب و کار</span>
+  </div>
+  <div *ngFor="let section of sections;index as i">
+    <div class="section row d-flex align-items-center" *ngIf="initializedImage || section.finished">
+      <div class="col-1"><mat-icon (click)="removePicture(i)">cancel</mat-icon></div>
+      <div class="col-9 d-flex flex-column">
+        <span class="ml-auto mb-1">{{section.progressPercent}}%</span>
+        <mat-progress-bar class="" [value]="section.progressPercent"></mat-progress-bar>
+      </div> 
+      <div class="col-2" *ngIf="section.finished">
+        <img src={{section.src}} class="w-100">         
+      </div>
+    </div>
+  </div>
+</div>
+<div class="d-flex">
+  <button class="btn btn-sm btn-primary ml-1" [mat-dialog-close]="sampleWork" cdkFocusInitial>ذخیره</button>
+  <button class="btn btn-sm btn-secondary" (click)="onNoClick()">انصراف</button>
+</div>

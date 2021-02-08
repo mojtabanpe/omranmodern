@@ -3,7 +3,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/modern/dashboard">عمران مدرن</a></li>
       <li class="breadcrumb-item"><a routerLink="/modern/manage_sellers">فروشنده های فعال</a></li>
-      <li class="breadcrumb-item"><a routerLink="/modern/seller-details">{{seller.name}}</a></li>
+      <li class="breadcrumb-item"><a routerLink="/modern/seller-details/{{seller?.id}}">{{seller?.name}}</a></li>
       <li class="breadcrumb-item active" aria-current="page">افزودن کالا به فروشگاه</li>
     </ol>
   </nav>
@@ -42,7 +42,7 @@
   </div>
 </div>
 
-<div class="section">
+<div class="section" *ngIf="materialSelected">
   <div class="d-flex align-items-center">
     <h3>تعیین قیمت</h3>
     <button class="btn btn-info btn-sm mr-auto" (click)="addUnit()">افزودن واحد</button>

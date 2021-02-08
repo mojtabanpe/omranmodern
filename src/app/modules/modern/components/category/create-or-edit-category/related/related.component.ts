@@ -5,10 +5,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
 
-export interface CategoryInDropDown {
-  parent_id: number;
-  parent_name: string;
-}
 
 @Component({
   selector: 'app-related',
@@ -22,7 +18,7 @@ export class RelatedComponent implements OnInit, OnDestroy {
     {value: true, viewValue: 'کالا'},
     {value: false, viewValue: 'خدمت'}
   ];
-  selectedType: boolean = this.types[0].value;
+  selectedType: boolean;
   categories = [];
   selectedCategories = [];
   dropdownSettings: IDropdownSettings;
@@ -35,15 +31,16 @@ export class RelatedComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.categorySub = this.general.currentCategory.subscribe(res => {
       this.category = res;
+      this.selectedType = this.category.type;
     });
-    this.repository.getCategoryParentsByIDs(this.category.id).subscribe((result) => {
-      this.categories = result.categories;
-      this.selectedCategories = result.selectedCategories;
+    this.selectedCategories = this.category.related.categories;
+    this.repository.getCategoriesSelect().subscribe((result) => {
+      this.categories = result;
     });
     this.dropdownSettings = {
       singleSelection: false,
-      idField: 'parent_id',
-      textField: 'parent_name',
+      idField: 'item_id',
+      textField: 'item_name',
       selectAllText: 'انتخاب همه',
       unSelectAllText: 'حذف همه',
       itemsShowLimit: 3,
@@ -51,19 +48,19 @@ export class RelatedComponent implements OnInit, OnDestroy {
     };
   }
   onItemSelect($event): void {
-    const index = this.changedParents.removedParents.indexOf($event.parent_id);
+    const index = this.changedParents.removedParents.indexOf($event.item_id);
     if (index > -1) {
       console.log(index);
       this.changedParents.removedParents.splice(index, 1);
     }
-    this.changedParents.addedParents.push($event.parent_id);
+    this.changedParents.addedParents.push($event.item_id);
   }
   onItemDeSelect($event): void {
-    const index = this.changedParents.addedParents.indexOf($event.parent_id);
+    const index = this.changedParents.addedParents.indexOf($event.item_id);
     if (index > -1) {
       this.changedParents.addedParents.splice(index, 1);
     }
-    this.changedParents.removedParents.push($event.parent_id);
+    this.changedParents.removedParents.push($event.item_id);
   }
   changeType(): void {
     this.category.type = this.selectedType;
@@ -73,7 +70,7 @@ export class RelatedComponent implements OnInit, OnDestroy {
   changeRelatedCategories(): void {
     const ids = [];
     this.selectedCategories.forEach((value, element) => {
-      ids.push(value.parent_id);
+      ids.push(value.item_id);
     });
     this.category.parents_id = ids;
     this.general.changeCategory(this.category);

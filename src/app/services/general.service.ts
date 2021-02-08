@@ -14,6 +14,7 @@ export class GeneralService {
     id: 0,
     name: '',
     slug: '',
+    is_cluster: false,
     explain: '',
     type: true,
     image: '',
@@ -57,7 +58,7 @@ export class GeneralService {
     images: [],
     brand_id: 0,
     quality: '',
-    status: '',
+    status: true,
     is_suggested: false,
     user_id: 0,
     attributes: [],
@@ -71,18 +72,18 @@ export class GeneralService {
       item_id: 0,
       item_name: ''
     },
-    childs: [],
     images: [],
-    status: '',
+    status: true,
     user_id: 0,
     attributes: [],
-    seller_attributes: []
+    seller_attributes: [],
+    materials_list: []
   };
   defaultSeller: Seller = {
     id: 0,
     name: '',
     explain: '',
-    status: 'active',
+    status: true,
     stars: {},
     type: 'group',
     image: '',
@@ -91,15 +92,18 @@ export class GeneralService {
     site: '',
     addresses: [],
     working_time: {},
+    work_samples: [],
     coverages: [],
-    materials: [],
-    services: []
+    materials_list: [],
+    services_list: []
   };
   defaultSellerService: SellerService = {
-    service: {},
+    service_id: 0,
+    seller_id: 0,
     min_orderable: 0,
     max_orderable: 10000000,
     wholesale_threshold: 1000,
+    status: true,
     prices: [],
     stars: {
       stars: [{
@@ -121,18 +125,16 @@ export class GeneralService {
     condition: false,
     is_suggested: false,
     disscounts: [],
-    attributes: []
+    attributes: [],
+    read_only: false
   };
   defaultSellerMaterial: SellerMaterial = {
-    material: {
-      id: 0 ,
-      name: '',
-      image: '',
-      status: true
-    },
+    material_id: 0,
+    seller_id: 0,
     min_orderable: 0,
     max_orderable: 10000000,
     wholesale_threshold: 1000,
+    status: true,
     stack: true,
     prices: [],
     supply_time: 0,
@@ -140,7 +142,8 @@ export class GeneralService {
     condition: false,
     is_suggested: false,
     disscounts: [],
-    attributes: []
+    attributes: [],
+    read_only: false
   };
   deep = new BehaviorSubject<number>(0);
   currentDeep = this.deep.asObservable();

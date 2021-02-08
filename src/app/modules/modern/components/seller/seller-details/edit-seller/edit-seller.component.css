@@ -65,3 +65,8 @@
     left: 2px;
     color: red;
 }
+.image-in-frame {
+    width: 250px;
+    height: 180px;
+    display: block;
+}

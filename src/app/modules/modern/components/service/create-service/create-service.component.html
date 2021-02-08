@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <div class="col-6 pr-0" *ngIf="selectedService && selectedService.length != 0">
+    <div class="col-6 pr-0" *ngIf="isChild()">
       <div *ngIf="initializedBrandDropdown">
         <h4>برند خدمت</h4>
         <ng-multiselect-dropdown #brandSelect
@@ -61,12 +61,6 @@
       </div>
     </div>
 
-    <div class="col-6 pl-0" *ngIf="selectedService && selectedService.length != 0">
-      <h4>کیفیت خدمت</h4>
-      <select [(ngModel)]="quality" class="form-control">
-        <option *ngFor="let q of qualities" value={{q}}>{{q}}</option>
-      </select>
-    </div>
 
   </div>
 
@@ -90,7 +84,7 @@
   <hr>
 
   <div *ngIf="selectedCategory" class="section mt-5">
-    <div  *ngIf="!selectedService || selectedService.length == 0">
+    <div  *ngIf="!isChild()">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h4>نمایش در فیلتر خدمت مادر</h4>
         <button class="btn btn-outline-info btn-sm mr-auto">افزودن ویژگی به فروشنده</button>
@@ -101,7 +95,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="selectedService && selectedService.length != 0">
+    <div *ngIf="isChild()">
       <h4 class="mb-5">انتخاب ویژگی</h4>
       <div class="d-flex align-items-center my-3" *ngFor="let attr of attributes">
         <label class="ml-3">{{attr.name}}</label>

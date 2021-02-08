@@ -42,7 +42,7 @@
   </div>
 </div>
 
-<div class="section">
+<div class="section" *ngIf="serviceSelected">
   <div class="d-flex align-items-center">
     <h3>تعیین قیمت</h3>
     <button class="btn btn-info btn-sm mr-auto" (click)="addUnit()">افزودن واحد</button>

@@ -1,3 +1,6 @@
+import { AddSampleWorkDialogComponent } from './add-sample-work-dialog/add-sample-work-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { GeneralService } from 'src/app/services/general.service';
 import { Seller } from './../../../../../interfaces/seller';
 import { UploadSection } from './../../../../../interfaces/upload-section';
 import { RepositoryService } from './../../../../../services/repository.service';
@@ -13,24 +16,9 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
   styleUrls: ['./create-seller.component.css']
 })
 export class CreateSellerComponent implements OnInit {
-  seller: Seller = {
-    id: 0,
-    name: '',
-    explain: '',
-    status: 'active',
-    stars: {},
-    type: 'group',
-    image: '',
-    provider_type: '',
-    phones: [],
-    site: '',
-    addresses: [],
-    working_time: {},
-    coverages: [],
-    materials: [],
-    services: []
-  };
+  seller: Seller = this.general.defaultSeller;
   rate = 5;
+  status = 'active';
   addresses: Array<ExtraAddress> = [{
     type: 'daftar',
     extraAdded: {
@@ -62,18 +50,14 @@ export class CreateSellerComponent implements OnInit {
   section: UploadSection;
   image = '';
   selectedImage: any;
-  imageName = '1';
+  imageDirectory = 'sellers';
   initializedImage = false;
 
-  sampleWorks = [
-    {
-      title: ' نقاشی ساختمان',
-      image: 'http://www.rajanews.com/sites/default/files/content/images/story/99-04/17/%D9%86%D9%82%D8%A7%D8%B4%DB%8C.jpg'
-    }
-  ];
+  sampleWorks = [];
   errors = [];
 
-  constructor(private repository: RepositoryService, private alert: ToastrService) { }
+  constructor(private repository: RepositoryService, private alert: ToastrService, private general: GeneralService,
+              public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.repository.getAllCoverages().subscribe(res => {
@@ -143,7 +127,7 @@ export class CreateSellerComponent implements OnInit {
       this.selectedImage = event.target.files[0];
       this.reader.readAsDataURL(this.selectedImage);
       const data = new FormData();
-      data.append('myFile', this.selectedImage, this.imageName);
+      data.append('myFile', this.selectedImage, this.imageDirectory);
       this.repository.uploadImage(data).subscribe(res => {
         if (res !== undefined) {
           if (res.mode === 'progress') {
@@ -179,12 +163,22 @@ export class CreateSellerComponent implements OnInit {
     };
     }
 
-    addSampleWork(): void {
-
+  addSampleWork(): void {
+      const dialogRef = this.dialog.open(AddSampleWorkDialogComponent, {
+       width: '500px'
+      });
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+        
+        if (res && res.title && res.images) {
+          this.sampleWorks.push(res);
+        }
+      });
     }
 
     submit(): void {
       delete this.seller.id;
+      this.seller.status = this.status === 'active' ? true : false;
       this.seller.stars = { // add our rate 3 times to his star for weight 3x
         stars: [ {
           user_id: 0,
@@ -219,6 +213,7 @@ export class CreateSellerComponent implements OnInit {
       }
       this.seller.phones = this.phones;
       this.seller.working_time = this.workingTime;
+      this.seller.work_samples = this.sampleWorks;
       this.seller.image = this.image;
       if (this.seller.name === '') {
         this.errors.push('لطفا نام کسب و کار را وارد کنید!');
@@ -239,25 +234,12 @@ export class CreateSellerComponent implements OnInit {
           this.alert.error(error);
         }
       } else {
+        delete this.seller.materials_list;
+        delete this.seller.services_list;
+
         this.repository.createSeller(this.seller).subscribe(res => {
-          this.seller = {
-            id: 0,
-            name: '',
-            explain: '',
-            status: 'active',
-            stars: {},
-            type: 'group',
-            image: '',
-            provider_type: '',
-            phones: [],
-            site: '',
-            addresses: [],
-            working_time: {},
-            coverages: [],
-            materials: [],
-            services: []
-          };
-          console.log(res);
+          this.alert.success('فروشنده با موفقیت ایجاد شد!');
+          this.seller = this.general.defaultSeller;
         });
       }
       this.errors = [];

@@ -8,10 +8,8 @@ export interface Service {
     sellers: Array<any>;
     images: Array<string>;
     brand_id: number;
-    quality: string;
-    status: string;
+    status: boolean;
     user_id: number;
-    variables: Array<string>;
     attributes: Array<Attribute>;
     seller_attributes: Array<number>;
 }
@@ -21,19 +19,21 @@ export interface MotherService {
     name: string;
     explain: string;
     category: any;
-    childs: Array<any>;
     images: Array<string>;
-    status: string;
+    status: boolean;
     user_id: number;
     attributes: Array<Attribute>;
     seller_attributes: Array<number>;
+    services_list: Array<any>;
 }
 
 export interface SellerService {
-    service: any;
+    service_id: number;
+    seller_id: number;
     min_orderable: number;
     max_orderable: number;
     wholesale_threshold: number;
+    status: boolean;
     prices: Array<any>;
     supply_time: number;
     stars: any;
@@ -43,4 +43,5 @@ export interface SellerService {
     is_suggested: boolean;
     disscounts: Array<any>;
     attributes: Array<any>;
+    read_only: boolean;
 }

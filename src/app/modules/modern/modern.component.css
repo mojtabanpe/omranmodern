@@ -144,9 +144,6 @@
     color: white !important;
   }
   
-
-
-  
 .dashboard:hover,
 .dashboard:active {
   color: white !important;
@@ -155,6 +152,72 @@
 
 .dashboard:hover span,
 .dashboard:active span {
+  color: white !important;
+}
+
+.users:hover,
+.users:active {
+  color: white !important;
+  background-color: #F3507D;
+}
+
+.users:hover span,
+.users:active span {
+  color: white !important;
+}
+
+.statistics:hover,
+.statistics:active {
+  color: white !important;
+  background-color: #035d69;
+}
+
+.statistics:hover span,
+.statistics:active span {
+  color: white !important;
+}
+
+.invoices:hover,
+.invoices:active {
+  color: white !important;
+  background-color: #68f1eb;
+}
+
+.invoices:hover span,
+.invoices:active span {
+  color: white !important;
+}
+
+.messages:hover,
+.messages:active {
+  color: white !important;
+  background-color: #6930C3;
+}
+
+.messages:hover span,
+.messages:active span {
+  color: white !important;
+}
+
+.change-password:hover,
+.change-password:active {
+  color: white !important;
+  background-color: #b8eb89;
+}
+
+.change-password:hover span,
+.change-password:active span {
+  color: white !important;
+}
+
+.logout:hover,
+.logout:active {
+  color: white !important;
+  background-color: #63051c;
+}
+
+.logout:hover span,
+.logout:active span {
   color: white !important;
 }
 

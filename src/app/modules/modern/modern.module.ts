@@ -1,3 +1,13 @@
+import { AddSampleWorkDialogComponent } from './components/seller/create-seller/add-sample-work-dialog/add-sample-work-dialog.component';
+import { EditSellerServiceComponent } from './components/seller/seller-details/seller-services/edit-seller-service/edit-seller-service.component';
+import { EditSellerMaterialComponent } from './components/seller/seller-details/seller-materials/edit-seller-material/edit-seller-material.component';
+import { SellersOfMotherMaterialComponent } from './components/material/sellers-of-mother-material/sellers-of-mother-material.component';
+import { SellersOfMaterialComponent } from './components/material/sellers-of-material/sellers-of-material.component';
+import { EditMotherServiceComponent } from './components/service/edit-mother-service/edit-mother-service.component';
+import { EditServiceComponent } from './components/service/edit-service/edit-service.component';
+import { EditMotherMaterialComponent } from './components/material/edit-mother-material/edit-mother-material.component';
+import { EditMaterialComponent } from './components/material/edit-material/edit-material.component';
+import { MessagesComponent } from './components/messages/messages.component';
 import { AddMaterialToSellerComponent } from './components/seller/add-material-to-seller/add-material-to-seller.component';
 import { AddServiceToSellerComponent } from './components/seller/add-service-to-seller/add-service-to-seller.component';
 import { SampleWorksComponent } from './components/seller/seller-details/sample-works/sample-works.component';
@@ -68,7 +78,17 @@ import { SharedModule } from '../shared/shared.module';
     CoveragesComponent,
     SampleWorksComponent,
     AddServiceToSellerComponent,
-    AddMaterialToSellerComponent
+    AddMaterialToSellerComponent,
+    MessagesComponent,
+    EditMaterialComponent,
+    EditMotherMaterialComponent,
+    EditServiceComponent,
+    EditMotherServiceComponent,
+    SellersOfMaterialComponent,
+    SellersOfMotherMaterialComponent,
+    EditSellerMaterialComponent,
+    EditSellerServiceComponent,
+    AddSampleWorkDialogComponent
   ]
 })
 export class ModernModule { }

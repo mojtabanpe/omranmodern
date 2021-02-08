@@ -3,7 +3,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/modern/dashboard">عمران مدرن</a></li>
       <li class="breadcrumb-item"><a routerLink="/modern/manage_sellers">فروشنده ها</a></li>
-      <li class="breadcrumb-item active" aria-current="page">معرفی فروشنده جدید</li>
+      <li class="breadcrumb-item active" aria-current="page">ویرایش فروشنده</li>
     </ol>
   </nav>
 </div>
@@ -13,7 +13,7 @@
     <div class="row">
       <div class="col-6">
         <h4>وضعیت فروشنده</h4>
-        <select [(ngModel)]="seller.status" class="form-control">
+        <select [(ngModel)]="status" class="form-control">
           <option value="active">فعال</option>
           <option value="inactive">غیرفعال</option>
         </select>
@@ -156,7 +156,7 @@
 
   <div *ngIf="!deletedPicture">
     <h3>عکس مربوط به کسب و کار</h3>
-    <img [src]="seller.image" alt="" class="d-block">
+    <img [src]="seller.image" alt="" class="image-in-frame">
     <button class="btn btn-sm btn-outline-danger mt-2" (click)="removePicture()">حذف تصویر</button>
   </div>
   <div *ngIf="deletedPicture">
@@ -177,16 +177,12 @@
     </div>
   </div>
 
-  <div class="form-group my-5">
-    <h4>ضمیمه کردن رزومه</h4>
-    <input class="form-control" placeholder="browse: ./pdf">
-  </div>
 
-  <div class="form-group">
+  <div class="form-group my-4">
     <h4>نمونه کار</h4>
     <div class="border p-3 d-flex flex-wrap">
-      <div *ngFor="let sampleWork of sampleWorks" class="sample-work">
-       <img [src]="sampleWork.image" alt="">
+      <div *ngFor="let sampleWork of workSamples" class="sample-work">
+       <img [src]="sampleWork.images[0]" alt="">
        <div class="d-flex justify-content-center align-items-center">{{sampleWork.title}}</div>
       </div>
       <div class="insert-pic text-info p-2" (click)="addSampleWork()">

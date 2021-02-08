@@ -10,9 +10,9 @@
 
 <div class="d-flex justify-content-between">
   <h3>لیست فروشنده های فعال</h3>
-  <button class="btn btn-info d-flex align-items-center btn-sm">
+  <button routerLink="/modern/create_seller" class="btn btn-info d-flex align-items-center btn-sm">
     <mat-icon>add</mat-icon>
-    <a routerLink="/modern/create_material" class="text-white">افزودن کالای جدید</a>
+    <a class="text-white">افزودن فروشنده جدید</a>
   </button>
 </div>
 <div class="section mb-2">
@@ -25,7 +25,7 @@
   </div>
 </div>
 
-<div class="row mb-5 section">
+<div class="row mb-5 section chooseAddress">
   <div class="col-4 pr-0">
     <h4>استان</h4>
     <select [(ngModel)]="addressForSerach.selectedProvince" (change)="changeProvince($event.target.value)" class="form-control">
@@ -67,15 +67,15 @@
       <td class="first-td">
         <div class="d-flex">
           <img src={{seller.image}} alt="">
-          <a (click)="changeSeller(seller)">{{seller.name}}</a>
+          <a routerLink="/modern/seller-details/{{seller.id}}">{{seller.name}}</a>
         </div>   
       </td>
       <td>{{seller.addresses[0].city}}</td>
-      <td>{{seller.materials.length| persianNumber}}</td>
-      <td>{{seller.services.length| persianNumber}}</td>
+      <td>{{seller.materials_list.length| persianNumber}}</td>
+      <td>{{seller.services_list.length| persianNumber}}</td>
       <td>
-        <mat-icon class="text-warning">edit</mat-icon>
-        <mat-icon class="text-danger">delete</mat-icon>
+        <mat-icon class="text-warning" routerLink="/modern/seller-details/{{seller.id}}">edit</mat-icon>
+        <mat-icon class="text-danger" (click)="deleteSeller(seller)">delete</mat-icon>
       </td>
     </tr>
   </tbody>

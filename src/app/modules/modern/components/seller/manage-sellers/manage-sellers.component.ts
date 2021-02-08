@@ -1,3 +1,5 @@
+import { YesOrNoDialogComponent } from 'src/app/components/dialogs/yes-or-no-dialog/yes-or-no-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { GeneralService } from 'src/app/services/general.service';
 import { ExtraAdded } from './../../../../../interfaces/address';
@@ -21,7 +23,8 @@ export class ManageSellersComponent implements OnInit {
     selectedCity: 0,
     selectedZone: '0'
   };
-  constructor(private repository: RepositoryService, private general: GeneralService, private router: Router) { }
+  constructor(private repository: RepositoryService, private general: GeneralService, private router: Router,
+              private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.repository.getAllCoverages().subscribe(res => {
@@ -54,9 +57,20 @@ export class ManageSellersComponent implements OnInit {
     }
   }
 
-  changeSeller(seller): void {
-    this.general.changeSeller(seller);
-    this.router.navigate(['/modern/seller-details']);
+  deleteSeller(seller): void {
+    const dialogRef = this.dialog.open(YesOrNoDialogComponent, {
+      data: {title: 'آیا از حذف این فروشنده اطمینان دارید؟'}
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res === 'yes') {
+        this.repository.deleteSeller(seller.id).subscribe(response => {
+          const index = this.sellers.indexOf(seller);
+          this.sellers.splice(index, 1);
+        });
+      }
+    });
+
+
   }
 
 }

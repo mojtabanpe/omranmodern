@@ -22,6 +22,7 @@ export class MainDetailComponent implements OnInit, OnDestroy {
   initialized = false;
   deep = 13;
   category: Category;
+  nameChanged = false;
   reader = new FileReader();
   sections: Array<UploadSection> = [];
   inProgress = false;
@@ -47,30 +48,24 @@ export class MainDetailComponent implements OnInit, OnDestroy {
               private alert: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
-    this.categorySub = this.general.currentCategory.subscribe((res: Category) => {
-      this.category = res;
-    });
     this.deepSub = this.general.currentDeep.subscribe(res => {
       this.deep = res;
     });
     if (this.mode === 'create') {
+      this.category = this.general.defaultCategory;
       if (this.deep !== 0) {
         this.repository.getTopDeepCategories(this.deep).subscribe((result) => {
           this.categories = result;
         });
       }
-      this.editOrCreateForm = this.fb.group({
-        name: ['', [Validators.required]],
-        explain: ['', [Validators.required]]
-      });
     } else {
-        this.repository.getCategoryParentsByIDs(this.category.id).subscribe((result) => {
+      this.categorySub = this.general.currentCategory.subscribe((res: Category) => {
+        this.category = res;
+        this.images[0] = this.category.image;
+      });
+      this.repository.getCategoryParentsByIDs(this.category.id).subscribe((result) => {
           this.categories = result.categories;
           this.selectedCategories = result.selectedCategories;
-        });
-        this.editOrCreateForm = this.fb.group({
-          name: [this.category.name, [Validators.required]],
-          explain: [this.category.explain, [Validators.required]]
         });
       }
     this.dropdownSettings = {
@@ -125,6 +120,7 @@ export class MainDetailComponent implements OnInit, OnDestroy {
     this.deletedImage = true;
     this.images = [];
   }
+
   submit(): void {
     const ids = [];
     this.selectedCategories.forEach((value, element) => {
@@ -141,23 +137,28 @@ export class MainDetailComponent implements OnInit, OnDestroy {
     this.repository.createCategory(this.passToServer).subscribe((res: any) => {
       this.alert.success('گروه جدید با موفقیت ایجاد شد!');
       this.repository.UpdateParentsWithThisChild(this.changedParents, res.id).subscribe();
-      this.router.navigate(['/create_edit_category', {skipLocationChange: true}]);
+      this.router.navigate(['/modern/create_edit_category', {skipLocationChange: true}]);
     }, error => {
       this.alert.error('ورودی های خود را کنترل کنید!');
     });
   } else if (this.mode === 'edit') {
     this.category.image = this.images[0];
-    this.category.name = this.editOrCreateForm.get('name').value;
-    this.category.explain = this.editOrCreateForm.get('explain').value;
     this.general.changeCategory(this.category);
     this.passToServer = {
-      name : this.editOrCreateForm.get('name').value,
-      explain: this.editOrCreateForm.get('explain').value,
+      name : this.category.name,
+      explain: this.category.explain,
       parents_id: ids,
-      image: this.images[0],
+      image: this.category.image
     };
     this.repository.updateCategory(this.passToServer, this.category.id).subscribe(res => {
       this.alert.success('گروه با موفقیت ویرایش شد!');
+      if (this.nameChanged) {
+        if (this.category.is_cluster) {
+          this.repository.changeProductsCategoryName(this.category.id).subscribe(response => {
+
+          });
+        }
+      }
     }, err => {
       this.alert.error('مشکلی در ویرایش گروه وجود دارد!');
     });
@@ -180,7 +181,9 @@ export class MainDetailComponent implements OnInit, OnDestroy {
     this.changedParents.removedParents.push($event.parent_id);
   }
   ngOnDestroy(): void {
-    this.categorySub.unsubscribe();
+    if (this.categorySub) {
+      this.categorySub.unsubscribe();
+    }
     this.deepSub.unsubscribe();
   }
 }

@@ -6,7 +6,7 @@ export interface Seller {
     id: number;
     name: string;
     explain: string;
-    status: string;
+    status: boolean;
     stars: {};
     type: string;
     image: string;
@@ -15,7 +15,8 @@ export interface Seller {
     site: string;
     addresses: Array<Address>;
     working_time: any;
+    work_samples: Array<any>;
     coverages: Array<any>;
-    materials: Array<SellerMaterial>;
-    services: Array<SellerService>;
+    materials_list: Array<SellerMaterial>;
+    services_list: Array<SellerService>;
 }

@@ -36,9 +36,7 @@ export class CreateMaterialComponent implements OnInit {
   motherMaterial = this.general.defaultMotherMaterial;
   statuses = [
     {value: 'active', viewValue: 'فعال'},
-    {value: 'inactive', viewValue: 'غیرفعال'},
-    {value: 'rejected', viewValue: 'ردشده'},
-    {value: 'suggested', viewValue: 'پیشنهادی'}
+    {value: 'inactive', viewValue: 'غیرفعال'}
   ];
   selectedStatus: string = this.statuses[0].value;
 
@@ -53,13 +51,8 @@ export class CreateMaterialComponent implements OnInit {
   brandDropdownSettings: IDropdownSettings;
   @ViewChild('brandSelect', {static: false}) brandSelect;
 
-  quality = 'پیشنهاد عمران مدرن';
-  qualities = ['اقتصادی و ارزان', 'گیفیت و قمیت مناسب', 'کیفیت عالی', 'لوکس و حرفه ای', 'مصالح نوین', 'پیشنهاد عمران مدرن', 'نامشخص'];
-
-  units = [];
-  selectedUnit = [];
-  unitDropdownSettings: IDropdownSettings;
-  @ViewChild('unitSelect', {static: false}) unitSelect;
+  quality = 'نامشخص';
+  qualities = ['اقتصادی و ارزان', 'گیفیت و قمیت مناسب', 'کیفیت عالی', 'لوکس و حرفه ای', 'مصالح نوین', 'نامشخص'];
 
   materials = [];
   selectedMaterial = [];
@@ -83,8 +76,9 @@ export class CreateMaterialComponent implements OnInit {
 
   public Editor = ClassicEditor;
 
+
   errors = [];
-  constructor(private repository: RepositoryService, public dialog: MatDialog, private alert: ToastrService, 
+  constructor(private repository: RepositoryService, public dialog: MatDialog, private alert: ToastrService,
               private general: GeneralService) { }
 
   ngOnInit(): void {
@@ -105,17 +99,6 @@ export class CreateMaterialComponent implements OnInit {
       noDataAvailablePlaceholderText: 'داده ای برای نمایش وجود ندارد'
     };
 
-    this.unitDropdownSettings = {
-      singleSelection: false,
-      idField: 'unit_id',
-      textField: 'unit_name',
-      allowSearchFilter: true,
-      selectAllText: 'انتخاب همه',
-      unSelectAllText: 'حذف همه',
-      itemsShowLimit: 3,
-      noDataAvailablePlaceholderText: 'داده ای برای نمایش وجود ندارد'
-    };
-
     this.materialDropdownSettings = {
       singleSelection: false,
       idField: 'material_id',
@@ -127,7 +110,7 @@ export class CreateMaterialComponent implements OnInit {
       noDataAvailablePlaceholderText: 'داده ای برای نمایش وجود ندارد'
     };
 
-    this.repository.getClusters().subscribe((res) => {
+    this.repository.getClusters(true).subscribe((res) => {
       for (const category of res) {
         this.categories.push({
           category_id: category.id,
@@ -145,15 +128,7 @@ export class CreateMaterialComponent implements OnInit {
       }
       this.initializedBrandDropdown = true;
     });
-    this.repository.getAllUnits().subscribe(res => {
-      for (const unit of res) {
-        this.units.push({
-          unit_id: unit.id,
-          unit_name: unit.name
-        });
-      }
-      this.initializedUnitDropdown = true;
-    });
+
 
   }
 
@@ -200,24 +175,6 @@ export class CreateMaterialComponent implements OnInit {
             brand_name: res.name
           });
           this.brandSelect.data = this.brands;
-        });
-      }
-    });
-  }
-  addUnit(): void {
-    const dialogRef = this.dialog.open(CreateAttributeDialogComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== 'cancel' && result !== undefined) {
-        const unit = {
-          name: result,
-        };
-        this.repository.createUnit(unit).subscribe(res => {
-          this.units.push({
-            unit_id: res.id,
-            unit_name: res.name
-          });
-          this.unitSelect.data = this.units;
         });
       }
     });
@@ -271,13 +228,15 @@ export class CreateMaterialComponent implements OnInit {
     attr.value = value;
   }
 
+  isChild(): boolean {
+    return this.selectedMaterial !== undefined && this.selectedMaterial.length !== 0;
+  }
+
   submit(): void {
-    let isChild = true;
-    if (this.selectedMaterial !== undefined && this.selectedMaterial.length !== 0) { // kalaye madar entekhab shode
-    this.material.status = this.selectedStatus;
+    if (this.isChild() === true) { // kalaye madar entekhab shode
+    this.material.status = this.selectedStatus === 'active' ? true : false;
     if (this.selectedCategory !== undefined) {
-      this.material.category.item_id = this.selectedCategory[0].category_id;
-      this.material.category.item_name = this.selectedCategory[0].category_name;
+      this.material.category = this.selectedCategory[0].category_id;
     } else {
       this.errors.push('لطفا خوشه را اتنخاب کنید');
     }
@@ -289,10 +248,7 @@ export class CreateMaterialComponent implements OnInit {
 
 
     for (const temp of this.selectedMaterial) {
-        this.material.mothers.push({
-          item_id: temp.material_id,
-          item_name: temp.material_name
-        });
+        this.material.mothers.push(temp.material_id);
       }
 
 
@@ -313,11 +269,9 @@ export class CreateMaterialComponent implements OnInit {
     this.material.explain = this.materialExplain;
 
     } else {
-      isChild = false;
-      this.motherMaterial.status = this.selectedStatus;
+      this.motherMaterial.status = this.selectedStatus === 'active' ? true : false;
       if (this.selectedCategory !== undefined) {
-        this.motherMaterial.category.item_id = this.selectedCategory[0].category_id;
-        this.motherMaterial.category.item_name = this.selectedCategory[0].category_name;
+        this.motherMaterial.category = this.selectedCategory[0].category_id;
     } else {
         this.errors.push('لطفا خوشه را اتنخاب کنید');
     }
@@ -327,14 +281,13 @@ export class CreateMaterialComponent implements OnInit {
     } else {
         this.motherMaterial.name = this.materialName;
     }
-      this.motherMaterial.childs = [];
       this.motherMaterial.images = this.images;
       this.motherMaterial.attributes = this.attributes;
       this.motherMaterial.explain = this.materialExplain;
     }
 
     if (this.errors.length === 0) {
-      if (isChild === true) {
+      if (this.isChild() === true) {
       delete this.material.id;
       this.repository.createMaterial(this.material).subscribe((res: Material) => {
         this.alert.success('کالا با موفقیت ایجاد شد!');

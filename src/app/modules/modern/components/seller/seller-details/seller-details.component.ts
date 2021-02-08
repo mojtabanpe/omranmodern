@@ -1,4 +1,5 @@
-import { Router } from '@angular/router';
+import { RepositoryService } from 'src/app/services/repository.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { GeneralService } from 'src/app/services/general.service';
 import { Seller } from './../../../../../interfaces/seller';
 import { Component, OnInit } from '@angular/core';
@@ -10,12 +11,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SellerDetailsComponent implements OnInit {
   seller: Seller;
-  constructor(private general: GeneralService, private router: Router) { }
+  constructor(private general: GeneralService, private router: Router, private activatedRoute: ActivatedRoute,
+              private repository: RepositoryService) { }
 
   ngOnInit(): void {
-      this.general.currentSeller.subscribe(res => {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.repository.getSeller(id).subscribe(res => {
       this.seller = res;
+      this.general.changeSeller(this.seller);
     });
+
   }
 
 }

@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { SellerMaterial } from './../../../../../interfaces/material';
 import { Seller } from './../../../../../interfaces/seller';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -66,7 +67,7 @@ export class AddMaterialToSellerComponent implements OnInit {
   @ViewChild('motherMaterialSelect', {static: false}) motherMaterialSelect;
 
 
-  Materials = [];
+  materials = [];
   selectedMaterial = [];
   materialDropdownSettings: IDropdownSettings;
   @ViewChild('materialSelect', {static: false}) materialSelect;
@@ -76,11 +77,14 @@ export class AddMaterialToSellerComponent implements OnInit {
   initializedMotherMaterialDropdown = false;
   materialSelected = false;
 
-  constructor(private general: GeneralService, private repository: RepositoryService, private alert: ToastrService) { }
+  constructor(private general: GeneralService, private repository: RepositoryService, private alert: ToastrService,
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.general.currentSeller.subscribe(res => {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.repository.getSeller(id).subscribe(res => {
       this.seller = res;
+      this.material.seller_id = this.seller.id;
     });
 
     this.categoryDropdownSettings = {
@@ -112,7 +116,7 @@ export class AddMaterialToSellerComponent implements OnInit {
       noDataAvailablePlaceholderText: 'داده ای برای نمایش وجود ندارد'
     };
 
-    this.repository.getClusters().subscribe((res) => {
+    this.repository.getClusters(true).subscribe((res) => {
       for (const category of res) {
         this.categories.push({
           id: category.id,
@@ -130,6 +134,7 @@ export class AddMaterialToSellerComponent implements OnInit {
       const clusterId = this.selectedCategory[0].id;
       const forMotherMaterials: Array<ItemForSelect> = [];
       this.repository.getMotherMaterials(clusterId).subscribe(res => {
+        this.motherMaterials = res;
         for (const item of res) {
           forMotherMaterials.push({
             id: item.id,
@@ -149,16 +154,15 @@ export class AddMaterialToSellerComponent implements OnInit {
     this.selectedMaterial = [];
     if (this.selectedMotherMaterial !== undefined) {
       const motherId = +this.selectedMotherMaterial[0].id;
-      const forMaterials: Array<ItemForSelect> = [];
-      this.repository.getMaterialsByMother(motherId).subscribe(res => {
-        for (const item of res) {
+      const mother = this.motherMaterials.filter(m => m.id === motherId)[0];
+      const forMaterials = [];
+      for (const item of mother.materials_list) {
           forMaterials.push({
-            id: item.item_id,
-            name: item.item_name
+            id: item.id,
+            name: item.name
           });
         }
-        this.materialSelect.data = forMaterials;
-      });
+      this.materialSelect.data = forMaterials;
       this.repository.getSellerMaterialAttributes(this.selectedMotherMaterial[0].id).subscribe(res => {
         this.attributes = res;
       });
@@ -179,13 +183,17 @@ export class AddMaterialToSellerComponent implements OnInit {
     });
   }
 
+  getDateTime(): any {
+    return new Date();
+  }
   submit(): void {
     const passToServerMaterials: Array<SellerMaterial> = [];
     for (const viewPrice of this.viewPrices) {
       const price = {
         unit: '',
         amount: '',
-        wholesale_amount : ''
+        wholesale_amount : '',
+        last_update: this.getDateTime()
       };
       price.unit = viewPrice.unit;
       if (viewPrice.amountFixed === 'fixed') {
@@ -220,30 +228,22 @@ export class AddMaterialToSellerComponent implements OnInit {
         value: attr.value
       });
     }
-    delete this.material.material;
+    delete this.material.material_id;
     let responseLength = 0;
-
     for (const selectedMaterial of this.selectedMaterial) {
-      this.repository.getMaterial(selectedMaterial.id).subscribe(res => {
-        passToServerMaterials.push({...this.material, material: {
-            id: res.id,
-            name: res.name,
-            image: res.images,
-            status: res.status === 'active' ? true : false
-           }});
+        passToServerMaterials.push({...this.material, material_id: selectedMaterial.id});
         responseLength++;
-        if (responseLength === this.selectedMaterial.length) {
-          this.repository.addMaterialsToSeller(passToServerMaterials, this.seller.id).subscribe(response => {
-            this.material.prices = [];
-            this.material.sell_types = [];
-            this.material.attributes = [];
-            this.alert.success('کالاهای فروشنده به روز شد!');
-          }, err => {
-            this.alert.error('مشکلی در بروزرسانی فروشنده بوجود آمده است!');
-          }
-          );
-        }
-      });
     }
+    if (responseLength === this.selectedMaterial.length) {
+        this.repository.createSellerMaterials(passToServerMaterials).subscribe(response => {
+          this.material.prices = [];
+          this.material.sell_types = [];
+          this.material.attributes = [];
+          this.alert.success('کالاهای فروشنده به روز شد!');
+        }, err => {
+          this.alert.error('مشکلی در بروزرسانی فروشنده بوجود آمده است!');
+        }
+        );
+      }
   }
 }

@@ -43,10 +43,8 @@ export class CreateServiceComponent implements OnInit {
     sellers: [],
     images: [],
     brand_id: 0,
-    quality: '',
-    status: '',
+    status: true,
     user_id: 0,
-    variables: [],
     attributes: [],
     seller_attributes: []
   };
@@ -58,18 +56,16 @@ export class CreateServiceComponent implements OnInit {
       item_id: 0,
       item_name: ''
     },
-    childs: [],
     images: [],
-    status: '',
+    status: true,
     user_id: 0,
     attributes: [],
-    seller_attributes: []
+    seller_attributes: [],
+    services_list: []
   };
   statuses = [
     {value: 'active', viewValue: 'فعال'},
-    {value: 'inactive', viewValue: 'غیرفعال'},
-    {value: 'rejected', viewValue: 'ردشده'},
-    {value: 'suggested', viewValue: 'پیشنهادی'}
+    {value: 'inactive', viewValue: 'غیرفعال'}
   ];
   selectedStatus: string = this.statuses[0].value;
 
@@ -84,9 +80,6 @@ export class CreateServiceComponent implements OnInit {
   selectedBrand = [];
   brandDropdownSettings: IDropdownSettings;
   @ViewChild('brandSelect', {static: false}) brandSelect;
-
-  quality = 'پیشنهاد عمران مدرن';
-  qualities = ['اقتصادی و ارزان', 'گیفیت و قمیت مناسب', 'کیفیت عالی', 'لوکس و حرفه ای', 'مصالح نوین', 'پیشنهاد عمران مدرن', 'نامشخص'];
 
   units = [];
   selectedUnit = [];
@@ -157,7 +150,7 @@ export class CreateServiceComponent implements OnInit {
       noDataAvailablePlaceholderText: 'داده ای برای نمایش وجود ندارد'
     };
 
-    this.repository.getClusters().subscribe((res) => {
+    this.repository.getClusters(false).subscribe((res) => {
       for (const category of res) {
         this.categories.push({
           category_id: category.id,
@@ -301,13 +294,15 @@ export class CreateServiceComponent implements OnInit {
     attr.value = value;
   }
 
+  isChild(): boolean {
+    return this.selectedService !== undefined && this.selectedService.length !== 0;
+  }
+
   submit(): void {
-    let isChild = true;
-    if (this.selectedService !== undefined && this.selectedService.length !== 0) { // kalaye madar entekhab shode
-    this.service.status = this.selectedStatus;
+    if (this.isChild() === true) { // kalaye madar entekhab shode
+    this.service.status = this.selectedStatus === 'active' ? true : false;
     if (this.selectedCategory !== undefined) {
-      this.service.category.item_id = this.selectedCategory[0].category_id;
-      this.service.category.item_name = this.selectedCategory[0].category_name;
+      this.service.category = this.selectedCategory[0].category_id;
     } else {
       this.errors.push('لطفا خوشه را اتنخاب کنید');
     }
@@ -319,10 +314,7 @@ export class CreateServiceComponent implements OnInit {
 
 
     for (const temp of this.selectedService) {
-        this.service.mothers.push({
-          item_id: temp.service_id,
-          item_name: temp.service_name
-        });
+        this.service.mothers.push(temp.service_id);
       }
 
 
@@ -330,7 +322,6 @@ export class CreateServiceComponent implements OnInit {
         this.service.brand_id = this.selectedBrand[0].brand_id;
       }
 
-    this.service.quality = this.quality;
 
     if (this.images.length === 0) {
         this.errors.push('لطفا حداقل یک عکس بارگذاری کنید');
@@ -343,11 +334,9 @@ export class CreateServiceComponent implements OnInit {
     this.service.explain = this.serviceExplain;
 
     } else {
-      isChild = false;
-      this.motherService.status = this.selectedStatus;
+      this.motherService.status = this.selectedStatus === 'active' ? true : false;
       if (this.selectedCategory !== undefined) {
-        this.motherService.category.item_id = this.selectedCategory[0].category_id;
-        this.motherService.category.item_name = this.selectedCategory[0].category_name;
+        this.motherService.category = this.selectedCategory[0].category_id;
     } else {
         this.errors.push('لطفا خوشه را اتنخاب کنید');
     }
@@ -357,25 +346,29 @@ export class CreateServiceComponent implements OnInit {
     } else {
         this.motherService.name = this.serviceName;
     }
-      this.motherService.childs = [];
       this.motherService.images = this.images;
       this.motherService.attributes = this.attributes;
       this.motherService.explain = this.serviceExplain;
     }
 
     if (this.errors.length === 0) {
-      if (isChild === true) {
+      if (this.isChild() === true) {
       delete this.service.id;
+      console.log(JSON.stringify(this.service));
       this.repository.createService(this.service).subscribe((res: Service) => {
         this.alert.success('خدمت با موفقیت ایجاد شد!');
       }, error => {
+        console.log(error);
         this.alert.error('مشکلی در ایجاد خدمت بوجود آمد!');
       });
     } else {
       delete this.motherService.id;
+      console.log(JSON.stringify(this.motherService));
+
       this.repository.createMotherService(this.motherService).subscribe((res: MotherService) => {
         this.alert.success('خدمت با موفقیت ایجاد شد!');
       }, error => {
+        console.log(error);
         this.alert.error('مشکلی در ایجاد خدمت بوجود آمد!');
       });
     }

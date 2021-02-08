@@ -1,0 +1,17 @@
+.body-content {
+    display: flex;
+    flex-direction: column;
+}
+.pooshe {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid gray;
+    height: 40px;
+    padding: 0 1rem;
+}
+.pooshe .text {
+    display: flex;
+    align-items: center;
+    color: rgb(121, 133, 132);
+}

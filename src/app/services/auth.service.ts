@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
-  baseUrl = environment.apiUrl;
+  baseUrl = environment.serverUrl;
 
   private httpOptions: any;
 
@@ -65,9 +65,10 @@ export class AuthService {
     this.tokenExpires = null;
     this.username = null;
     localStorage.removeItem('token');
+    window.location.href = environment.appUrl;
   }
 
-  private updateData(token): void {
+  updateData(token): void {
     localStorage.setItem('token', token);
     this.token = token;
     this.errors = [];
@@ -84,9 +85,6 @@ export class AuthService {
     return !this.jwtHelper.isTokenExpired(token);
   }
 
-  getCities(): any {
-    return this.http.get(this.baseUrl + 'dokkoon/cities', this.httpOptions);
-  }
 
 }
 

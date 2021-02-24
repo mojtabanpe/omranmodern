@@ -22,6 +22,7 @@ export class ManageServicesComponent implements OnInit {
 
   ngOnInit(): void {
     this.servicesSub = this.repository.getServicesByStatus(this.selectedStatus).subscribe(res => {
+      this.changeImagesType(res);
       this.services = res;
     });
   }
@@ -31,10 +32,12 @@ export class ManageServicesComponent implements OnInit {
     }
     if (this.tableMode) {
       this.repository.getServicesByStatus(this.selectedStatus).subscribe(res => {
+        this.changeImagesType(res);
         this.services = res;
       });
     } else {
       this.repository.getMotherServicesByStatus(this.selectedStatus).subscribe(res => {
+        this.changeImagesType(res);
         this.motherServices = res;
       });
     }
@@ -64,6 +67,12 @@ export class ManageServicesComponent implements OnInit {
         }
       }
     });
+  }
+
+  changeImagesType(services): void {
+    for (const service of services) {
+      service.images = service.images.toString().split(',');
+    }
   }
 
 }

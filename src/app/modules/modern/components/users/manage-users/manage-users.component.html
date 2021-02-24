@@ -1,0 +1,60 @@
+<div class="section p-0">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/modern/dashboard">عمران مدرن</a></li>
+      <li class="breadcrumb-item active">کاربران</li>
+      <li class="breadcrumb-item active" aria-current="page">مدیریت کاربران</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="d-flex justify-content-between">
+  <h3>لیست کالاها</h3>
+  <button routerLink="/modern/create_user" class="btn btn-info d-flex align-items-center btn-sm">
+    <mat-icon>add</mat-icon>
+    <a class="text-white">افزودن کاربر جدید</a>
+  </button>
+</div>
+
+<div class="section d-flex py-2 mt-5">
+  <div class="d-flex align-items-center">
+    <mat-icon>sort</mat-icon>
+    <h3 class="mb-0 mr-1">مرتب سازی بر اساس</h3>
+  </div>
+  <div class="mr-5">
+    <button class="btn btn-info btn-sm mx-1">جدیدترین</button>
+    <button class="btn btn-info btn-sm mx-1">قدیمی ترین</button>
+    <button class="btn btn-info btn-sm mx-1">حروف الفبا</button>
+  </div>
+</div>
+
+<h3 class="text-secondary">جستجو بر اساس عنوان</h3>
+<div class="section-gray mb-5">
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <button class="btn btn-info input-group-text"><mat-icon>search</mat-icon></button>
+    </div>
+    <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1">
+  </div>
+</div>
+
+<table class="my-table">
+  <thead class="my-thead">
+    <tr>
+      <th>نام</th>
+      <th>نام خانوادگی</th>
+      <th>ایمیل</th>
+      <th>شماره تلفن</th>
+      <th>نقش</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let userProfile of userProfiles" class="my-tr">
+      <td>{{userProfile.user.first_name}}</td>
+      <td>{{userProfile.user.last_name}}</td>
+      <td>{{userProfile.user.email}}</td>
+      <td>{{userProfile.mobile| persianNumber}}</td>
+      <td>{{userProfile.type| role}}</td>
+    </tr>
+  </tbody>
+</table>

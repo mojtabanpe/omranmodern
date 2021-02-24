@@ -1,3 +1,4 @@
+import { PersianNumberPipe } from './pipes/persian-number.pipe';
 import { TestComponent } from './components/general/test/test.component';
 import { UserModule } from './modules/user/user.module';
 import { SellerModule } from './modules/seller/seller.module';
@@ -12,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxUiLoaderModule, NgxUiLoaderConfig, POSITION, SPINNER, PB_DIRECTION, NgxUiLoaderHttpModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
+import {CookieService} from 'ngx-cookie-service';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -41,7 +43,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NgxUiLoaderHttpModule.forRoot({showForeground: false}),
     NgxUiLoaderRouterModule
   ],
-  providers: [GeneralService, AuthService,
+  providers: [GeneralService, AuthService, CookieService,
     {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,

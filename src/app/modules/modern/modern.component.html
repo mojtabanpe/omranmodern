@@ -1,7 +1,7 @@
 <div class="topnav" [style.width]="navIsOpen? '100%': '50px'">
   <a (click)="toggleNav()" class="nav-brand" *ngIf="navIsOpen">
     <mat-icon>person</mat-icon>
-    <span class="mt-1 mr-2">ثمینا خزائلی</span>
+    <span class="mt-1 mr-2">{{username}}</span>
   </a>
   <a (click)="toggleNav()" *ngIf="!navIsOpen"><mat-icon>menu</mat-icon></a>
 </div>
@@ -91,14 +91,14 @@
   <a *ngIf="!navIsOpen" href="#"><mat-icon>assignment</mat-icon></a>
   <a *ngIf="!navIsOpen" routerLink="/modern/messages"><mat-icon>message</mat-icon></a>
   <a *ngIf="!navIsOpen" href="#"><mat-icon>lock_open</mat-icon></a>
-  <a *ngIf="!navIsOpen" href="#"><mat-icon>exit_to_app</mat-icon></a>
+  <a *ngIf="!navIsOpen" (click)="logout()"><mat-icon>exit_to_app</mat-icon></a>
 
-  <a class="expanded users" *ngIf="navIsOpen" href="#"><mat-icon>group</mat-icon><span class="mr-3">کاربران</span></a>
+  <a class="expanded users" *ngIf="navIsOpen" routerLink="/modern/manage_users"><mat-icon>group</mat-icon><span class="mr-3">کاربران</span></a>
   <a class="expanded statistics" *ngIf="navIsOpen" href="#"><mat-icon>pie_chart</mat-icon><span class="mr-3">آمار</span></a>
   <a class="expanded invoices" *ngIf="navIsOpen" href="#"><mat-icon>assignment</mat-icon><span class="mr-3">فاکتورها</span></a>
   <a class="expanded messages" *ngIf="navIsOpen" routerLink="/modern/messages"><mat-icon>message</mat-icon><span class="mr-3">پیام ها</span></a>
   <a class="expanded change-password" *ngIf="navIsOpen" href="#"><mat-icon>lock_open</mat-icon><span class="mr-3">تغییر رمز عبور</span></a>
-  <a class="expanded logout" *ngIf="navIsOpen" href="#"><mat-icon>exit_to_app</mat-icon><span class="mr-3">خروج</span></a>
+  <a class="expanded logout" *ngIf="navIsOpen" (click)="logout()"><mat-icon>exit_to_app</mat-icon><span class="mr-3">خروج</span></a>
 </div>
 <div id="main" [style.margin-right]="navIsOpen? '250px': '43px'">
   <router-outlet></router-outlet>

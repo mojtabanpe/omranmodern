@@ -1,5 +1,5 @@
 import { SellerMaterial, Material, MotherMaterial } from './../interfaces/material';
-import { Service, SellerService } from './../interfaces/service';
+import { Service, SellerService, MotherService } from './../interfaces/service';
 import { Seller } from './../interfaces/seller';
 import { Category } from './../interfaces/category';
 import { Injectable } from '@angular/core';
@@ -77,7 +77,8 @@ export class GeneralService {
     user_id: 0,
     attributes: [],
     seller_attributes: [],
-    materials_list: []
+    materials_list: [],
+    comments: []
   };
   defaultSeller: Seller = {
     id: 0,
@@ -94,6 +95,7 @@ export class GeneralService {
     working_time: {},
     work_samples: [],
     coverages: [],
+    user_profile: 0,
     materials_list: [],
     services_list: []
   };
@@ -145,6 +147,39 @@ export class GeneralService {
     attributes: [],
     read_only: false
   };
+  defaultService: Service = {
+    id: 0,
+    name: '',
+    explain: '',
+    category: {
+      id: 0,
+      name: ''
+    },
+    mothers: [],
+    sellers: [],
+    images: [],
+    brand_id: 0,
+    status: true,
+    user_id: 0,
+    attributes: [],
+    seller_attributes: []
+  };
+  defaultMotherService: MotherService = {
+    id: 0,
+    name: '',
+    explain: '',
+    category: {
+      id: 0,
+      name: ''
+    },
+    images: [],
+    status: true,
+    user_id: 0,
+    attributes: [],
+    seller_attributes: [],
+    services_list: [],
+    comments: []
+  };
   deep = new BehaviorSubject<number>(0);
   currentDeep = this.deep.asObservable();
 
@@ -164,6 +199,14 @@ export class GeneralService {
    changeSeller(seller: Seller): void{
     this.seller.next(seller);
    }
-constructor() { }
+  constructor() { }
 
+   mapDictToArray(dict): Array<any> {
+    const arr = [];
+    // tslint:disable-next-line: forin
+    for (const key in dict) {
+      arr.push({key, value: dict[key]});
+    }
+    return arr;
+   }
 }

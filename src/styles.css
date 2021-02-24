@@ -620,3 +620,8 @@ th:not(.first-th) {
 .chooseAddress select {
   font-size: 13px;
 }
+
+.dropdown-down, .dropdown-btn span {
+  margin-right: 0 !important;
+  margin-left: 2px;
+}

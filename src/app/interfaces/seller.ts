@@ -17,6 +17,7 @@ export interface Seller {
     working_time: any;
     work_samples: Array<any>;
     coverages: Array<any>;
+    user_profile: any;
     materials_list: Array<SellerMaterial>;
     services_list: Array<SellerService>;
 }

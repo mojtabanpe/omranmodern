@@ -12,7 +12,7 @@ import { stat } from 'fs';
   providedIn: 'root'
 })
 export class RepositoryService {
-  baseUrl = environment.apiUrl;
+  baseUrl = environment.serverUrl;
   category;
   constructor(private http: HttpClient) { }
 
@@ -60,6 +60,12 @@ export class RepositoryService {
   }
   updateMaterial(materialId, material): any {
     return this.http.put(this.baseUrl + 'dokkoon/material_one/' + materialId, material);
+  }
+  changeSellerProductStatus(type, id, status): any {
+    return this.http.get(this.baseUrl + 'dokkoon/change_seller_product_status/' + type + '/' + id + '/' + status);
+  }
+  changeSellerProductStatusOfMother(type, id, status): any {
+    return this.http.get(this.baseUrl + 'dokkoon/change_seller_product_status_of_mother/' + type + '/' + id + '/' + status);
   }
   updateMotherMaterial(materialId, material): any {
     return this.http.put(this.baseUrl + 'dokkoon/mother_material_one/' + materialId, material);
@@ -134,6 +140,11 @@ export class RepositoryService {
   getCategory(id: number): any {
     return this.http.get(this.baseUrl + 'dokkoon/category_one/' + id);
   }
+
+  deleteCategory(id: number): any {
+    return this.http.delete(this.baseUrl + 'dokkoon/category_one/' + id);
+  }
+
   getTopDeepCategories(deep: number): any {
     return this.http.get(this.baseUrl + 'dokkoon/top_deep_categories/' + deep);
   }
@@ -172,10 +183,10 @@ export class RepositoryService {
   }
 
   updateAttribute(attribute): any {
-    return this.http.put(this.baseUrl + 'dokkoon/category-attribute_one/' + attribute.id, attribute);
+    return this.http.put(this.baseUrl + 'dokkoon/category_attribute_one/' + attribute.id, attribute);
   }
   deleteAttribute(attributeId: number): any {
-    return this.http.delete(this.baseUrl + 'dokkoon/category-attribute_one/' + attributeId);
+    return this.http.delete(this.baseUrl + 'dokkoon/category_attribute_one/' + attributeId);
   }
   getCategoryParentsByIDs(categoryId): any{
     return this.http.get(this.baseUrl + 'dokkoon/parent_categories/' + categoryId);
@@ -186,9 +197,6 @@ export class RepositoryService {
   getUnitsOfCategory(categoryId): any {
     return this.http.get(this.baseUrl + 'dokkoon/category_units/' + categoryId);
   }
-
-
-
   getMotherMaterials(clusterId): any {
     return this.http.get(this.baseUrl + 'dokkoon/mother_materials_by_cluster/' + clusterId);
   }
@@ -202,6 +210,11 @@ export class RepositoryService {
   getServicesByMother(motherId: number): any {
     return this.http.get(this.baseUrl + 'dokkoon/services_by_mother/' + motherId);
   }
+
+  createPermutationChilds(data): any {
+    return this.http.post(this.baseUrl + 'dokkoon/create_permutation_childs', data);
+  }
+
   getAttributesForService(clusterId): any {
     return this.http.get(this.baseUrl + 'dokkoon/service_attributes/' + clusterId);
   }
@@ -245,14 +258,33 @@ export class RepositoryService {
     return this.http.get(this.baseUrl + 'dokkoon/seller_service_attributes/' + motherServiceId);
   }
   addServicesToSeller(services): any {
-    console.log(JSON.stringify(services));
     return this.http.post(this.baseUrl + 'dokkoon/seller_services', services);
   }
   getSellerMaterialAttributes(motherMaterialId): any {
     return this.http.get(this.baseUrl + 'dokkoon/seller_material_attributes/' + motherMaterialId);
   }
   createSellerMaterials(materials): any {
-    console.log(JSON.stringify(materials));
     return this.http.post(this.baseUrl + 'dokkoon/seller_materials' , materials);
   }
+  editUserProfile(profile, id): any {
+    return this.http.put(this.baseUrl + 'dokkoon/user_profile_one/' + id , profile);
+  }
+  getUsers(): any {
+    return this.http.get(this.baseUrl + 'dokkoon/user_profiles');
+  }
+
+  createUser(user): any {
+    return this.http.post(this.baseUrl + 'dokkoon/user_profiles' , user);
+  }
+
+  getComments(): any {
+    return this.http.get(this.baseUrl + 'dokkoon/unapproved_comments');
+  }
+  deleteComment(id): any {
+    return this.http.delete(this.baseUrl + 'dokkoon/unapproved_comment_one/' + id);
+  }
+  approveComment(comment): any {
+    return this.http.post(this.baseUrl + 'dokkoon/approve_comment', comment);
+  }
+
 }

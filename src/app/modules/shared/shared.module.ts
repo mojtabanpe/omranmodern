@@ -1,3 +1,6 @@
+import { DayPastPipe } from './../../pipes/day-past.pipe';
+import { PersianDatePipe } from './../../pipes/persian-date.pipe';
+import { RolePipe } from './../../pipes/role.pipe';
 import { YesOrNoDialogComponent } from './../../components/dialogs/yes-or-no-dialog/yes-or-no-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -46,6 +49,9 @@ import { ToastrModule } from 'ngx-toastr';
     SharedComponent,
     TrueFalsePipe,
     PersianNumberPipe,
+    RolePipe,
+    PersianDatePipe,
+    DayPastPipe,
     YesOrNoDialogComponent
   ],
   exports: [
@@ -54,6 +60,9 @@ import { ToastrModule } from 'ngx-toastr';
     ReactiveFormsModule,
     TrueFalsePipe,
     PersianNumberPipe,
+    RolePipe,
+    PersianDatePipe,
+    DayPastPipe,
     MatCheckboxModule,
     MatSelectModule,
     MatFormFieldModule,

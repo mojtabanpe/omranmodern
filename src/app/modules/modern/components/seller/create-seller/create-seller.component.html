@@ -31,6 +31,17 @@
     </div>
   </div>
 
+  <div *ngIf="initializedUserProfielDropdown" class="my-4">
+    <h4>تعیین کاربر مربوط به فروشنده </h4>
+    <ng-multiselect-dropdown #userProfileSelect
+      [placeholder]="'کاربر را مشخص کنید'"
+      [settings]="userProfileDropdownSettings"
+      [data]="userProfiles"
+      [(ngModel)]="selectedUserProfiles">
+    </ng-multiselect-dropdown>
+  </div>
+
+
   <div class="my-4">
     <h4>هویت شغلی</h4>
     <select [(ngModel)]="seller.type" class="form-control">

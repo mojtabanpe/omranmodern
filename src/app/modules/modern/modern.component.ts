@@ -1,3 +1,5 @@
+import { environment } from './../../../environments/environment';
+import { AuthService } from './../../services/auth.service';
 import { GeneralService } from 'src/app/services/general.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,16 +11,16 @@ import { Router } from '@angular/router';
 })
 export class ModernComponent implements OnInit {
   navIsOpen = true;
-  constructor(private router: Router, private general: GeneralService) { }
+  username = '';
+  constructor(private router: Router, private general: GeneralService, private auth: AuthService) { }
 
 
   ngOnInit(): void {
-
+    this.username = this.auth.username;
   }
 
   logout(): void {
-    localStorage.removeItem('token');
-    this.router.navigate(['/']);
+    this.auth.logout();
   }
 
   toggleNav(): void {

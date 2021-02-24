@@ -1,3 +1,5 @@
+import { PermutationCreateChildsComponent } from './../material/permutation-create-childs/permutation-create-childs.component';
+import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
+  }
+  showDialog(): void {
+    const dialogRef = this.dialog.open(PermutationCreateChildsComponent, {
+      width: '35rem',
+      // data: {
+      //   mother: res
+      // }
+    });
   }
 
 }

@@ -1,3 +1,6 @@
+import { PermutationCreateChildsComponent } from './components/material/permutation-create-childs/permutation-create-childs.component';
+import { ManageUsersComponent } from './components/users/manage-users/manage-users.component';
+import { CreateUserComponent } from './components/users/create-user/create-user.component';
 import { AddSampleWorkDialogComponent } from './components/seller/create-seller/add-sample-work-dialog/add-sample-work-dialog.component';
 import { EditSellerServiceComponent } from './components/seller/seller-details/seller-services/edit-seller-service/edit-seller-service.component';
 import { EditSellerMaterialComponent } from './components/seller/seller-details/seller-materials/edit-seller-material/edit-seller-material.component';
@@ -88,7 +91,10 @@ import { SharedModule } from '../shared/shared.module';
     SellersOfMotherMaterialComponent,
     EditSellerMaterialComponent,
     EditSellerServiceComponent,
-    AddSampleWorkDialogComponent
+    AddSampleWorkDialogComponent,
+    CreateUserComponent,
+    ManageUsersComponent,
+    PermutationCreateChildsComponent
   ]
 })
 export class ModernModule { }

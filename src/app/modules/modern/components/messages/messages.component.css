@@ -9,9 +9,21 @@
     border-bottom: 1px solid gray;
     height: 40px;
     padding: 0 1rem;
+    cursor: pointer;
 }
 .pooshe .text {
     display: flex;
     align-items: center;
     color: rgb(121, 133, 132);
+}
+.pooshe label {
+    cursor: pointer;
+}
+
+.comment{
+    padding: .5rem;
+  }
+.comment-identifier {
+border-right: 3px solid #17a2b8;
+padding-right: .3rem;
 }

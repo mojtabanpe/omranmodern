@@ -1,3 +1,4 @@
+import { PermutationCreateChildsComponent } from './../permutation-create-childs/permutation-create-childs.component';
 import { GeneralService } from 'src/app/services/general.service';
 import { CategoryAttribute } from 'src/app/interfaces/category-attribute';
 import { Attribute } from './../../../../../interfaces/attribute';
@@ -13,18 +14,6 @@ import { UploadSection } from 'src/app/interfaces/upload-section';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ToastrService } from 'ngx-toastr';
 
-export interface CategoryForSelect {
-  category_name: string;
-  category_id: number;
-}
-export interface MaterialForSelect {
-  material_name: string;
-  material_id: number;
-}
-export interface BrandForSelect {
-  brand_name: string;
-  brand_id: number;
-}
 
 @Component({
   selector: 'app-create-material',
@@ -40,8 +29,10 @@ export class CreateMaterialComponent implements OnInit {
   ];
   selectedStatus: string = this.statuses[0].value;
 
-  categories: Array<CategoryForSelect> = [];
-  selectedCategory: CategoryForSelect;
+  clusterCategories = [];
+
+  categories = [];
+  selectedCategory;
   categoryDropdownSettings: IDropdownSettings;
 
   materialName = '';
@@ -84,8 +75,8 @@ export class CreateMaterialComponent implements OnInit {
   ngOnInit(): void {
     this.categoryDropdownSettings = {
       singleSelection: true,
-      idField: 'category_id',
-      textField: 'category_name',
+      idField: 'id',
+      textField: 'name',
       allowSearchFilter: true,
       closeDropDownOnSelection: true,
       noDataAvailablePlaceholderText: 'داده ای برای نمایش وجود ندارد'
@@ -93,16 +84,16 @@ export class CreateMaterialComponent implements OnInit {
 
     this.brandDropdownSettings = {
       singleSelection: true,
-      idField: 'brand_id',
-      textField: 'brand_name',
+      idField: 'id',
+      textField: 'name',
       allowSearchFilter: true,
       noDataAvailablePlaceholderText: 'داده ای برای نمایش وجود ندارد'
     };
 
     this.materialDropdownSettings = {
       singleSelection: false,
-      idField: 'material_id',
-      textField: 'material_name',
+      idField: 'id',
+      textField: 'name',
       allowSearchFilter: true,
       selectAllText: 'انتخاب همه',
       unSelectAllText: 'حذف همه',
@@ -111,10 +102,11 @@ export class CreateMaterialComponent implements OnInit {
     };
 
     this.repository.getClusters(true).subscribe((res) => {
+      this.clusterCategories = res;
       for (const category of res) {
         this.categories.push({
-          category_id: category.id,
-          category_name: category.name
+          id: category.id,
+          name: category.name
         });
       }
       this.initializedCategoryDropdown = true;
@@ -122,8 +114,8 @@ export class CreateMaterialComponent implements OnInit {
     this.repository.getAllBrands().subscribe(res => {
       for (const brand of res) {
         this.brands.push({
-          brand_id: brand.id,
-          brand_name: brand.name
+          id: brand.id,
+          name: brand.name
         });
       }
       this.initializedBrandDropdown = true;
@@ -134,17 +126,19 @@ export class CreateMaterialComponent implements OnInit {
 
   onItemSelect($event): void {
     if (this.selectedCategory !== undefined) {
-      const clusterId = this.selectedCategory[0].category_id;
-      const forMaterials: Array<MaterialForSelect> = [];
-      this.repository.getMotherMaterials(clusterId).subscribe(res => {
-        for (const item of res) {
-          forMaterials.push({
-            material_id: item.id,
-            material_name: item.name
-          });
-        }
-        this.materialSelect.data = forMaterials;
-      });
+      this.selectedMaterial = [];
+      const forMotherMaterials: Array<any> = [];
+      const cluster = this.clusterCategories.filter(c => c.id === this.selectedCategory[0].id)[0];
+      this.materials = cluster.mother_materials_list;
+      for (const item of this.materials) {
+        forMotherMaterials.push({
+          id: item.id,
+          name: item.name
+        });
+      }
+      this.materialSelect.data = forMotherMaterials;
+
+      const clusterId = this.selectedCategory[0].id;
       this.attributes = [];
       this.repository.getAttributesForMaterial(clusterId).subscribe((res: Array<CategoryAttribute>) => {
         for (const item of res) {
@@ -171,8 +165,8 @@ export class CreateMaterialComponent implements OnInit {
         };
         this.repository.createBrand(brand).subscribe(res => {
           this.brands.push({
-            brand_id: res.id,
-            brand_name: res.name
+            id: res.id,
+            name: res.name
           });
           this.brandSelect.data = this.brands;
         });
@@ -236,7 +230,7 @@ export class CreateMaterialComponent implements OnInit {
     if (this.isChild() === true) { // kalaye madar entekhab shode
     this.material.status = this.selectedStatus === 'active' ? true : false;
     if (this.selectedCategory !== undefined) {
-      this.material.category = this.selectedCategory[0].category_id;
+      this.material.category = this.selectedCategory[0].id;
     } else {
       this.errors.push('لطفا خوشه را اتنخاب کنید');
     }
@@ -248,12 +242,12 @@ export class CreateMaterialComponent implements OnInit {
 
 
     for (const temp of this.selectedMaterial) {
-        this.material.mothers.push(temp.material_id);
+        this.material.mothers.push(temp.id);
       }
 
 
     if (this.selectedBrand.length !== 0) {
-        this.material.brand_id = this.selectedBrand[0].brand_id;
+        this.material.brand_id = this.selectedBrand[0].id;
       }
 
     this.material.quality = this.quality;
@@ -271,7 +265,7 @@ export class CreateMaterialComponent implements OnInit {
     } else {
       this.motherMaterial.status = this.selectedStatus === 'active' ? true : false;
       if (this.selectedCategory !== undefined) {
-        this.motherMaterial.category = this.selectedCategory[0].category_id;
+        this.motherMaterial.category = this.selectedCategory[0].id;
     } else {
         this.errors.push('لطفا خوشه را اتنخاب کنید');
     }
@@ -289,6 +283,8 @@ export class CreateMaterialComponent implements OnInit {
     if (this.errors.length === 0) {
       if (this.isChild() === true) {
       delete this.material.id;
+      console.log(JSON.stringify(this.material));
+
       this.repository.createMaterial(this.material).subscribe((res: Material) => {
         this.alert.success('کالا با موفقیت ایجاد شد!');
       }, error => {
@@ -298,6 +294,13 @@ export class CreateMaterialComponent implements OnInit {
       delete this.motherMaterial.id;
       this.repository.createMotherMaterial(this.motherMaterial).subscribe((res: MotherMaterial) => {
         this.alert.success('کالا با موفقیت ایجاد شد!');
+        const dialogRef = this.dialog.open(PermutationCreateChildsComponent, {
+          width: '300px',
+          data: {
+            mother: res,
+            type: 'material'
+          }
+        });
       }, error => {
         this.alert.error('مشکلی در ایجاد کالا بوجود آمد!');
       });

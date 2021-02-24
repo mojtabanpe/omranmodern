@@ -21,6 +21,7 @@ export class EditMotherMaterialComponent implements OnInit {
     {value: 'inactive', viewValue: 'غیرفعال'}
   ];
   selectedStatus: string;
+  statusChanged = false;
 
   materialName = '';
   materialExplain = '';
@@ -107,6 +108,10 @@ export class EditMotherMaterialComponent implements OnInit {
     this.deletedImage = true;
   }
 
+  statusChange(): void {
+    this.statusChanged = true;
+  }
+
   submit(): void {
     if (this.materialName === '') {
       this.errors.push('لطفا عنوان کالا را وارد کنید');
@@ -132,6 +137,9 @@ export class EditMotherMaterialComponent implements OnInit {
     if (this.errors.length === 0) {
       this.repository.updateMotherMaterial(this.material.id, this.material).subscribe((res: MotherMaterial) => {
         this.alert.success('کالا با موفقیت ویرایش شد!');
+        if (this.statusChanged) {
+          this.repository.changeSellerProductStatusOfMother('material', this.material.id , this.selectedStatus).subscribe();
+        }
         this.router.navigate(['/modern/manage_materials']);
       }, error => {
         this.alert.error('مشکلی در ویرایش کالا بوجود آمد!');

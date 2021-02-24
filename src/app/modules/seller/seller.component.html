@@ -64,7 +64,7 @@
   <a class="expanded service" *ngIf="navIsOpen" href="#"><mat-icon>assignment</mat-icon><span class="mr-3">فاکتورها</span></a>
   <a class="expanded service" *ngIf="navIsOpen" href="#"><mat-icon>message</mat-icon><span class="mr-3">پیام ها</span></a>
   <a class="expanded service" *ngIf="navIsOpen" href="#"><mat-icon>lock_open</mat-icon><span class="mr-3">تغییر رمز عبور</span></a>
-  <a class="expanded service" *ngIf="navIsOpen" href="#"><mat-icon>exit_to_app</mat-icon><span class="mr-3">خروج</span></a>
+  <a class="expanded service" *ngIf="navIsOpen" (click)="logout()"><mat-icon>exit_to_app</mat-icon><span class="mr-3">خروج</span></a>
 </div>
 <div id="main" [style.margin-right]="navIsOpen? '250px': '43px'">
   <router-outlet></router-outlet>

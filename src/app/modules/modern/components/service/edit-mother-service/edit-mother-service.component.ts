@@ -18,7 +18,7 @@ export class EditMotherServiceComponent implements OnInit {
     {value: 'inactive', viewValue: 'غیرفعال'}
   ];
   selectedStatus: string;
-
+  statusChanged = false;
   serviceName = '';
   serviceExplain = '';
   nameChanged = false;
@@ -115,6 +115,10 @@ export class EditMotherServiceComponent implements OnInit {
     this.images = [];
   }
 
+  statusChange(): void {
+    this.statusChanged = true;
+  }
+
   submit(): void {
     if (this.serviceName === '') {
       this.errors.push('لطفا عنوان خدمت را وارد کنید');
@@ -141,10 +145,11 @@ export class EditMotherServiceComponent implements OnInit {
     if (this.errors.length === 0) {
       this.repository.updateMotherService(this.service.id, this.service).subscribe(res => {
         this.alert.success('خدمت مادر با موفقیت ویرایش شد!');
+        if (this.statusChanged) {
+          this.repository.changeSellerProductStatusOfMother('service', this.service.id , this.selectedStatus).subscribe();
+        }
         this.router.navigate(['/modern/manage_services']);
       }, error => {
-        console.log(error);
-        
         this.alert.error('مشکلی در ویرایش کالا بوجود آمد!');
       });
     }

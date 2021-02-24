@@ -61,7 +61,7 @@
     <tbody>
       <tr *ngFor="let service of services" class="my-tr">
         <td class="first-td">
-          <img src={{service.images}} alt="">
+          <img src={{service.images[0]}} alt="">
         </td>
         <td><a routerLink="/modern/edit_service/{{service.id}}">{{service.name}}</a></td>
         <td><a routerLink="/modern/create_edit_category/{{service.category?.id}}">{{service.category?.name}}</a></td>
@@ -95,7 +95,7 @@
     <tbody>
       <tr *ngFor="let service of motherServices" class="my-tr">
         <td class="first-td">
-          <img src={{service.images}} alt="">
+          <img src={{service.images[0]}} alt="">
         </td>
         <td><a routerLink="/modern/edit_mother_service/{{service.id}}">{{service.name}}</a></td>
         <td><a routerLink="/modern/create_edit_category/{{service.category.id}}">{{service.category.name}}</a></td>

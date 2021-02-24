@@ -14,18 +14,11 @@
           [(ngModel)]="selectedCategories">
         </ng-multiselect-dropdown>  
       </div>   
-      <!-- <div *ngIf="mode == 'create' && deep != 0" class="mb-3 form-group">
-        <label>مربوط به</label>
-        <select formControlName="type" class="form-control">
-          <option value=true>کالا</option>
-          <option value=false>خدمت</option>
-        </select>
-      </div> -->
+
       <label>توضیحات</label>
-      <!-- <div id="editor" formControlName="explain">
-        <p></p>
-      </div> -->
-      <ckeditor [(ngModel)]="category.explain" [editor]="Editor"></ckeditor>
+      <!-- <ckeditor id="editor"></ckeditor> -->
+      <!-- <ckeditor id="editor" [config]="config" [(ngModel)]="category.explain" [editor]="editor"></ckeditor> -->
+      <ckeditor id="editor" (change)="onChange($event)" [config]="config" [(ngModel)]="category.explain" [editor]="editor"></ckeditor>
       <input #fileInput type="file" class="file-input" (change)="onFileChanged($event)">
       <button *ngIf="!deletedImage && mode == 'edit'" class="btn btn-outline-danger mt-4" (click)="deleteImage()">حذف عکس قبلی</button>
       <div *ngIf="deletedImage || mode == 'create'" (click)="fileInput.click()" class="mt-4 d-flex align-items-center cursor-pointer">

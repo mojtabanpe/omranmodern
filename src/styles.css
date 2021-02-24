@@ -5,13 +5,56 @@ app-root {
   flex-direction: column;
 }
 
-body :not(button){
-  font-family: IRANSans !important;
-  direction: rtl ;
+body :not(button):not(.ck-content):not(.ck-content *){
+  font-family: IRANSans;
+  direction: rtl;
   text-align: right;
 }
-.ck p {
-  text-align: left;
+.ck-content[dir=rtl] {
+  direction: rtl;
+}
+.ck-content[dir=ltr] {
+  direction: ltr;
+}
+ .ck-content * {
+  direction: inherit;
+  text-align: unset;
+}
+.ck.ck-editor__editable_inline[dir=rtl] {
+  text-align: unset !important;
+}
+.ck.ck-editor__editable_inline[dir=ltr] {
+  text-align: unset !important;
+}
+.ck.ck-form__row {
+  direction: ltr !important;
+}
+.wrs_toolbar, .wrs_toolbar * {
+  font-family: 'Roboto' !important;
+  direction: ltr !important;
+  text-align: left !important;
+}
+.dir-ltr{
+  direction: ltr !important;
+}
+/* .ck p {
+  text-align: right;
+}
+.ck {
+  direction: rtl !important;
+  text-align: right !important;
+} */
+.ck.ck-input-color {
+  flex-direction: row !important;
+}
+
+.ck.ck-form .ck.ck-dropdown .ck-dropdown__button {
+  position: relative;
+}
+
+.ck.ck-form .ck.ck-dropdown .ck-dropdown__arrow {
+  position: absolute;
+  right: 3px;
 }
 a {
   cursor: pointer !important;
@@ -19,9 +62,7 @@ a {
 a:hover  {
   text-decoration: none !important;
 }
-p {
-  text-align: justify;
-}
+
 /* .ck.ck-editor__main * {
   text-align: initial !important;
 } */
@@ -619,4 +660,9 @@ th:not(.first-th) {
 }
 .chooseAddress select {
   font-size: 13px;
+}
+
+.dropdown-down, .dropdown-btn span {
+  margin-right: 0 !important;
+  margin-left: 2px;
 }

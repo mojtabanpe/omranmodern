@@ -22,9 +22,9 @@ export class RelatedComponent implements OnInit, OnDestroy {
   categories = [];
   selectedCategories = [];
   dropdownSettings: IDropdownSettings;
-  changedParents = {
-    addedParents: [],
-    removedParents: []
+  changedRelateds = {
+    addedRelateds: [],
+    removedRelateds: []
   };
   constructor(private general: GeneralService, private repository: RepositoryService, private alert: ToastrService) { }
 
@@ -39,8 +39,8 @@ export class RelatedComponent implements OnInit, OnDestroy {
     });
     this.dropdownSettings = {
       singleSelection: false,
-      idField: 'item_id',
-      textField: 'item_name',
+      idField: 'id',
+      textField: 'name',
       selectAllText: 'انتخاب همه',
       unSelectAllText: 'حذف همه',
       itemsShowLimit: 3,
@@ -48,45 +48,55 @@ export class RelatedComponent implements OnInit, OnDestroy {
     };
   }
   onItemSelect($event): void {
-    const index = this.changedParents.removedParents.indexOf($event.item_id);
+    const index = this.changedRelateds.removedRelateds.indexOf($event.id);
     if (index > -1) {
       console.log(index);
-      this.changedParents.removedParents.splice(index, 1);
+      this.changedRelateds.removedRelateds.splice(index, 1);
     }
-    this.changedParents.addedParents.push($event.item_id);
+    this.changedRelateds.addedRelateds.push($event.id);
   }
   onItemDeSelect($event): void {
-    const index = this.changedParents.addedParents.indexOf($event.item_id);
+    const index = this.changedRelateds.addedRelateds.indexOf($event.id);
     if (index > -1) {
-      this.changedParents.addedParents.splice(index, 1);
+      this.changedRelateds.addedRelateds.splice(index, 1);
     }
-    this.changedParents.removedParents.push($event.item_id);
+    this.changedRelateds.removedRelateds.push($event.id);
   }
   changeType(): void {
     this.category.type = this.selectedType;
     this.general.changeCategory(this.category);
   }
 
-  changeRelatedCategories(): void {
-    const ids = [];
-    this.selectedCategories.forEach((value, element) => {
-      ids.push(value.item_id);
-    });
-    this.category.parents_id = ids;
-    this.general.changeCategory(this.category);
-  }
+  // changeRelatedCategories(): void {
+  //   for
+  //   this.category.related.categories = this.selectedCategories;
+  //   this.general.changeCategory(this.category);
+  // }
 
   submit(): void {
+    const relatedCategories = [];
+    for (const selectedCategory of this.selectedCategories) {
+      const category = this.categories.filter(c => c.id === selectedCategory.id)[0];
+      relatedCategories.push({
+        id: category.id,
+        name: category.name,
+        image: category.image
+      });
+    }
+    this.category.related.categories = relatedCategories;
     const fieldsToUpdate = {
       type: this.category.type,
-      parents_id: this.category.parents_id
+      related: this.category.related
     };
+
     this.repository.updateCategory(fieldsToUpdate, this.category.id).subscribe(res => {
       this.alert.success('گروه با موفقیت ویرایش شد!');
+      this.category.related.categories = relatedCategories;
+      this.general.changeCategory(this.category);
     }, err => {
       this.alert.error('مشکلی در ویرایش گروه وجود دارد!');
     });
-    this.repository.UpdateParentsWithThisChild(this.changedParents, this.category.id).subscribe();
+    // this.repository.UpdateParentsWithThisChild(this.changedRelateds, this.category.id).subscribe();
   }
 
   ngOnDestroy(): void {

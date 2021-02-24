@@ -25,6 +25,7 @@ export class EditServiceComponent implements OnInit {
     {value: 'inactive', viewValue: 'غیرفعال'}
   ];
   selectedStatus: string;
+  statusChanged = false;
 
 
   serviceName = '';
@@ -88,6 +89,10 @@ export class EditServiceComponent implements OnInit {
 
   nameChange(): void {
     this.nameChanged = true;
+  }
+
+  statusChange(): void {
+    this.statusChanged = true;
   }
 
   addBrand(): void {
@@ -193,6 +198,9 @@ export class EditServiceComponent implements OnInit {
     if (this.errors.length === 0) {
       this.repository.updateService(this.service.id, this.service).subscribe((res: Service) => {
         this.alert.success('کالا با موفقیت ویرایش شد!');
+        if (this.statusChanged) {
+          this.repository.changeSellerProductStatus('service', this.service.id , this.selectedStatus).subscribe();
+        }
         this.router.navigate(['/modern/manage_services']);
       }, error => {
         this.alert.error('مشکلی در ویرایش کالا بوجود آمد!');

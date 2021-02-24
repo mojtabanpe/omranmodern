@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { element } from 'protractor';
 import { GeneralService } from './../../../../../../services/general.service';
@@ -48,7 +49,7 @@ export class EditSellerComponent implements OnInit {
   errors = [];
 
   constructor(private repository: RepositoryService, private alert: ToastrService, private general: GeneralService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog, private router: Router) { }
 
   ngOnInit(): void {
     this.general.currentSeller.subscribe(res => {
@@ -231,10 +232,14 @@ submit(): void {
             } else {
               delete this.seller.materials_list;
               delete this.seller.services_list;
+              this.seller.user_profile = this.seller.user_profile.id;
 
               this.repository.updateSeller(this.seller, this.seller.id).subscribe(res => {
                 this.general.changeSeller(res);
                 this.alert.success('فروشنده با موفقیت ویرایش شد!');
+                this.router.navigate(['/modern/manage_sellers']);
+              }, error => {
+                this.alert.error('مشکلی در ویرایش فروشنده بوجود آمد!');
               });
             }
       this.errors = [];

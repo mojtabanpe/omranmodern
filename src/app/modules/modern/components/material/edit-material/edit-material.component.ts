@@ -26,7 +26,7 @@ export class EditMaterialComponent implements OnInit {
     {value: 'inactive', viewValue: 'غیرفعال'}
   ];
   selectedStatus: string;
-
+  statusChanged = false;
 
   materialName = '';
   nameChanged = false;
@@ -88,9 +88,8 @@ export class EditMaterialComponent implements OnInit {
     };
 
   }
-
-  nameChange(): void {
-    this.nameChanged = true;
+  statusChange(): void {
+    this.statusChanged = true;
   }
 
   addBrand(): void {
@@ -167,6 +166,8 @@ export class EditMaterialComponent implements OnInit {
     attr.value = value;
   }
 
+
+
   submit(): void {
     if (this.materialName === '') {
       this.errors.push('لطفا عنوان کالا را وارد کنید');
@@ -198,6 +199,9 @@ export class EditMaterialComponent implements OnInit {
     if (this.errors.length === 0) {
       this.repository.updateMaterial(this.material.id, this.material).subscribe((res: Material) => {
         this.alert.success('کالا با موفقیت ویرایش شد!');
+        if (this.statusChanged) {
+          this.repository.changeSellerProductStatus('material', this.material.id , this.selectedStatus).subscribe();
+        }
         this.router.navigate(['/modern/manage_materials']);
       }, error => {
         this.alert.error('مشکلی در ویرایش کالا بوجود آمد!');

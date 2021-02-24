@@ -20,14 +20,16 @@ export interface Material {
 export interface MotherMaterial {
     id: number;
     name: string;
+    slug?: string;
     explain: string;
     category: any;
-    images: Array<string>;
+    images: any;
     status: boolean;
     user_id: number;
     attributes: Array<Attribute>;
     seller_attributes: Array<number>;
     materials_list: Array<any>;
+    comments: Array<any>;
 }
 
 export interface SellerMaterial {

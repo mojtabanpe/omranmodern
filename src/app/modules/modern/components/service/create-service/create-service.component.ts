@@ -1,3 +1,4 @@
+import { GeneralService } from 'src/app/services/general.service';
 import { Service, MotherService } from './../../../../../interfaces/service';
 import { CategoryAttribute } from 'src/app/interfaces/category-attribute';
 import { Attribute } from './../../../../../interfaces/attribute';
@@ -31,38 +32,8 @@ export interface BrandForSelect {
   styleUrls: ['./create-service.component.css']
 })
 export class CreateServiceComponent implements OnInit {
-  service: Service = {
-    id: 0,
-    name: '',
-    explain: '',
-    category: {
-      item_id: 0,
-      item_name: ''
-    },
-    mothers: [],
-    sellers: [],
-    images: [],
-    brand_id: 0,
-    status: true,
-    user_id: 0,
-    attributes: [],
-    seller_attributes: []
-  };
-  motherService: MotherService = {
-    id: 0,
-    name: '',
-    explain: '',
-    category: {
-      item_id: 0,
-      item_name: ''
-    },
-    images: [],
-    status: true,
-    user_id: 0,
-    attributes: [],
-    seller_attributes: [],
-    services_list: []
-  };
+  service = this.general.defaultService;
+  motherService = this.general.defaultMotherService;
   statuses = [
     {value: 'active', viewValue: 'فعال'},
     {value: 'inactive', viewValue: 'غیرفعال'}
@@ -108,7 +79,8 @@ export class CreateServiceComponent implements OnInit {
   public Editor = ClassicEditor;
 
   errors = [];
-  constructor(private repository: RepositoryService, public dialog: MatDialog, private alert: ToastrService) { }
+  constructor(private repository: RepositoryService, public dialog: MatDialog, private alert: ToastrService,
+              private general: GeneralService) { }
 
   ngOnInit(): void {
     this.categoryDropdownSettings = {

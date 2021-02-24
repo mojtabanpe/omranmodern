@@ -1,14 +1,14 @@
 import { Router } from '@angular/router';
 import { GeneralService } from 'src/app/services/general.service';
 import { Category } from 'src/app/interfaces/category';
-import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { UploadSection } from 'src/app/interfaces/upload-section';
 import { RepositoryService } from 'src/app/services/repository.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { from } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { ChangeEvent, CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 
 @Component({
   selector: 'app-main-detail',
@@ -28,7 +28,7 @@ export class MainDetailComponent implements OnInit, OnDestroy {
   inProgress = false;
   images = [];
   selectedImage: any;
-  public Editor = ClassicEditor;
+  public editor = ClassicEditor;
   // mode = 'edit';
   // category;
   editOrCreateForm: FormGroup;
@@ -44,14 +44,29 @@ export class MainDetailComponent implements OnInit, OnDestroy {
     addedParents: [],
     removedParents: []
   };
+  config;
+  // @ViewChild( 'editor' ) editorComponent: CKEditorComponent;
+
   constructor(private fb: FormBuilder, private repository: RepositoryService, private general: GeneralService,
-              private alert: ToastrService, private router: Router) { }
+              private alert: ToastrService, private router: Router) {
+                this.config = {
+                  language: {
+                    ui: 'en',
+                    content: 'fa'
+                  },
+                  pasteFromWordRemoveStyles: false,
+                  pasteFromWordRemoveFontStyles: false,
+                  simpleUpload: {
+                    uploadUrl: 'http://localhost:8000/upload/',
+                }
+              };
+          }
 
   ngOnInit(): void {
-    this.deepSub = this.general.currentDeep.subscribe(res => {
+  this.deepSub = this.general.currentDeep.subscribe(res => {
       this.deep = res;
     });
-    if (this.mode === 'create') {
+  if (this.mode === 'create') {
       this.category = this.general.defaultCategory;
       if (this.deep !== 0) {
         this.repository.getTopDeepCategories(this.deep).subscribe((result) => {
@@ -68,7 +83,7 @@ export class MainDetailComponent implements OnInit, OnDestroy {
           this.selectedCategories = result.selectedCategories;
         });
       }
-    this.dropdownSettings = {
+  this.dropdownSettings = {
       singleSelection: false,
       idField: 'parent_id',
       textField: 'parent_name',
@@ -77,6 +92,10 @@ export class MainDetailComponent implements OnInit, OnDestroy {
       itemsShowLimit: 3,
       allowSearchFilter: true
     };
+    // console.log(this.getEditor);
+    // const editor = document.querySelector('#editor');
+    // console.log(editor);
+    
   }
   onFileChanged(event): void {
   this.inProgress = true;
@@ -165,6 +184,10 @@ export class MainDetailComponent implements OnInit, OnDestroy {
   }
   }
 
+  public onChange( { editor }: ChangeEvent ) {
+    // const data = editor.getData();
+}
+
   onItemSelect($event): void {
     const index = this.changedParents.removedParents.indexOf($event.parent_id);
     if (index > -1) {
@@ -180,6 +203,14 @@ export class MainDetailComponent implements OnInit, OnDestroy {
     }
     this.changedParents.removedParents.push($event.parent_id);
   }
+
+  public getEditor() {
+    // Warning: This may return "undefined" if the editor is hidden behind the `*ngIf` directive or
+    // if the editor is not fully initialised yet.
+    // const editor: CKEditorComponent = document.querySelector('#editor').editorInstance;
+    // return this.editorComponent.editorInstance;
+  }
+
   ngOnDestroy(): void {
     if (this.categorySub) {
       this.categorySub.unsubscribe();

@@ -1,40 +1,53 @@
 <h3>اطلاعات حساب فردی</h3>
 <div class="row">
-  <div class="col-6">
+  <div class="col-lg-9 col-12">
     <div class="row">
       <div class="frame row col-10">
         <div class="col-4">
           <span>نام</span>
           <span>نام خانوادگی</span>
         </div>
-        <div class="col-7">
-          <span>ثمینا</span>
-          <span>خزايلی</span>
+        <div class="col-7" *ngIf="!editName">
+          <span>{{profile.user?.first_name}}</span>
+          <span>{{profile.user?.last_name}}</span>
+        </div>
+        <div class="col-7" *ngIf="editName">
+          <input type="text" class="form-control" [(ngModel)]="profile.user.first_name">
+          <input type="text" class="form-control" [(ngModel)]="profile.user.last_name">
         </div>
       </div>
-      <a class="col-2">ویرایش</a>
+      <a class="col-2" *ngIf="!editName" (click)="editName = !editName">ویرایش</a>
+      <a class="col-2" *ngIf="editName" (click)="saveName()"><mat-icon class="text-success">check</mat-icon></a>
     </div>
     <div class="row">
       <div  class="frame row col-10">
         <div class="col-4">
           <span>ایمیل</span>
         </div>
-        <div class="col-7">
-          <span>samina@gmail.com</span>
+        <div class="col-7" *ngIf="!editEmail">
+          <span>{{profile.user?.email}}</span>
+        </div>
+        <div class="col-7" *ngIf="editEmail">
+          <input type="text" class="form-control" [(ngModel)]="profile.user.email">
         </div>
       </div>
-      <a class="col-2">ویرایش</a>
+      <a class="col-2" *ngIf="!editEmail" (click)="editEmail = !editEmail">ویرایش</a>
+      <a class="col-2" *ngIf="editEmail" (click)="saveEmail()"><mat-icon class="text-success">check</mat-icon></a>
     </div>
     <div class="row">
       <div class="frame row col-10">
         <div class="col-4">
           <span>تلفن همراه</span>
         </div>
-        <div class="col-7">
-          <span>{{09123293999|persianNumber}}</span>
+        <div class="col-7" *ngIf="!editMobile">
+          <span>{{profile.mobile|persianNumber}}</span>
+        </div>
+        <div class="col-7" *ngIf="editMobile">
+          <input type="text" class="form-control" [(ngModel)]="profile.mobile">
         </div>
       </div>
-      <a class="col-2">ویرایش</a>
+      <a class="col-2" *ngIf="!editMobile" (click)="editMobile = !editMobile">ویرایش</a>
+      <a class="col-2" *ngIf="editMobile" (click)="saveMobile()"><mat-icon class="text-success">check</mat-icon></a>
     </div>
     <div class="row">
       <div class="frame row col-10">

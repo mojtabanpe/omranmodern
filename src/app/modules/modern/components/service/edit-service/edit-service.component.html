@@ -11,7 +11,7 @@
 <div *ngIf="initialized">
   <div class="section-warning mb-5">
     <h4>وضعیت خدمت را مشخص کنید</h4>
-      <select [(ngModel)]="selectedStatus" class="form-control">
+      <select [(ngModel)]="selectedStatus"  (ngModelChange)="statusChange()" class="form-control">
         <option value={{option.value}} *ngFor="let option of statuses">{{ option.viewValue }}</option>
       </select>
   </div>

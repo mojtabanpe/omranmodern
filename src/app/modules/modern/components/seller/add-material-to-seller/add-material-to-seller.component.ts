@@ -57,6 +57,8 @@ export class AddMaterialToSellerComponent implements OnInit {
 
   attributes = [];
 
+  clusterCategories = []; // baraye meghdar dehie select haye dg
+
   categories = [];
   selectedCategory = [];
   categoryDropdownSettings: IDropdownSettings;
@@ -117,6 +119,7 @@ export class AddMaterialToSellerComponent implements OnInit {
     };
 
     this.repository.getClusters(true).subscribe((res) => {
+      this.clusterCategories = res;
       for (const category of res) {
         this.categories.push({
           id: category.id,
@@ -131,22 +134,33 @@ export class AddMaterialToSellerComponent implements OnInit {
     if (this.selectedCategory !== undefined) {
       this.selectedMaterial = [];
       this.selectedMotherMaterial = [];
-      const clusterId = this.selectedCategory[0].id;
       const forMotherMaterials: Array<ItemForSelect> = [];
-      this.repository.getMotherMaterials(clusterId).subscribe(res => {
-        this.motherMaterials = res;
-        for (const item of res) {
-          forMotherMaterials.push({
-            id: item.id,
-            name: item.name
-          });
-        }
-        this.motherMaterialSelect.data = forMotherMaterials;
-      });
-      this.repository.getUnitsOfCategory(clusterId).subscribe(res => {
-        this.units = res;
-        this.viewPrices[0].unit = this.units[0];
-      });
+      const cluster = this.clusterCategories.filter(c => c.id === this.selectedCategory[0].id)[0];
+      this.units = cluster.units.toString().split(',');
+      this.viewPrices[0].unit = this.units[0];
+      this.motherMaterials = cluster.mother_materials_list;
+      for (const item of this.motherMaterials) {
+        forMotherMaterials.push({
+          id: item.id,
+          name: item.name
+        });
+      }
+      this.motherMaterialSelect.data = forMotherMaterials;
+      // const forMotherMaterials: Array<ItemForSelect> = [];
+      // this.repository.getMotherMaterials(clusterId).subscribe(res => {
+      //   this.motherMaterials = res;
+      //   for (const item of res) {
+      //     forMotherMaterials.push({
+      //       id: item.id,
+      //       name: item.name
+      //     });
+      //   }
+      //   this.motherMaterialSelect.data = forMotherMaterials;
+      // });
+      // this.repository.getUnitsOfCategory(clusterId).subscribe(res => {
+      //   this.units = res;
+      //   this.viewPrices[0].unit = this.units[0];
+      // });
     }
   }
 
@@ -187,6 +201,8 @@ export class AddMaterialToSellerComponent implements OnInit {
     return new Date();
   }
   submit(): void {
+    console.log(this.viewPrices);
+    
     const passToServerMaterials: Array<SellerMaterial> = [];
     for (const viewPrice of this.viewPrices) {
       const price = {
@@ -235,10 +251,14 @@ export class AddMaterialToSellerComponent implements OnInit {
         responseLength++;
     }
     if (responseLength === this.selectedMaterial.length) {
+        console.log(JSON.stringify(passToServerMaterials));
+        
         this.repository.createSellerMaterials(passToServerMaterials).subscribe(response => {
           this.material.prices = [];
           this.material.sell_types = [];
           this.material.attributes = [];
+          console.log(response);
+          
           this.alert.success('کالاهای فروشنده به روز شد!');
         }, err => {
           this.alert.error('مشکلی در بروزرسانی فروشنده بوجود آمده است!');

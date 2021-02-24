@@ -1,0 +1,23 @@
+<div class="d-flex flex-column align-items-center">
+  <div class="d-flex align-items-center mb-5">
+    <mat-icon class="alert-icon text-success ml-2">baby_changing_station</mat-icon>
+    <p class="mb-0">افزودن جایگشتی فرزندها</p>
+  </div>
+  <div *ngFor="let attribute of attributes" class="form-group w-100">
+    <label>{{attribute.name}}</label>
+    <div class="d-flex align-items-center justify-content-around">
+      <ng-multiselect-dropdown class="my-3 w-50" 
+      [placeholder]="'انتخاب کنید'"
+      [settings]="attributeDropdownSettings"
+      [data]="attribute.possible_values"
+      [(ngModel)]="attribute.value">
+      </ng-multiselect-dropdown>
+      <input placeholder="ترتیب" type="number" class="form-control w-25" [(ngModel)]="attribute.position">
+    </div>
+  </div>
+
+  <div class="d-flex my-5">
+    <button class="btn btn-sm btn-success ml-1" (click)="createChilds()">ایجاد</button>
+    <button class="btn btn-sm btn-secondary" (click)="onNoClick()" cdkFocusInitial>اتمام</button>
+  </div>
+</div>

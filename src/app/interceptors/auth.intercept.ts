@@ -10,6 +10,8 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor() { }
   intercept(req, next): any {
     const token = localStorage.getItem('token');
+    console.log('oomad');
+    
     let authRequest;
     if (token) {
        authRequest = req.clone({

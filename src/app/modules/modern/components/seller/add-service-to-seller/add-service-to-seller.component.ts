@@ -239,23 +239,22 @@ export class AddServiceToSellerComponent implements OnInit {
       });
     }
     delete this.service.service_id;
-    let responseLength = 0;
     for (const selectedService of this.selectedService) {
-        passToServerServices.push({...this.service, service_id: selectedService.item_id});
-        responseLength++;
+        passToServerServices.push({...this.service, service_id: selectedService.id});
     }
-    if (responseLength === this.selectedService.length) {
-          this.repository.addServicesToSeller(passToServerServices).subscribe(response => {
-            this.service.prices = [];
-            this.service.sell_types = [];
-            this.service.qualities = [];
-            this.service.attributes = [];
-            this.alert.success('خدمت های فروشنده به روز شد!');
-          }, err => {
-            this.alert.error('مشکلی در بروزرسانی فروشنده بوجود آمده است!');
-          }
-          );
-        }
+
+    if (passToServerServices.length !== 0) {
+      this.repository.addServicesToSeller(passToServerServices).subscribe(response => {
+        this.service.prices = [];
+        this.service.sell_types = [];
+        this.service.qualities = [];
+        this.service.attributes = [];
+        this.alert.success('خدمت های فروشنده به روز شد!');
+      }, err => {
+        this.alert.error('مشکلی در بروزرسانی فروشنده بوجود آمده است!');
+      }
+      );
+    }
   }
 
 }

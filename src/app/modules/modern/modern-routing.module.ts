@@ -1,3 +1,5 @@
+import { ManageUsersComponent } from './components/users/manage-users/manage-users.component';
+import { CreateUserComponent } from './components/users/create-user/create-user.component';
 import { EditSellerServiceComponent } from './components/seller/seller-details/seller-services/edit-seller-service/edit-seller-service.component';
 import { EditSellerMaterialComponent } from './components/seller/seller-details/seller-materials/edit-seller-material/edit-seller-material.component';
 import { SellersOfMotherMaterialComponent } from './components/material/sellers-of-mother-material/sellers-of-mother-material.component';
@@ -50,6 +52,8 @@ const routes: Routes = [
     { path : 'add-material-to-seller/:id', component: AddMaterialToSellerComponent},
     { path : 'edit_seller_material/:id', component: EditSellerMaterialComponent},
     { path : 'edit_seller_service/:id', component: EditSellerServiceComponent},
+    { path : 'create_user', component: CreateUserComponent},
+    { path : 'manage_users', component: ManageUsersComponent},
     { path : 'messages', component: MessagesComponent}
   ]}
 ];

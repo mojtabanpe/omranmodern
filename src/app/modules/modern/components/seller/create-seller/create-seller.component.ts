@@ -5,9 +5,11 @@ import { Seller } from './../../../../../interfaces/seller';
 import { UploadSection } from './../../../../../interfaces/upload-section';
 import { RepositoryService } from './../../../../../services/repository.service';
 import { Address, ExtraAddress } from './../../../../../interfaces/address';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { stringify } from '@angular/compiler/src/util';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 
 @Component({
@@ -19,6 +21,13 @@ export class CreateSellerComponent implements OnInit {
   seller: Seller = this.general.defaultSeller;
   rate = 5;
   status = 'active';
+
+  userProfiles = [];
+  selectedUserProfiles = [];
+  userProfileDropdownSettings: IDropdownSettings;
+  @ViewChild('userProfileSelect', {static: false}) userProfileSelect;
+  initializedUserProfielDropdown = false;
+
   addresses: Array<ExtraAddress> = [{
     type: 'daftar',
     extraAdded: {
@@ -41,7 +50,7 @@ export class CreateSellerComponent implements OnInit {
   workingTime = {
     start: 8,
     end: 17,
-    foretime: ''
+    foretime: 90
   };
 
   public Editor = ClassicEditor;
@@ -62,6 +71,27 @@ export class CreateSellerComponent implements OnInit {
   ngOnInit(): void {
     this.repository.getAllCoverages().subscribe(res => {
       this.coverages = res;
+    });
+
+    this.userProfileDropdownSettings = {
+      singleSelection: true,
+      idField: 'id',
+      textField: 'name',
+      allowSearchFilter: true,
+      closeDropDownOnSelection: true,
+      noDataAvailablePlaceholderText: 'داده ای برای نمایش وجود ندارد'
+    };
+
+    this.repository.getUsers().subscribe(res => {
+      res = res.filter(u => u.type === 'seller');
+      for (const item of res) {
+        this.userProfiles.push({
+          id: item.id,
+          name: item.user.username
+        });
+      }
+      this.initializedUserProfielDropdown = true;
+
     });
   }
 
@@ -176,77 +206,81 @@ export class CreateSellerComponent implements OnInit {
       });
     }
 
-    submit(): void {
-      delete this.seller.id;
-      this.seller.status = this.status === 'active' ? true : false;
-      this.seller.stars = { // add our rate 3 times to his star for weight 3x
-        stars: [ {
-          user_id: 0,
-          value: this.rate
-        },
-        {
-          user_id: 0,
-          value: this.rate
-        },
-        {
-          user_id: 0,
-          value: this.rate
-        }
-        ],
-        average: this.rate
-      };
-      try {
-        for (const addr of this.addresses) {
-          const province = this.coverages.filter(c => c.code === +addr.extraAdded.selectedProvince)[0].province;
-          const city = addr.extraAdded.cities.filter(c => c.code === +addr.extraAdded.selectedCity)[0].city;
-          const zone = addr.extraAdded.selectedZone;
-          this.seller.addresses.push({
-            type: addr.type,
-            detail: addr.detail,
-            province,
-            city,
-            zone
-          });
-        }
-      } catch (error) {
-        this.errors.push('مشکلی در ثبت آدرس بوجودآمده است!');
+  submit(): void {
+    delete this.seller.id;
+    this.seller.status = this.status === 'active' ? true : false;
+    this.seller.stars = { // add our rate 3 times to his star for weight 3x
+      stars: [ {
+        user_id: 0,
+        value: this.rate
+      },
+      {
+        user_id: 0,
+        value: this.rate
+      },
+      {
+        user_id: 0,
+        value: this.rate
       }
-      this.seller.phones = this.phones;
-      this.seller.working_time = this.workingTime;
-      this.seller.work_samples = this.sampleWorks;
-      this.seller.image = this.image;
-      if (this.seller.name === '') {
-        this.errors.push('لطفا نام کسب و کار را وارد کنید!');
-      }
-      for (const phone of this.phones) {
-        if (phone.title === '' || phone.number === '') {
-          this.errors.push('مشکلی در ثبت شماره تلفن بوجود آمده است!');
-        }
-      }
-      if (this.seller.explain === '') {
-        this.errors.push(' لطفا فیلد مربوط به توضیحات را پر کنید! ');
-      }
-      if (this.seller.image === '') {
-        this.errors.push('لطفا عکس مربوط به کسب و کار را آپلود کنید!');
-      }
-      if (this.errors.length !== 0) {
-        for (const error of this.errors) {
-          this.alert.error(error);
-        }
-      } else {
-        delete this.seller.materials_list;
-        delete this.seller.services_list;
-
-        this.repository.createSeller(this.seller).subscribe(res => {
-          this.alert.success('فروشنده با موفقیت ایجاد شد!');
-          this.seller = this.general.defaultSeller;
+      ],
+      average: this.rate
+    };
+    try {
+      for (const addr of this.addresses) {
+        const province = this.coverages.filter(c => c.code === +addr.extraAdded.selectedProvince)[0].province;
+        const city = addr.extraAdded.cities.filter(c => c.code === +addr.extraAdded.selectedCity)[0].city;
+        const zone = addr.extraAdded.selectedZone;
+        this.seller.addresses.push({
+          type: addr.type,
+          detail: addr.detail,
+          province,
+          city,
+          zone
         });
       }
-      this.errors = [];
-
-
-
+    } catch (error) {
+      this.errors.push('مشکلی در ثبت آدرس بوجودآمده است!');
     }
+    this.seller.phones = this.phones;
+    this.seller.working_time = this.workingTime;
+    this.seller.work_samples = this.sampleWorks;
+    this.seller.image = this.image;
+    if (this.seller.name === '') {
+      this.errors.push('لطفا نام کسب و کار را وارد کنید!');
+    }
+    for (const phone of this.phones) {
+      if (phone.title === '' || phone.number === '') {
+        this.errors.push('مشکلی در ثبت شماره تلفن بوجود آمده است!');
+      }
+    }
+    if (this.seller.explain === '') {
+      this.errors.push(' لطفا فیلد مربوط به توضیحات را پر کنید! ');
+    }
+    if (this.seller.image === '') {
+      this.errors.push('لطفا عکس مربوط به کسب و کار را آپلود کنید!');
+    }
+    if (this.errors.length !== 0) {
+      for (const error of this.errors) {
+        this.alert.error(error);
+      }
+    } else {
+      delete this.seller.materials_list;
+      delete this.seller.services_list;
+      if (this.selectedUserProfiles === []){
+        delete this.seller.user_profile;
+      } else {
+        this.seller.user_profile = this.selectedUserProfiles[0].id;
+      }
+
+      this.repository.createSeller(this.seller).subscribe(res => {
+        this.alert.success('فروشنده با موفقیت ایجاد شد!');
+        this.seller = this.general.defaultSeller;
+      }, error => {
+        this.alert.error('مشکلی در ایجاد فروشنده وجود دارد!');
+      });
+    }
+    this.errors = [];
+  }
 
 
 }

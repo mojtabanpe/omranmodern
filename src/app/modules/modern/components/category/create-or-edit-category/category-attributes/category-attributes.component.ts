@@ -7,6 +7,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import {MatDialog} from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class CategoryAttributesComponent implements OnInit, OnDestroy {
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER];
-  constructor(private repository: RepositoryService, private general: GeneralService, public dialog: MatDialog) { }
+  constructor(private repository: RepositoryService, private general: GeneralService, public dialog: MatDialog,
+              private alert: ToastrService) { }
 
   ngOnInit(): void {
     this.categorySub = this.general.currentCategory.subscribe((res: Category) => {
@@ -75,13 +77,16 @@ export class CategoryAttributesComponent implements OnInit, OnDestroy {
   }
 
   saveAttribute(attr: CategoryAttribute): void {
-    this.repository.updateAttribute(attr).subscribe();
+    this.repository.updateAttribute(attr).subscribe(res => {
+      this.alert.success('ویژگی با موفقیت ویرایش شد!');
+    });
   }
   deleteAttribute(id: number): void {
     this.repository.deleteAttribute(id).subscribe(res => {
       const attr = this.attributes.filter(a => a.id === id)[0];
       const index = this.attributes.indexOf(attr);
       this.attributes.splice(index, 1);
+      this.alert.success('ویژگی با موفقیت حذف شد!');
     });
   }
 

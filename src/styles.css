@@ -34,8 +34,8 @@ body :not(button):not(.ck-content):not(.ck-content *){
   direction: ltr !important;
   text-align: left !important;
 }
-.dir-ltr{
-  direction: ltr !important;
+.ck.ck-labeled-field-view .ck-labeled-field-view__status {
+  direction: ltr;
 }
 /* .ck p {
   text-align: right;
@@ -56,6 +56,11 @@ body :not(button):not(.ck-content):not(.ck-content *){
   position: absolute;
   right: 3px;
 }
+
+.dir-ltr{
+  direction: ltr !important;
+}
+
 a {
   cursor: pointer !important;
 }

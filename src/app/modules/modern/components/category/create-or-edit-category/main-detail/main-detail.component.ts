@@ -63,6 +63,8 @@ export class MainDetailComponent implements OnInit, OnDestroy {
           }
 
   ngOnInit(): void {
+  console.log(this.mode);
+    
   this.deepSub = this.general.currentDeep.subscribe(res => {
       this.deep = res;
     });
@@ -95,7 +97,7 @@ export class MainDetailComponent implements OnInit, OnDestroy {
     // console.log(this.getEditor);
     // const editor = document.querySelector('#editor');
     // console.log(editor);
-    
+
   }
   onFileChanged(event): void {
   this.inProgress = true;
@@ -145,15 +147,13 @@ export class MainDetailComponent implements OnInit, OnDestroy {
     this.selectedCategories.forEach((value, element) => {
       ids.push(value.parent_id);
     });
+    this.category.parents_id = ids;
+    this.category.image = this.images[0];
+    this.category.deep = this.deep;
     if (this.mode === 'create') {
-    this.passToServer = {
-      name : this.editOrCreateForm.get('name').value,
-      explain: this.editOrCreateForm.get('explain').value,
-      parents_id: ids ,
-      image: this.images[0],
-      deep: this.deep
-    };
-    this.repository.createCategory(this.passToServer).subscribe((res: any) => {
+    delete this.category.id;
+    this.repository.createCategory(this.category).subscribe((res: any) => {
+      this.category = res;
       this.alert.success('گروه جدید با موفقیت ایجاد شد!');
       this.repository.UpdateParentsWithThisChild(this.changedParents, res.id).subscribe();
       this.router.navigate(['/modern/create_edit_category', {skipLocationChange: true}]);

@@ -1,0 +1,40 @@
+<div class="d-flex flex-column align-items-center">
+  <div class="d-flex justify-content-center align-items-center mb-5">
+    <mat-icon class="alert-icon text-2rem text-success ml-2">motorcycle</mat-icon>
+    <p class="mb-0 mt-2" *ngIf="data.type === 'material'">افزودن منطقه برای کالا</p>
+    <p class="mb-0 mt-2" *ngIf="data.type === 'service'">افزودن منطقه برای خدمت</p>
+  </div>
+  <div class="w-100">
+    <ng-multiselect-dropdown #coverageSelect
+      [placeholder]="'استان را مشخص کنید'"
+      [settings]="coverageDropdownSettings"
+      [data]="coverages"
+      (onSelect)="onProvinceSelect($event.code)"
+      [(ngModel)]="selectedCoverages">
+    </ng-multiselect-dropdown>
+  </div>
+
+  <div class="w-100 my-3" *ngIf="showCities">
+    <ng-multiselect-dropdown #citySelect
+      [placeholder]="'شهر را مشخص کنید'"
+      [settings]="cityDropdownSettings"
+      [data]="cities"
+      (onSelect)="onCitySelect($event.code)"
+      [(ngModel)]="selectedCities">
+    </ng-multiselect-dropdown>
+  </div>
+
+  <div class="w-100 my-3" *ngIf="showZones">
+    <ng-multiselect-dropdown #zoneSelect
+      [placeholder]="'منطقه را مشخص کنید'"
+      [settings]="zoneDropdownSettings"
+      [data]="zones"
+      [(ngModel)]="selectedZones">
+    </ng-multiselect-dropdown>
+  </div>
+
+  <div class="d-flex my-5">
+    <button class="btn btn-sm btn-primary ml-1" (click)="addCoverage()">افزودن</button>
+    <button class="btn btn-sm btn-secondary" (click)="onNoClick()">انصراف</button>
+  </div>
+</div>

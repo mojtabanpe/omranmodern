@@ -16,7 +16,7 @@ export interface Seller {
     addresses: Array<Address>;
     working_time: any;
     work_samples: Array<any>;
-    coverages: Array<any>;
+    coverages: any;
     user_profile: any;
     materials_list: Array<SellerMaterial>;
     services_list: Array<SellerService>;

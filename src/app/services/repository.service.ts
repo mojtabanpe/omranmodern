@@ -230,8 +230,8 @@ export class RepositoryService {
   createUnit(brand): any {
     return this.http.post(this.baseUrl + 'dokkoon/units', brand);
   }
-  getAllCoverages(): any {
-    return this.http.get(this.baseUrl + 'dokkoon/get_coverages');
+  getAllAreas(): any {
+    return this.http.get(this.baseUrl + 'dokkoon/get_areas');
   }
   createSeller(seller: Seller): any {
     return this.http.post(this.baseUrl + 'dokkoon/sellers', seller);
@@ -239,7 +239,7 @@ export class RepositoryService {
   getSeller(id): any {
     return this.http.get(this.baseUrl + 'dokkoon/seller_one/' + id);
   }
-  updateSeller(seller: Seller, id): any {
+  updateSeller(seller: any, id): any {
     return this.http.put(this.baseUrl + 'dokkoon/seller_one/' + id, seller);
   }
   deleteSeller(id): any {
@@ -266,6 +266,12 @@ export class RepositoryService {
   createSellerMaterials(materials): any {
     return this.http.post(this.baseUrl + 'dokkoon/seller_materials' , materials);
   }
+
+  // tslint:disable-next-line: variable-name
+  changeStatusSellerProducts(seller_id: number, status): any {
+    return this.http.get(this.baseUrl + 'dokkoon/change_status_seller_products/' + seller_id + '/' + status);
+  }
+
   editUserProfile(profile, id): any {
     return this.http.put(this.baseUrl + 'dokkoon/user_profile_one/' + id , profile);
   }
@@ -285,6 +291,10 @@ export class RepositoryService {
   }
   approveComment(comment): any {
     return this.http.post(this.baseUrl + 'dokkoon/approve_comment', comment);
+  }
+
+  arrangeMenu(): any {
+    return this.http.get(this.baseUrl + 'dokkoon/arrange_menu');
   }
 
 }

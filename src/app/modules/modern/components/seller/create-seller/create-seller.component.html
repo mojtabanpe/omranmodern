@@ -32,7 +32,11 @@
   </div>
 
   <div *ngIf="initializedUserProfielDropdown" class="my-4">
-    <h4>تعیین کاربر مربوط به فروشنده </h4>
+    <h4>تعیین کاربر مربوط به فروشنده <span class="small text-danger">
+      (در صورت عدم تعیین٬ کاربری با نام کاربری و پسورد
+      <span class="text-warning">اولین شماره تلفن</span>
+      ساخته میشود!)
+    </span></h4>
     <ng-multiselect-dropdown #userProfileSelect
       [placeholder]="'کاربر را مشخص کنید'"
       [settings]="userProfileDropdownSettings"

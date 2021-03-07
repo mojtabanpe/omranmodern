@@ -27,7 +27,7 @@ export class ManageSellersComponent implements OnInit {
               private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.repository.getAllCoverages().subscribe(res => {
+    this.repository.getAllAreas().subscribe(res => {
       this.coverages = res;
     });
     this.repository.getNewestSellers().subscribe(res => {

@@ -2,7 +2,7 @@ import { RepositoryService } from 'src/app/services/repository.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GeneralService } from 'src/app/services/general.service';
 import { Seller } from './../../../../../interfaces/seller';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-seller-details',
@@ -20,7 +20,6 @@ export class SellerDetailsComponent implements OnInit {
       this.seller = res;
       this.general.changeSeller(this.seller);
     });
-
   }
 
 }

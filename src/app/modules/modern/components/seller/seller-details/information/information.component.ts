@@ -32,7 +32,7 @@ export class InformationComponent implements OnInit {
   }
 
   saveEmail(): void {
-    this.editName = !this.editName;
+    this.editEmail = !this.editEmail;
     const passToServer = {
       user: {
         email: this.profile.user.email

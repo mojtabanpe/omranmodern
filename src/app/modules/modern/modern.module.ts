@@ -1,3 +1,4 @@
+import { AddCoverageDialogComponent } from './components/seller/seller-details/coverages/add-coverage-dialog/add-coverage-dialog.component';
 import { PermutationCreateChildsComponent } from './components/material/permutation-create-childs/permutation-create-childs.component';
 import { ManageUsersComponent } from './components/users/manage-users/manage-users.component';
 import { CreateUserComponent } from './components/users/create-user/create-user.component';
@@ -94,7 +95,8 @@ import { SharedModule } from '../shared/shared.module';
     AddSampleWorkDialogComponent,
     CreateUserComponent,
     ManageUsersComponent,
-    PermutationCreateChildsComponent
+    PermutationCreateChildsComponent,
+    AddCoverageDialogComponent
   ]
 })
 export class ModernModule { }

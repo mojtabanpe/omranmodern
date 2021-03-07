@@ -16,5 +16,5 @@ COPY . .
 RUN npm run build --prod
 FROM nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf 
-COPY --from=compile-image /usr/src/app/dist/OmranModern-Admin /usr/share/nginx/html
+COPY --from=compile-image /usr/src/app/dist/client /usr/share/nginx/html
 

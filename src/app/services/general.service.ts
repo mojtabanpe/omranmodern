@@ -94,7 +94,7 @@ export class GeneralService {
     addresses: [],
     working_time: {},
     work_samples: [],
-    coverages: [],
+    coverages: {},
     user_profile: 0,
     materials_list: [],
     services_list: []

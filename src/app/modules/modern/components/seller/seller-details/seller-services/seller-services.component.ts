@@ -15,6 +15,7 @@ export class SellerServicesComponent implements OnInit {
   constructor(private general: GeneralService, private repository: RepositoryService, private alert: ToastrService) { }
 
   ngOnInit(): void {
+    // tslint:disable-next-line: deprecation
     this.general.currentSeller.subscribe(res => {
       this.sellerServices = res.services_list;
       this.sellerId = res.id;

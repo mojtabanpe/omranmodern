@@ -6,10 +6,20 @@
   <a (click)="toggleNav()" *ngIf="!navIsOpen"><mat-icon>menu</mat-icon></a>
 </div>
 <div class="toolbar">
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
   <mat-icon>phone</mat-icon>
   <mat-icon>notifications</mat-icon>
   <mat-icon>search</mat-icon>
 </div>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="arrangeMenu()">
+    <mat-icon>dialpad</mat-icon>
+    <span>تنظیم منو</span>
+  </button>
+
+</mat-menu>
 <div id="mySidenav" class="sidenav" [style.width]="navIsOpen? '250px': '50px'">
   <!-- <a class="closebtn" (click)="closeNav()">&times;</a> -->
   <a *ngIf="!navIsOpen" href="#"><mat-icon>dashboard</mat-icon></a>

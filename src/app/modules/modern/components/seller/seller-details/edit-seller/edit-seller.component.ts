@@ -20,6 +20,7 @@ export class EditSellerComponent implements OnInit {
   initializedSeller = false;
   seller: Seller;
   status = 'active';
+  statusChanged = false;
   rate = 5;
   addresses: Array<ExtraAddress> = [{
     type: 'daftar',
@@ -60,9 +61,13 @@ export class EditSellerComponent implements OnInit {
         sample.images = sample.images.toString().split(',');
       });
     });
-    this.repository.getAllCoverages().subscribe(res => {
+    this.repository.getAllAreas().subscribe(res => {
       this.coverages = res;
     });
+  }
+
+  statusChange(): void {
+    this.statusChanged = !this.statusChanged;
   }
 
   addAddress(): void {
@@ -178,6 +183,7 @@ export class EditSellerComponent implements OnInit {
 
 submit(): void {
       this.seller.status = this.status === 'active' ? true : false;
+
       this.seller.stars = { // add our rate 3 times to his star for weight 3x
         stars: [ {
           user_id: 0,
@@ -194,22 +200,7 @@ submit(): void {
         ],
         average: this.rate
       };
-      // try {
-      //   for (const addr of this.addresses) {
-      //     const province = this.coverages.filter(c => c.code === +addr.extraAdded.selectedProvince)[0].province;
-      //     const city = addr.extraAdded.cities.filter(c => c.code === +addr.extraAdded.selectedCity)[0].city;
-      //     const zone = addr.extraAdded.selectedZone;
-      //     this.seller.addresses.push({
-      //       type: addr.type,
-      //       detail: addr.detail,
-      //       province,
-      //       city,
-      //       zone
-      //     });
-      //   }
-      // } catch (error) {
-      //   this.errors.push('مشکلی در ثبت آدرس بوجودآمده است!');
-      // }
+
       this.seller.work_samples = this.workSamples;
       if (this.seller.name === '') {
         this.errors.push('لطفا نام کسب و کار را وارد کنید!');
@@ -233,10 +224,13 @@ submit(): void {
               delete this.seller.materials_list;
               delete this.seller.services_list;
               this.seller.user_profile = this.seller.user_profile.id;
-
+              if (this.statusChanged) {
+                this.repository.changeStatusSellerProducts(this.seller.id, this.status).subscribe();
+              }
               this.repository.updateSeller(this.seller, this.seller.id).subscribe(res => {
                 this.general.changeSeller(res);
                 this.alert.success('فروشنده با موفقیت ویرایش شد!');
+                
                 this.router.navigate(['/modern/manage_sellers']);
               }, error => {
                 this.alert.error('مشکلی در ویرایش فروشنده بوجود آمد!');

@@ -1,3 +1,26 @@
-<p>
-  coverages works!
-</p>
+<div *ngIf="initialized">
+    <div class="section-gray">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="mb-0">کالا</h3>
+            <button class="btn btn-info btn-sm" (click)="addCoverage('material')">افزودن منطقه</button>
+        </div>
+        <ul>
+            <li *ngFor="let coverage of coverages.materials">
+                {{coverage.province}} {{coverage.city}} {{coverage.zone}}
+            </li>
+        </ul>
+        <p *ngIf="coverages.materials?.length === 0">در حال حاضر هیچ منطقه تحت پوششی برای کالاهای ارائه شده توسط این فروشنده تعریف نشده، برای افزودن  مناطق  دکمه افزودن را انتخاب کنید</p>
+    </div>
+    <div class="section-gray">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="mb-0">خدمت</h3>
+            <button class="btn btn-info btn-sm" (click)="addCoverage('service')">افزودن منطقه</button>
+        </div>
+        <ul>
+            <li *ngFor="let coverage of coverages.services">
+                {{coverage.province}} {{coverage.city}} {{coverage.zone}}
+            </li>  
+        </ul>
+        <p *ngIf="coverages.services?.length === 0">در حال حاضر هیچ منطقه تحت پوششی برای خدمات ارائه شده توسط این فروشنده تعریف نشده، برای افزودن  مناطق  دکمه افزودن را انتخاب کنید</p>
+    </div>
+</div>

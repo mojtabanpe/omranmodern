@@ -69,7 +69,7 @@ export class CreateSellerComponent implements OnInit {
               public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.repository.getAllCoverages().subscribe(res => {
+    this.repository.getAllAreas().subscribe(res => {
       this.coverages = res;
     });
 
@@ -199,7 +199,7 @@ export class CreateSellerComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(res => {
         console.log(res);
-        
+
         if (res && res.title && res.images) {
           this.sampleWorks.push(res);
         }
@@ -268,10 +268,11 @@ export class CreateSellerComponent implements OnInit {
       delete this.seller.services_list;
       if (this.selectedUserProfiles === []){
         delete this.seller.user_profile;
+        // this.seller.user_profile = 0;
       } else {
         this.seller.user_profile = this.selectedUserProfiles[0].id;
       }
-
+      console.log(JSON.stringify(this.seller));
       this.repository.createSeller(this.seller).subscribe(res => {
         this.alert.success('فروشنده با موفقیت ایجاد شد!');
         this.seller = this.general.defaultSeller;

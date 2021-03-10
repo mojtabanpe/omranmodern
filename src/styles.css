@@ -71,6 +71,9 @@ a {
 a:hover  {
   text-decoration: none !important;
 }
+h3 {
+  font-family: 'IRANSans' !important;
+}
 .text-2rem {
   font-size: 2rem !important;
 }

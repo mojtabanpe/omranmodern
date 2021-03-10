@@ -23,7 +23,7 @@ export class AppComponent implements AfterViewChecked {
       this.isLogin = this.auth.isLoggedIn();
     }
     else {
-      // window.location.href = environment.appUrl + 'auth';
+      window.location.href = environment.appUrl + 'auth';
     }
 }
 
